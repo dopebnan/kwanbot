@@ -58,7 +58,7 @@ class General(commands.Cog, name="general"):
 			name="Last update was:",
 			value=f"<t:{config['lastUpdate']}:R>",
 		)
-		embed.set_footer(text=f"Time spent coding: 27.5hrs")
+		embed.set_footer(text=f"Time spent coding: 28hrs")
 		await context.send(embed=embed)
 
 	@commands.command(name='help')
@@ -235,7 +235,7 @@ class General(commands.Cog, name="general"):
 	@commands.command(name="uwu", aliases=["heresy", "cappybs", "bullshit", "bs"])
 	@commands.cooldown(1, settings["uwuCooldown"], BucketType.guild)
 	async def uwu(self, context):
-		if context.channel.id == config["uwuChannel"] or settings["uwu"]:
+		if context.channel.id in config["uwuChannel"] or settings["uwu"]:
 			cum = random.choice([1, 0, 1, 0, 0, 1, 0]) # weighted random.choice
 			if cum == 1:
 				file = f'./assets/img/uwu/{random.choice(os.listdir("./assets/img/uwu"))}'
@@ -286,11 +286,6 @@ class General(commands.Cog, name="general"):
 		await context.send("```python\nIndentationError: Unexpected indent [273, 3]\n```")
 		await asyncio.sleep(3)
 		await context.send("```python\n[Finished in 3.4s with exit code 1]\n```")
-	
-	@commands.command(name="testcommand")
-	async def testcmd(self, context):
-		await context.send(type(config["modID"]))
-		print(type(config["modID"]))
 
 
 

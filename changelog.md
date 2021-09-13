@@ -17,6 +17,7 @@ yes gud
 ### Added
 
 * **r!sourcecode**: view the source code, and the whole repo of the bot. *Images not included*
+* **bugtracker**: check out the bugs in bugtracker.md
   
 ### Changed
 
@@ -29,8 +30,9 @@ yes gud
 ### Fixed
 
 * Fixed bug where bot randomly started ignoring requests
-
-<sup> TSC: 1.5hrs</sup>
+* **bot2-1_uwu-1**: **r!uwu** didn't work in *#uwu-cave*
+  
+<sup> TSC: 2hrs</sup>
 
 
 
@@ -96,4 +98,4 @@ yes gud
 
 
 
-<sup>Time Spent Coding: 27.5hrs</sup>
+<sup>Time Spent Coding: 28hrs</sup>
