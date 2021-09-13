@@ -1,6 +1,6 @@
 {
 	"tag": "Default",
-	"settingsVer": "2.0-alpha",
+	"settingsVer": "2.0",
 	"picCooldown": 30,
 	"picReturn": false,
 	"autopic": false,

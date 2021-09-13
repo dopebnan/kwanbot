@@ -58,7 +58,7 @@ class General(commands.Cog, name="general"):
 			name="Last update was:",
 			value=f"<t:{config['lastUpdate']}:R>",
 		)
-		embed.set_footer(text=f"Time spent coding: 26hrs")
+		embed.set_footer(text=f"Time spent coding: 27.5hrs")
 		await context.send(embed=embed)
 
 	@commands.command(name='help')
@@ -74,6 +74,10 @@ class General(commands.Cog, name="general"):
 		embed.add_field(
 			name="r!check:",
 			value="like r!info, but more technical stuff"
+		)
+		embed.add_field(
+			name="r!sourcecode",
+			value="view the repo of the bot"
 		)
 		embed.add_field(
 			name="r!help:",

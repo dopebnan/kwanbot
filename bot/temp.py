@@ -1,31 +1,46 @@
+from asyncio import tasks
+import random
 import discord
 import json
 import os.path
 import sys
 
+from discord.ext import commands, tasks
+from discord.ext.commands.bot import Bot
+
 if not os.path.isfile("assets/config.json"):
-    sys.exit("config.json not found.")
+	sys.exit("config.json not found.")
 else:
-    with open('assets/config.json') as f:
-        config = json.load(f)
+	with open('assets/config.json') as f:
+		config = json.load(f)
 
-client = discord.Client()
+statuses = ["Currently getting updated", "Under maintenance", "r!help", "Going on a pee break", "Taking a fat nasty shit", "Absolutely ripping ass"]
 
+bot = Bot(command_prefix="r!")
 
-@client.event
+@bot.event
 async def on_ready():
-    print('Temporary bot.')
-    await client.change_presence(status=discord.Status.idle, activity=discord.Game("Migrating to discord.ext..."))
-    print("yes")
+	print(f'        Kwanbot!\n    bot: {bot.user.name}\n\n\n')
+	status_task.start()
+	
+@tasks.loop(minutes=6.0)
+async def status_task():
+	await bot.change_presence(activity=discord.Game(random.choice(statuses)), status=discord.Status.idle, afk=True)
+	print("Changed status")
 
-@client.event
+bot.remove_command("help")
+
+@bot.event
 async def on_message(message):
+	if message.content.startswith("r!"):
+		embed = discord.Embed(
+			title="Bot down",
+			description="Currently getting updated innit",
+			color=0xB000B5
+		)
+		await message.channel.send(embed=embed)
+	
+	await bot.process_commands(message)
 
-    if message.content == "r!die" and message.author.id in config["modIDs"]:
-        await client.change_presence(status=discord.Status.idle, activity=discord.Game("Migrating to discord.ext..."))
-        print("yes")
 
-    elif message.content.startswith("r!") or message.content.startswith("d!"):
-        await message.channel.send("Bot is currently under maintenance, but will be back soon..")
-    
-client.run(config['TOKEN'])
+bot.run(config['TESTTOKEN'])

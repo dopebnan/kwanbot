@@ -11,6 +11,29 @@ yes gud
 
 
 
+## 2.0.1 - open source update
+<sub>Sep. 13,  2021</sub>
+
+### Added
+
+* **r!sourcecode**: view the source code, and the whole repo of the bot. *Images not included*
+  
+### Changed
+
+* Refactored into discord.ext too the temporary bot that comes out when bot is getting updated
+  
+### Removed
+
+* **sorry bot**: fully removed now
+
+### Fixed
+
+* Fixed bug where bot randomly started ignoring requests
+
+<sup> TSC: 1.5hrs</sup>
+
+
+
 ## 2.0 - discord.ext UPDATE!!
 <sub>Sep. 8, 2021</sub>
 
@@ -29,6 +52,7 @@ yes gud
 ### Changed
 
 * everything remade in discord.ext, for better functionality
+* names of the imgs have been organized
 * **data.py**:
   * split into **config.json** and **settings.json**
 
@@ -68,6 +92,8 @@ yes gud
 * **d!restart**: **r!reload** is more optimal
 * **d!save**: bot auto-saves, there's no need for a manual save command
 
+<sup> TSC: 26hrs</sup>
 
 
-<sup>Time Spent Coding: 26hrs</sup>
+
+<sup>Time Spent Coding: 27.5hrs</sup>

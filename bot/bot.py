@@ -16,6 +16,8 @@ jusReply = ["<:jus:884844071766622258>", "<:bussy:884844071615594506><:jus:88484
 badReply = ["sorryyy", "noted.", "no u", ":(", "fuck you, ***bitch***", "i will commit toaster", "i will commit toe", "i will commit battery"]
 goodReply = ["you are very yes", "hel ye", "pogpogpog", "poggers", "<:pogfield:884844071733055488>"]
 
+onCooldown = ["Slow down there buckaroo", "not so fast", "stop", "cooldown be poopin them parties", "cooldown rule", "no.", "anti-spam caught yo ass"]
+missingArgPix = ["HOW MANY TIMES???", "you forgot the part where number", "where number", "HOW MANY PICS???", "you need to give me a number too smh", "me need number innit"]
 status = ["r!help", "I'm gonna shit yourself", "bot be poggin", "omnibussy pog", "nope, it was just penis", "pigon be walkin doe", "glori comrade", "innit", "Ah yes, anti-bussyn't fancy water", "kwan isn't britain", "pee is coming out of my eyes", "raid shadow leg", "nipple crippling", "decreasing molesting rates", "slicing foreskin", "peeing from balls", "cancelling global warming", "have hair in your food", "finna bust out the thighstash", ""]
 
 if not os.path.isfile("assets/config.json"):
@@ -32,9 +34,6 @@ if not os.path.isfile("assets/settings.json"):
 else:
 	with open("assets/settings.json") as f:
 		settings = json.load(f)
-
-onCooldown = ["Slow down there buckaroo", "not so fast", "stop", "cooldown be poopin them parties", "cooldown rule", "no.", "anti-spam caught yo ass"]
-missingArgPix = ["HOW MANY TIMES???", "you forgot the part where number", "where number", "HOW MANY PICS???", "you need to give me a number too smh", "me need number innit"]
 
 intents = discord.Intents.default()
 
@@ -182,13 +181,9 @@ async def on_message(message):
 	
 	elif msg == "good bot" or msg == "gud bot":
 		await message.channel.send(random.choice(goodReply))
-	
-	elif msg == "sorry bot":
-		await message.channel.send(">:C")
 
 	await bot.process_commands(message)
 
 
 
-
-bot.run(config["TOKEN"])
+bot.run(config["TESTTOKEN"])

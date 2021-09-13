@@ -223,6 +223,15 @@ class DevTools(commands.Cog, name="devtools"):
 			)
 			await context.send(embed=embed)
 	
+	@commands.command(name="sourcecode", aliases=["gh", "code", "source", "github"])
+	async def sourcecode(self, context):
+		embed = discord.Embed(
+			title="Source-code",
+			description="You can view the source code [here](https://gitfront.io/r/dopebnan/9f349a7623e8db052b92acca4f37ede9d6bbb5ad/kwanbot/)",
+			color=0xA000A4
+		)
+		await context.send(embed=embed)
+
 	@commands.command(name="log", aliases=["dmlog", "logs", "givlog", "wood"])
 	@commands.has_any_role(config["modID"][0], config["modID"][1])
 	async def log(self, context):
