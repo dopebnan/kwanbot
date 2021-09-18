@@ -72,6 +72,10 @@ class General(commands.Cog, name="general"):
 			value="see the changelog, bruh"
 		)
 		embed.add_field(
+			name="r!bugtracker:",
+			value="see the bugs"
+		)
+		embed.add_field(
 			name="r!check:",
 			value="like r!info, but more technical stuff"
 		)
@@ -129,6 +133,11 @@ class General(commands.Cog, name="general"):
 		file = discord.File('../changelog.md')
 		await context.send(random.choice(["updates innit", "changes", "nerd shit"]), file=file)
 
+	@commands.command(name="bugtracker", aliases=["bugs", "buglist"])
+	async def bugtracker(self, context):
+		file = discord.File('../bugtracker.md')
+		await context.send("bugs, i have", file=file)
+
 	@commands.command(name="check", aliases=["chk"])
 	async def check(self, context):
 		picNums = str(len(os.listdir("./assets/img/pic")))
@@ -162,7 +171,7 @@ class General(commands.Cog, name="general"):
 		)
 		await context.send(embed=embed)
 	
-	@commands.command(name="report", aliases=["bugreport", "bugs", "bug"])
+	@commands.command(name="report", aliases=["bugreport", "bug"])
 	async def report(self, context):
 		await context.send(random.choice(["DM bnanboi", "spam the devs", "spam bnan", "ping banan or smth", "tell the devs innit"]))
 	

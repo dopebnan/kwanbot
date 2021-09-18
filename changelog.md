@@ -6,8 +6,22 @@ yes gud
 
 ## Unreleased
 
-* **r!play**
 * **r!cum**
+* **r!play**
+
+
+
+## 2.1 - GRUVI'S SPIRIT UPDATE!! I.
+<sub>Sep. XX, 2021</sub>
+
+### Added
+
+* **r!bugtracker**: you can now view *bugtracker.md*
+
+<sup>TSC: 0.5hr</sup>
+
+
+
 
 
 
@@ -17,11 +31,11 @@ yes gud
 ### Added
 
 * **r!sourcecode**: view the source code, and the whole repo of the bot. *Images not included*
-* **bugtracker**: check out the bugs in bugtracker.md
+* **bugtracker**: tracking bugs in *bugtracker.md*
   
 ### Changed
 
-* Refactored into discord.ext too the temporary bot that comes out when bot is getting updated
+* Refactored the *Under Maintenance..* bot to, of course, discord.ext
   
 ### Removed
 
