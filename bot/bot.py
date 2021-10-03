@@ -55,6 +55,7 @@ bot.remove_command("help")
 if __name__ == "__main__":
 	bot.load_extension('cogs.general')
 	bot.load_extension('cogs.devtools')
+	bot.load_extension('cogs.gruvi')
 
 @bot.event
 async def on_command_completion(ctx):
@@ -63,6 +64,7 @@ async def on_command_completion(ctx):
 
 @bot.event
 async def on_command_error(context, error):
+
 	if isinstance(error, commands.CommandOnCooldown):
 		seconds = divmod(error.retry_after, 60)[1]
 
@@ -134,6 +136,12 @@ async def on_command_error(context, error):
 			await context.send(embed=embed)
 			Shortcut().logging(context.message, "TypeError")
 
+		elif context.command.qualified_name == "play":
+			embed = Shortcut().Embeds().InvalidArgumentError("play")
+			await context.send(embed=embed)
+
+			Shortcut().logging(context.message, "Music doesn't exist")
+
 		else:
 			embed = Shortcut.Embeds().InvalidArgumentError(f"r!{context.command.qualified_name}")
 			await context.send(embed=embed)
@@ -151,7 +159,7 @@ async def on_command_error(context, error):
 		)
 		await context.send(embed=embed)
 		Shortcut().logging(context.message, "Command not found")
-
+	
 	else:
 		embed = Shortcut.Embeds().GenericError()
 		await context.send(embed=embed)

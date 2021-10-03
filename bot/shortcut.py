@@ -1,7 +1,11 @@
 import time
 import discord
+import eyed3
 
 class Shortcut:
+
+	def getEmoji(self, context, discord, emojiname: str):
+		return f'\{discord.utils.get(context.message.guild.emojis, name=emojiname)}'
 
 	def variables(self, var: str):
 		author = var.author
@@ -26,6 +30,12 @@ class Shortcut:
 	def logging(self, message, errormsg=None):
 		with open("./logs/log.txt", 'a') as f:
 			f.write(f"[{time.strftime('%H:%M:%S', time.gmtime(time.time()))}] <{message.author}, ({message.author.id})>: {errormsg} ({message.content})\n")
+
+	def pseudo_ytdl_parse(self, song):
+		bar = eyed3.load(f"./assets/audio/{song}.mp3")
+		foo = {'source': f'./assets/audio/{song}.mp3', "title": bar.tag.title, "artist": bar.tag.artist}
+
+		return foo
 		
 	class Embeds:
 		def GenericError(self):
