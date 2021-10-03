@@ -17,8 +17,15 @@ yes gud
 ### Added
 
 * **r!bugtracker**: you can now view *bugtracker.md*
+* **r!pop**: pops into vc
+* **r!leave**: leaves vc
+* **r!playlocal**: play a local file
+* **r!songlist**: list of local songs
+* **r!play**: play songs
+* **r!skip**: skip songs
+* **r!pause**: pause/unpause songs
 
-<sup>TSC: 0.5hr</sup>
+<sup>TSC: 8hr</sup>
 
 
 
