@@ -12,6 +12,7 @@ import os
 import sys
 import random
 import asyncio
+import time
 import eyed3
 from youtube_dl import YoutubeDL as ytdl
 
@@ -46,10 +47,12 @@ class Gruvi(commands.Cog, name="gruvi"):
 		self.is_playing = False
 
 		self.music_queue = []
+		self.q = []
 		self.YDL_OPTS = {'format': 'bestaudio', "noplaylist": "true"}
-		self.FFMPEG_OPTS = {'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5', "options": '-vn'}
+		self.FFMPEG_OPTS = {'bopts': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5', "opts": '-vn'}
 
 		self.vc = ""
+		self.ctx = ''
 
 	def search_yt(self, item):
 		with ytdl(self.YDL_OPTS) as ytdown:
@@ -58,22 +61,34 @@ class Gruvi(commands.Cog, name="gruvi"):
 			except Exception:
 				return False
 			
-		return {'source': info['formats'][0]['url'], 'title': info['title'], 'artist': info['uploader']}
+		return {'source': info['formats'][0]['url'], 'title': info['title'], 'artist': info['uploader'], 'length': info['duration']}
 	
 
 	def play_next(self):
 		if len(self.music_queue) > 0:
 			self.is_playing = True
 
-			url = self.music_queue[0][0]['source']
+			song = self.music_queue[0][0]['source']
+
+			#embed = Shortcut.Embeds.SuccessfulEmbeds().nowPlaying(self.ctx, self.music_queue[0][0])
+			#self.ctx.send(embed=embed)
 
 			self.music_queue.pop(0)
 
-			self.vc.play(discord.FFmpegPCMAudio(url), after=lambda e: self.play_next())
+			if not song.startswith("./"):
+				a = self.FFMPEG_OPTS["bopts"]
+				b = self.FFMPEG_OPTS["opts"]
+				print(True)
+			else:
+				a = None
+				b = None
+
+			self.vc.play(discord.FFmpegPCMAudio(song, before_options=a, options=b), after=lambda e: self.play_next())
 
 		else:
 			self.is_playing = False
-
+	
+	# function not used, probs needs deleting
 	async def __play_music(self):
 		if len(self.music_queue) > 0:
 			self.is_playing = True
@@ -87,7 +102,7 @@ class Gruvi(commands.Cog, name="gruvi"):
 
 			self.music_queue.pop(0)
 
-			self.vc.play(discord.FFmpegPCMAudio(url), after=lambda e: self.play_next())
+			self.vc.play(discord.FFmpegPCMAudio(url, before_options="-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5", options='-vn'), after=lambda e: self.play_next())
 		else:
 			self.is_playing = False
 	
@@ -101,11 +116,37 @@ class Gruvi(commands.Cog, name="gruvi"):
 			print(self.music_queue)
 
 			song = self.music_queue[0][0]['source']
-			self.music_queue.pop(0)
-
+			
 			print(song)
 
-			self.vc.play(discord.FFmpegPCMAudio(song), after=lambda e: self.play_next())
+			embed = Shortcut.Embeds.SuccessfulEmbeds().nowPalying(self.ctx, self.music_queue[0][0])
+			await self.ctx.send(embed=embed)
+			
+			self.music_queue.pop(0)
+
+			# mf really breaks without this, smh couldn't be me
+			if not song.startswith("./"):
+				a = self.FFMPEG_OPTS["bopts"]
+				b = self.FFMPEG_OPTS["opts"]
+				print(True)
+			else:
+				a = None
+				b = None
+			self.vc.play(discord.FFmpegPCMAudio(song, before_options=a, options=b), after=lambda e: self.play_next())
+	
+	async def play_cum(self):
+		if len(self.music_queue) > 0:
+			# i hate.
+			self.is_playing = True
+			
+			self.vc = self.music_queue[0][1]
+			song = self.music_queue[0][0]['source']
+
+			print(self.music_queue)
+
+			self.music_queue.pop(0)
+
+			self.vc.play(discord.FFmpegPCMAudio(song), after=lambda e: self.play_next)
 
 	@commands.command(name="pop", aliases=["j", "summon", "join"])
 	async def pop(self, context):
@@ -116,6 +157,7 @@ class Gruvi(commands.Cog, name="gruvi"):
 			vc = context.author.voice.channel
 			if authvoice and not voiceclient:
 				await vc.connect()
+				self.ctx = context
 			
 			elif authvoice:
 				await voiceclient.move_to(vc)
@@ -131,7 +173,6 @@ class Gruvi(commands.Cog, name="gruvi"):
 			title="You need to be in a vc, dummy",
 			color=0xE3170A
 			)
-
 			await context.send(embed=embed)
 		
 		elif context.bot.user in authvoice.channel.members:
@@ -142,17 +183,17 @@ class Gruvi(commands.Cog, name="gruvi"):
 			
 			await context.send(embed=embed)
 	
-	@commands.command(name="leave", aliases=["die", "kys", "fuckyou", "disconnect", "d"])
+	@commands.command(name="leave", aliases=["die", "kys", "fuckyou", "disconnect", "d", "l"])
 	async def leave(self, context):
 		voiceclient = context.guild.voice_client
 		authvoice = context.author.voice
 
-		if not voiceclient:
-			embed = discord.Embed(
-				title="You're not in a vc",
-				description="what are you, stupid?",
-				color=0xE3170A
-			)
+		if not authvoice:
+			embed = Shortcut.Embeds.BotEmbeds().authorNotInVoice()
+			await context.send(embed=embed)
+		
+		elif not voiceclient:
+			embed = Shortcut.Embeds.BotEmbeds().noBotVoice_client()
 
 			await context.send(embed=embed)
 
@@ -162,8 +203,9 @@ class Gruvi(commands.Cog, name="gruvi"):
 				title="It's not like i wanted to join or anything! Dummy!",
 				color=0x0C8708
 			)
-			
 			await context.send(embed=embed)
+
+			self.q.clear()
 		
 	@commands.command(name="playlocal", aliases=["pl"])
 	async def playlocal(self, context, song):
@@ -171,29 +213,26 @@ class Gruvi(commands.Cog, name="gruvi"):
 		voiceclient = context.guild.voice_client
 
 		if vc is None:
-			await context.send("VoiceError: author not connected to voice.channel")
+			embed = Shortcut.Embeds.BotEmbeds().authorNotInVoice()
+			await context.send(embed=embed)
 
-		if not voiceclient:
-				await context.send("VoiceError: bot voice client doesn't exist")
+		elif not voiceclient:
+				embed = Shortcut.Embeds.BotEmbeds().noBotVoice_client()
+
+				await context.send(embed=embed)
 
 		else:
 			if not os.path.isfile(f"./assets/audio/{song}.mp3"):
 				raise commands.BadArgument
 			
 			else:
-				await context.send("added to queeueuueueueu")
 				foo = Shortcut().pseudo_ytdl_parse(song)
 				self.music_queue.append([foo, voiceclient])
+				self.q.append(foo)
+				await context.send(embed=Shortcut().Embeds.SuccessfulEmbeds().addedToQueue(foo))
 
 				if self.is_playing == False:
 					await self.local_play_music()
-				
-				'''embed = discord.Embed(
-					title="Now playing",
-					description=f"**{songf.tag.artist}** — *{songf.tag.title}*    [<@{context.author.id}>]",
-					color=0xf49411
-				)
-				await context.send(embed=embed)'''
 
 	@commands.command(name="play", aliases=["p"])
 	async def play(self, context, *args):
@@ -203,16 +242,17 @@ class Gruvi(commands.Cog, name="gruvi"):
 		arg = " ".join(args)
 		
 		if vc is None:
-			await context.send("VoiceError: author not connected to voice.channel")
+			await context.send(embed=Shortcut.Embeds.BotEmbeds().authorNotInVoice())
 		elif not voiceclient:
-			await context.send("VoiceError: bot voice client doesn't exist")
+			await context.send(embed=Shortcut.Embeds.BotEmbeds().noBotVoice_client())
 		else:
 			song = self.search_yt(arg)
 			if type(song) == type(True):
-				await context.send("Youtube_dlError: ArgumentError: Argument is a livestream")
+				await context.send(embed=Shortcut.Embeds.BotEmbeds().ytdlErrorNotVideo())
 			else:
-				await context.send("added to qwuuqueuweueuue")
+				await context.send(embed=Shortcut.Embeds.SuccessfulEmbeds().addedToQueue(song))
 				self.music_queue.append([song, voiceclient])
+				self.q.append(song)
 
 				if self.is_playing == False:
 					await self.local_play_music()
@@ -222,19 +262,13 @@ class Gruvi(commands.Cog, name="gruvi"):
 		voiceclient = context.guild.voice_client
 
 		if not voiceclient:
-			embed = discord.Embed(
-			title="You need to be in a vc, dummy",
-			color=0xE3170A
-			)
-
+			embed = Shortcut.Embeds.BotEmbeds().noBotVoice_client()
 			await context.send(embed=embed)
-		
-		
 		else:
 			if voiceclient.is_playing():
 				voiceclient.pause()
 				embed = discord.Embed(
-					title="Paused",
+					title="<:shut:894571138108231691> Paused <:shut:894571138108231691>",
 					color=0x0C8708
 				)
 				await context.send(embed=embed)
@@ -242,7 +276,7 @@ class Gruvi(commands.Cog, name="gruvi"):
 			else:
 				voiceclient.resume()
 				embed = discord.Embed(
-					title="Resumed",
+					title="<:unshut:894571138645102643> Unpaused <:unshut:894571138645102643>",
 					color=0x0C8708
 				)
 				await context.send(embed=embed)
@@ -252,16 +286,14 @@ class Gruvi(commands.Cog, name="gruvi"):
 		voiceclient = context.guild.voice_client
 
 		if not voiceclient:
-			embed = discord.Embed(
-			title="You need to be in a vc, dummy",
-			color=0xE3170A
-			)
+			embed = Shortcut.Embeds.BotEmbeds().noBotVoice_client()
 			await context.send(embed=embed)
 		
 		else:
 			if voiceclient.is_playing():
+				self.music_queue.clear()
 				voiceclient.stop()
-				embed = discord.Embed(title="Stopped", color=0x0C8708)
+				embed = discord.Embed(title="Stopped the music", color=0x0C8708)
 				await context.send(embed=embed)
 			else:
 				embed = discord.Embed(title="There's nothing to stop, dummy", color=0xE3170A)
@@ -277,6 +309,8 @@ class Gruvi(commands.Cog, name="gruvi"):
 				song = song.split('.', 1)[0]
 				lenght = SONGID.info.time_secs
 				y = str(round(lenght % 60))
+				if len(y) < 2:
+					y = '0' + y
 				lenght = str(round( lenght // 60)) + ':' + y
 				x += f"{song}{' ' * (27 - len(song))}{lenght}\n"
 				
@@ -285,27 +319,57 @@ class Gruvi(commands.Cog, name="gruvi"):
 	@commands.command(name="queue", aliases=["q"])
 	async def queue(self, context):
 		result = ""
-		for i in range(0, len(self.music_queue)):
-			result += self.music_queue[i][0]['title'] + "\n"
+		print(self.q)
+		result = Shortcut().queueFormat(self.q)
 
 		print(result)
 		if result != "":
 			await context.send(result)
 		else:
-			await context.send("no music in queueuueueue")
+			await context.send("queue is empty")
 		
 	@commands.command(name="skip")
 	async def skip(self, context):
 		if self.vc != "":
 			self.vc.stop()
-			await self.local_play_music()
+			await context.send(embed=discord.Embed(title="Skipped song", color=0x0C8708))
+			self.play_next()
+
+	@commands.command(name="cum")
+	async def cum(self, context):
+		vc = context.author.voice.channel
+		voiceclient = context.guild.voice_client
+
+		if vc is None:
+			embed = Shortcut.Embeds.BotEmbeds().authorNotInVoice()
+			await context.send(embed=embed)
+
+		elif not voiceclient:
+				embed = Shortcut.Embeds.BotEmbeds().noBotVoice_client()
+
+				await context.send(embed=embed)
+		else:
+			for i in range(3):
+				if i == 0:
+					song = "cum_zone"
+				elif i == 1:
+					song = "cum_throne"
+				elif i == 2:
+					song = "last_cum"
+				
+				__song = Shortcut().pseudo_ytdl_parse(song)
+				self.music_queue.append([__song, voiceclient])
+				self.q.append(__song)
+
+			if self.is_playing == False:
+				await self.local_play_music()
 			
 
-	async def on_command_error(context, error):
+	'''async def on_command_error(context, error):
 
 		if isinstance(error, discord.ClientException):
 			if context.command.qualified_name == "play" or context.command.qualified_name == "playlocal":
-				print('asd')
+				print('asd')'''
 
 def setup(bot):
 	bot.add_cog(Gruvi(bot))

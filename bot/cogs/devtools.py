@@ -2,6 +2,7 @@ import json
 import os
 import platform
 import sys
+import time
 
 from shortcut import Shortcut
 
@@ -241,9 +242,20 @@ class DevTools(commands.Cog, name="devtools"):
 		await user.send("Here's the log", file=log)	
 		await context.send("Check DMs")
 
+	@commands.command(name="newlog", aliases=["deletelog", "fucklog"])
+	@commands.has_any_role(config["modID"][0], config["modID"][1])
+	async def newlog(self, context):
+		os.rename("./logs/log.txt", f"./logs/log{int(time.time())}.txt")
+		with open("./logs/log.txt", 'a') as f:		
+			f.write(f"\nLOG\n----{int(time.time())}----\n")
+		
+		embed = discord.Embed(title="Created new log.txt!", color=0x0C8708)
+		await context.send(embed=embed)
+
 	@commands.command(name="picDev")
 	@commands.has_any_role(config["modID"][0], config["modID"][1])
 	async def picDev(self, context, delim: str=None, value=None):
+		# anyone could do this better, but eh fuck it, it works
 		if delim == "Cooldown":
 			try:
 				value = int(value)
@@ -298,6 +310,7 @@ class DevTools(commands.Cog, name="devtools"):
 	@commands.command(name="autoDev")
 	@commands.has_any_role(config["modID"][0], config["modID"][1])
 	async def autoDev(self, context, delim: str=None, value=None):
+		# anyone could do this better, but eh fuck it, it works
 		if delim == "Switch":
 			if value in ["False", "0"]:
 				value = False
@@ -336,27 +349,11 @@ class DevTools(commands.Cog, name="devtools"):
 			bruh = None
 		
 		if bruh:
-			embed = discord.Embed(
-				title="DevTools",
-				description="r!autopic values",
-				color=0x8000B2
-				)
-			embed.add_field(
-				name="autopic:",
-				value=f"{settings['autopic']}"
-				)
-			embed.add_field(
-				name="autopicCooldown",
-				value=f"{settings['autopicCooldown']}"
-				)
-			embed.add_field(
-				name="autopicSleep:",
-				value=f"{settings['autopicSleep']}"
-				)
-			embed.add_field(
-				name="autopicReturn",
-				value=f"{settings['autopicReturn']}"
-				)
+			embed = discord.Embed(title="DevTools",description="r!autopic values",color=0x8000B2)
+			embed.add_field(name="autopic:",value=f"{settings['autopic']}")
+			embed.add_field(name="autopicCooldown",value=f"{settings['autopicCooldown']}")
+			embed.add_field(name="autopicSleep:",value=f"{settings['autopicSleep']}")
+			embed.add_field(name="autopicReturn",value=f"{settings['autopicReturn']}")
 			embed.set_footer(text="nerdshit")
 			await context.send(embed=embed)
 		
@@ -371,6 +368,7 @@ class DevTools(commands.Cog, name="devtools"):
 	@commands.command(name="uwuDev")
 	@commands.has_any_role(config["modID"][0], config["modID"][1])
 	async def uwuDev(self, context, delim: str=None, value=None):
+		# anyone could do this better, but eh fuck it, it works
 		if delim == "Switch":
 			if value in ["False", "0"]:
 				value = False

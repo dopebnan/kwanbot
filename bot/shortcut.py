@@ -33,9 +33,39 @@ class Shortcut:
 
 	def pseudo_ytdl_parse(self, song):
 		bar = eyed3.load(f"./assets/audio/{song}.mp3")
-		foo = {'source': f'./assets/audio/{song}.mp3', "title": bar.tag.title, "artist": bar.tag.artist}
+		
+		lenght = round(int(bar.info.time_secs))
+		'''y = str(round(lenght % 60))
+		if len(y) < 2:
+			y = '0' + y
+		lenght = str(round( lenght // 60)) + ':' + y'''
+
+		foo = {'source': f'./assets/audio/{song}.mp3', "title": bar.tag.title, "artist": bar.tag.artist, "length": lenght}
 
 		return foo
+	
+	def queueFormat(self, queue):
+		result = f"```fsharp\n"
+		for i in range(0, len(queue)):
+			foo = queue[i]['title'] + ' — ' + queue[i]['artist']
+			length = queue[i]['length']
+			y = str(round(length % 60))
+			if len(y) < 2:
+				y = '0' + y
+			length = str(round(length // 60)) + ':' + y
+
+			if len(foo) > 36:
+				foo = [foo[x:x+36] for x in range(0, len(foo), 36)][0]
+				foo += "…"
+			else:
+				foo = foo + ' ' * (37 - len(foo))
+			
+			result += f" {i}) {foo} {length}      \n"
+		
+		result += "\n    Das the end of the queue!\n```"
+
+		return result
+			
 		
 	class Embeds:
 		def GenericError(self):
@@ -77,6 +107,29 @@ class Shortcut:
 			embed.set_footer(text="get fucked nerd")
 
 			return embed
+		
+		class BotEmbeds:
+			def authorNotInVoice(self):
+				embed = discord.Embed(
+					title="You're not in a vc",
+					description="what are you, stupid?",
+					color=0xE3170A
+				)
+				return embed
+			def noBotVoice_client(self):
+				embed = discord.Embed(
+					title="I'm not even in vc",
+					color=0xE3170A
+				)
+				return embed
+			
+			def ytdlErrorNotVideo(self):
+				embed = discord.Embed(
+					title="That's not a video, dummy",
+					description="It was probably a livestream or something",
+					color=0xE3170A
+				)
+				return embed
 
 		class SuccessfulEmbeds:
 			def SavingComplete(self):
@@ -89,3 +142,27 @@ class Shortcut:
 				embed.set_footer(text="you need to r!reload for your changes to take effect")
 
 				return embed
+			
+			def addedToQueue(self, song):
+				title = song['title'] 
+				
+				embed = discord.Embed(
+					title=f"Added `{title}` to the queue",
+					color=0x0C8708					
+				)
+				
+				return embed
+			
+			# if i dont make this typo, it wont work
+			def nowPalying(self, context, song):
+				title = song["title"]
+				artist = song["artist"]
+				
+				embed = discord.Embed(
+					title="Now playing",
+					description=f"**{artist}** — *{title}*	[<@{context.author.id}>]",
+					color=0xc96c0e
+				)
+				
+				return embed
+				

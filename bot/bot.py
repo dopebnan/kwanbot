@@ -5,11 +5,15 @@ import random
 import unicodedata
 import time
 
+from discord.errors import ClientException
+
 from shortcut import Shortcut
 
 import discord
 from discord.ext import commands, tasks
 from discord.ext.commands import Bot
+
+os.chdir(r"I:\Projects\coding projects\discord\dc bots\kwanbot\bot")
 
 gloriReply = ["glori tu mother feeshland komrad o7", "glorious day, comrade o7", "glori glori", "glori comrade o7"]
 jusReply = ["<:jus:884844071766622258>", "<:bussy:884844071615594506><:jus:884844071766622258>", "<:pigon:884844071644966972><:pigon:884844071644966972><:pigon:884844071644966972><:jus:884844071766622258>", "pigon be walkin doe", "al hal ze jus", "pigon pog", "bot pog", "bnan pog", "ze gretest, ze best, ze jusyest", "jus zon"]
@@ -21,7 +25,7 @@ missingArgPix = ["HOW MANY TIMES???", "you forgot the part where number", "where
 status = ["r!help", "I'm gonna shit yourself", "bot be poggin", "omnibussy pog", "nope, it was just penis", "pigon be walkin doe", "glori comrade", "innit", "Ah yes, anti-bussyn't fancy water", "kwan isn't britain", "pee is coming out of my eyes", "raid shadow leg", "nipple crippling", "decreasing molesting rates", "slicing foreskin", "peeing from balls", "cancelling global warming", "have hair in your food", "finna bust out the thighstash", ""]
 
 if not os.path.isfile("assets/config.json"):
-	sys.exit("config.json not found.")
+	sys.exit(f"config.json not found. (dir: {os.path})")
 else:
 	with open("assets/config.json") as f:
 		config = json.load(f)
@@ -64,6 +68,7 @@ async def on_command_completion(ctx):
 
 @bot.event
 async def on_command_error(context, error):
+	x = True
 
 	if isinstance(error, commands.CommandOnCooldown):
 		seconds = divmod(error.retry_after, 60)[1]
@@ -159,14 +164,19 @@ async def on_command_error(context, error):
 		)
 		await context.send(embed=embed)
 		Shortcut().logging(context.message, "Command not found")
-	
-	else:
-		embed = Shortcut.Embeds().GenericError()
-		await context.send(embed=embed)
-		Shortcut().logging(context.message, "Unknown Error")
 
-	# disabled for nicer command window view
-	raise error
+	else:
+		if context.command.qualified_name == "cum":
+			Shortcut().logging(context.message, error)
+			x = False
+		else:	
+			embed = Shortcut.Embeds().GenericError()
+			await context.send(embed=embed)
+			Shortcut().logging(context.message, "Unknown Error")
+		
+	print(error)
+	if x:
+		raise error
 
 @bot.event
 async def on_message(message):

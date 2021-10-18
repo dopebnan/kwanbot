@@ -7,7 +7,7 @@ yes gud
 ## Unreleased
 
 * **r!cum**
-* **r!play**
+* **r!pain**
 
 
 
@@ -24,8 +24,16 @@ yes gud
 * **r!play**: play songs
 * **r!skip**: skip songs
 * **r!pause**: pause/unpause songs
+* **r!stop**: stop everything playing, and clear the queue
+* **r!cum**: queues the cum trilogy
 
-<sup>TSC: 8hr</sup>
+## DevTools 1.1
+
+### Added
+
+* **r!newlogs**: creates a new log.txt. Does **NOT** delete old log. You cannot hide what you did. *Old logs can only be accessed locally*
+
+<sup>TSC: 17.5hr</sup>
 
 
 
@@ -89,7 +97,7 @@ yes gud
   * was no need for it since **r!pic** exists
   * would be just code repetition, since **r!pic** already exists
 
-## DevTools
+## DevTools 1.0
 
 ### Added
 

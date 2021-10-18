@@ -10,6 +10,9 @@ bot/logs
 bot/assets/audio/*
 !bot/assets/audio/test*.mp3
 asd.md
+bot/assets/icons/*
+
+
 # get fucked nerd
 TODO.md 
 
@@ -158,3 +161,5 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+.vscode/launch.json
