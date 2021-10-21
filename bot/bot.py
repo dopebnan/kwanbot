@@ -11,8 +11,6 @@ import discord
 from discord.ext import commands, tasks
 from discord.ext.commands import Bot
 
-os.chdir(r"I:\Projects\coding projects\discord\dc bots\kwanbot\bot")
-
 gloriReply = ["glori tu mother feeshland komrad o7", "glorious day, comrade o7", "glori glori", "glori comrade o7"]
 jusReply = ["<:jus:884844071766622258>", "<:bussy:884844071615594506><:jus:884844071766622258>", "<:pigon:884844071644966972><:pigon:884844071644966972><:pigon:884844071644966972><:jus:884844071766622258>", "pigon be walkin doe", "al hal ze jus", "pigon pog", "bot pog", "bnan pog", "ze gretest, ze best, ze jusyest", "jus zon"]
 badReply = ["sorryyy", "noted.", "no u", ":(", "fuck you, ***bitch***", "i will commit toaster", "i will commit toe", "i will commit battery"]
@@ -154,6 +152,7 @@ async def on_command_error(context, error):
 	elif isinstance(error, commands.MissingAnyRole):
 		embed = Shortcut.Embeds().MissingRoleError()
 		await context.send(embed=embed)
+		Shortcut().logging(context.message, error)
 	
 	elif isinstance(error, commands.CommandNotFound):
 		embed = discord.Embed(
@@ -163,6 +162,13 @@ async def on_command_error(context, error):
 		)
 		await context.send(embed=embed)
 		Shortcut().logging(context.message, "Command not found")
+
+	elif isinstance(error, AttributeError):
+		if context.command.qualified_name == "cum" or context.command.qualified_name == "play" or context.command.qualified_name == "playlocal":
+			embed = Shortcut().Embeds.BotEmbeds().authorNotInVoice()
+
+			await context.send(embed=embed)
+			Shortcut().logging(context.message, error)
 
 	else:
 		if context.command.qualified_name == "cum":

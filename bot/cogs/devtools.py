@@ -168,7 +168,7 @@ class DevTools(commands.Cog, name="devtools"):
 	async def sourcecode(self, context):
 		embed = discord.Embed(
 			title="Source-code",
-			description="You can view the source code [here](https://gitfront.io/r/dopebnan/9f349a7623e8db052b92acca4f37ede9d6bbb5ad/kwanbot/)",
+			description="You can view the source code [here](https://github.com/dopebnan/kwanbot)",
 			color=0xA000A4
 		)
 		await context.send(embed=embed)

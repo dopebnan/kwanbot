@@ -260,6 +260,8 @@ class Gruvi(commands.Cog, name="gruvi"):
 				self.music_queue.append([__song, voiceclient])
 				self.q.append(__song)
 
+			await context.send("<:cum_zone:900770371698032640> WELCUM TO THE CUM ZONE <:cum_zone:900770371698032640>")
+
 			if self.is_playing == False:
 				await self.local_play_music()
 

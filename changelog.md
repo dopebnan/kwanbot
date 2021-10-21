@@ -7,11 +7,12 @@ yes gud
 ## Unreleased
 
 * **r!pain**
-
+* **r!playfile**
+* **sound effects**
 
 
 ## 2.1 - GRUVI'S SPIRIT UPDATE!! I.
-<sub>Sep. XX, 2021</sub>
+<sub>Oct. 21, 2021</sub>
 
 ### Added
 
@@ -27,6 +28,10 @@ yes gud
 * **r!stop**: stop everything playing, and clear the queue
 * **r!leave**: leaves vc
 
+### Changed
+
+* **r!sourcecode**: switched from gitfront to GitHub
+
 ## DevTools 1.1
 
 ### Added
@@ -39,7 +44,7 @@ yes gud
 * **log.txt**:
   * made unknown error more verbose
 
-<sup>TSC: 19hr</sup>
+<sup>TSC: 20hr</sup>
 
 
 
@@ -130,4 +135,4 @@ yes gud
 
 
 
-<sup>Time Spent Coding: 47hrs</sup>
+<sup>Time Spent Coding: 48hrs</sup>

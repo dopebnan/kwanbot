@@ -1,13 +1,13 @@
 {
-  "tag": "Dev",
-  "settingsVer": "2.1beta.3",
-  "picCooldown": 5,
-  "picReturn": true,
-  "autopic": true,
-  "autopicCooldown": 5,
-  "autopicSleep": 5,
-  "autopicReturn": true,
-  "uwu": true,
-  "uwuCooldown": 5,
+  "tag": "Default",
+  "settingsVer": "2.1",
+  "picCooldown": 30,
+  "picReturn": false,
+  "autopic": false,
+  "autopicSleep": 15,
+  "autopicCooldown": 60,
+  "autopicReturn": false,
+  "uwu": false,
+  "uwuCooldown": 15,
   "uwuReturn": true
 }
