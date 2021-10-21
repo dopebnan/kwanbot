@@ -58,74 +58,7 @@ class General(commands.Cog, name="general"):
 			name="Last update was:",
 			value=f"<t:{config['lastUpdate']}:R>",
 		)
-		embed.set_footer(text=f"Time spent coding: 28hrs")
-		await context.send(embed=embed)
-
-	@commands.command(name='help')
-	async def help(self, context):
-		embed = discord.Embed(
-			title="commands ayyy",
-			color=0x7209B7
-		)
-		embed.add_field(
-			name="r!changelog:",
-			value="see the changelog, bruh"
-		)
-		embed.add_field(
-			name="r!bugtracker:",
-			value="see the bugs"
-		)
-		embed.add_field(
-			name="r!check:",
-			value="like r!info, but more technical stuff"
-		)
-		embed.add_field(
-			name="r!sourcecode",
-			value="view the repo of the bot"
-		)
-		embed.add_field(
-			name="r!help:",
-			value="this."
-		)
-		embed.add_field(
-			name="r!info:",
-			value="info about bot <:pogfield:884844071733055488><:pogfield:884844071733055488>"
-		)
-		embed.add_field(
-			name="r!ping:",
-			value="get the bot ping"
-		)
-		embed.add_field(
-			name="r!report:",
-			value="bot be buggy innit",
-			inline=False
-		)
-		embed.add_field(
-			name="r!pic:",
-			value="out of context pics",
-			inline=True
-		)
-		embed.add_field(
-		   name="r!autopic:",
-		   value="Loops r!pic for **x** amount of times",
-		   inline=True
-		)
-		embed.add_field(
-			name="r!succ:",
-			value="ZE HOLI BUSSY PRAYERZ SUCCSUCCSUCC <:jus:884844071766622258>",
-			inline=False
-		)
-		embed.add_field(
-			name="r!brit:",
-			value=":flag_gb: :eyes:",
-			inline=True
-		)
-		embed.add_field(
-			name="r!uwu:",
-			value="cappy bullshit",
-			inline=True
-		)
-		embed.set_footer(text=f"mh yez, very")
+		embed.set_footer(text=f"Time spent coding: 19hrs")
 		await context.send(embed=embed)
 
 	@commands.command(name="changelog", aliases=["change", "changes", "updates"])
@@ -164,11 +97,7 @@ class General(commands.Cog, name="general"):
 
 	@commands.command(name="ping")
 	async def ping(self, context):
-		embed = discord.Embed(
-			title="reeeEEEEEEE",
-			description=f"ping at {round(self.bot.latency * 1000)}ms",
-			color=0x3F37C9
-		)
+		embed = discord.Embed(title="reeeEEEEEEE",description=f"ping at {round(self.bot.latency * 1000)}ms",color=0x3F37C9)
 		await context.send(embed=embed)
 	
 	@commands.command(name="report", aliases=["bugreport", "bug"])
@@ -277,17 +206,10 @@ class General(commands.Cog, name="general"):
 				global settings
 				settings = json.load(f)
 		except:
-			embed = discord.Embed(
-				title="An error occurred while reloading",
-				description="your luck must be fucked",
-				color=0xE3170A
-			)
+			embed = discord.Embed(title="An error occurred while reloading",description="your luck must be fucked",color=0xE3170A)
 			await context.send(embed=embed)	
 		else:
-			embed = discord.Embed(
-				title="Reload complete",
-				color=0x0C8708
-			)
+			embed = discord.Embed(	title="Reload complete",	color=0x0C8708)
 			await context.send(embed=embed)
 
 	@commands.command(name="test")

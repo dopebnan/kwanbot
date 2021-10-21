@@ -5,8 +5,6 @@ import random
 import unicodedata
 import time
 
-from discord.errors import ClientException
-
 from shortcut import Shortcut
 
 import discord
@@ -57,6 +55,7 @@ async def status_task():
 
 bot.remove_command("help")
 if __name__ == "__main__":
+	bot.load_extension('cogs.help')
 	bot.load_extension('cogs.general')
 	bot.load_extension('cogs.devtools')
 	bot.load_extension('cogs.gruvi')
@@ -172,7 +171,7 @@ async def on_command_error(context, error):
 		else:	
 			embed = Shortcut.Embeds().GenericError()
 			await context.send(embed=embed)
-			Shortcut().logging(context.message, "Unknown Error")
+			Shortcut().logging(context.message, error)
 		
 	print(error)
 	if x:

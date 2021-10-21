@@ -6,7 +6,6 @@ yes gud
 
 ## Unreleased
 
-* **r!cum**
 * **r!pain**
 
 
@@ -18,25 +17,29 @@ yes gud
 
 * **r!bugtracker**: you can now view *bugtracker.md*
 * **r!pop**: pops into vc
-* **r!leave**: leaves vc
+* **r!play**: play songs
 * **r!playlocal**: play a local file
 * **r!songlist**: list of local songs
-* **r!play**: play songs
-* **r!skip**: skip songs
-* **r!pause**: pause/unpause songs
-* **r!stop**: stop everything playing, and clear the queue
 * **r!cum**: queues the cum trilogy
+* **r!queue**: displays the queue
+* **r!pause**: pause/unpause songs
+* **r!skip**: skip songs
+* **r!stop**: stop everything playing, and clear the queue
+* **r!leave**: leaves vc
 
 ## DevTools 1.1
 
 ### Added
 
-* **r!newlogs**: creates a new log.txt. Does **NOT** delete old log. You cannot hide what you did. *Old logs can only be accessed locally*
+* **r!newlog**: creates a new log.txt. Does **NOT** delete old log. You cannot hide what you did. *Old logs can only be accessed locally*
 
-<sup>TSC: 17.5hr</sup>
+### Changed
 
+* **r!log**: added option to log comments
+* **log.txt**:
+  * made unknown error more verbose
 
-
+<sup>TSC: 19hr</sup>
 
 
 
@@ -101,7 +104,7 @@ yes gud
 
 ### Added
 
-* **logging**
+* **r!log**: gives you the log
 * **r!reload**: reloads config.json and settings.json
 * **r!autoDev Sleep**: change the time between **r!autopic** messages
 * **shortcut.py**: a module for easier code-handling
@@ -127,4 +130,4 @@ yes gud
 
 
 
-<sup>Time Spent Coding: 28hrs</sup>
+<sup>Time Spent Coding: 47hrs</sup>

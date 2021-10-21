@@ -59,71 +59,11 @@ devJSON_obj = json.dumps(devJSON, indent=2)
 class DevTools(commands.Cog, name="devtools"):
 	def __init__(self, bot):
 		self.bot = bot
-
-	@commands.command(name="devtools", aliases=["DevTools", "dt", "devhelp"])
-	@commands.has_any_role(config["modID"][0], config["modID"][1])
-	async def devtools(self, context):
-		embed = discord.Embed(
-			title="DevTools",
-			description=f'{config["DEVTOOLVER"]}',
-			color=0x6F2377
-		)
-		embed.add_field(
-			name="r!filecheck:",
-			value="*Gives technical info about bot*",
-			inline=True
-		)
-		embed.add_field(
-			name="r!debug:",
-			value="*Changes settings.json into dev-mode*",
-			inline=True
-		)
-		embed.add_field(
-			name="r!reset",
-			value="*Reverts every setting to default (do a r!reload after it)*",
-			inline=True
-		)
-		embed.add_field(
-			name="r!picDev Cooldown __picCooldown: int__",
-			value="*Change the cooldown for r!pic in seconds. Takes in an integer* ***(r!picCooldown 30)***",
-			inline=False
-		)
-		embed.add_field(
-			name="r!picDev Return __picReturn: bool__",
-			value="*Turn on/off the cooldown message for r!pic* ***(r!picReturn False)***",
-			inline=False
-		)
-		embed.add_field(
-			name="r!autoDev Switch __autopic: bool__",
-			value="*Turn on/off r!autopic* ***(r!autoSwitch False)***",
-			inline=False
-		)
-		embed.add_field(
-			name="r!autoDev Sleep __autopicSleep: int__",
-			value="*Change the cooldown inbetween images for r!autopic in seconds* ***(r!autoSwitch False)***",
-			inline=False
-		)
-		embed.add_field(
-			name="r!autoDev Return __autopicReturn: bool__",
-			value="*Turn on/off the cooldown message for r!autopic* ***(r!autoReturn True)***",
-			inline=False
-		)
-		embed.add_field(
-			name="r!uwuDev Switch __uwu: bool__",
-			value="*Turn on/off r!uwu* ***(r!uwuSwitch True)***",
-			inline=False
-		)
-		embed.add_field(
-			name="r!uwuDev Cooldown __uwuCooldown: int__",
-			value="*Turn on/off r!uwu* ***(r!uwuSwitch True)***",
-			inline=False
-		)
-		await context.send(embed=embed)
 		
 	@commands.command(name="filecheck", aliases=["dskchk", "chkdsk", "syscheck", "fsck"])
 	@commands.has_any_role(config["modID"][0], config["modID"][1])
 	async def filecheck(self, context):
-		# Reloading settings.json incase it had any changes
+		# Reloading settings.json in case it had any changes
 		with open("assets/settings.json") as f:
 			settings = json.load(f)
 
@@ -235,12 +175,21 @@ class DevTools(commands.Cog, name="devtools"):
 
 	@commands.command(name="log", aliases=["dmlog", "logs", "givlog", "wood"])
 	@commands.has_any_role(config["modID"][0], config["modID"][1])
-	async def log(self, context):
-		user = context.message.author
-		log = discord.File("./logs/log.txt")
+	async def log(self, context, *args):
 
-		await user.send("Here's the log", file=log)	
-		await context.send("Check DMs")
+		arg = "".join(args)
+		
+		if arg == "":
+			user = context.message.author
+			log = discord.File("./logs/log.txt")
+
+			await user.send("Here's the log", file=log)	
+			await context.send("Check DMs")
+		
+		else:
+			Shortcut().logging(context.message, arg)
+
+			await context.send(embed=discord.Embed(title="Comment logged successfully", color=0x0C8708))
 
 	@commands.command(name="newlog", aliases=["deletelog", "fucklog"])
 	@commands.has_any_role(config["modID"][0], config["modID"][1])
@@ -249,7 +198,7 @@ class DevTools(commands.Cog, name="devtools"):
 		with open("./logs/log.txt", 'a') as f:		
 			f.write(f"\nLOG\n----{int(time.time())}----\n")
 		
-		embed = discord.Embed(title="Created new log.txt!", color=0x0C8708)
+		embed = discord.Embed(title="Created a new log.txt!", color=0x0C8708)
 		await context.send(embed=embed)
 
 	@commands.command(name="picDev")

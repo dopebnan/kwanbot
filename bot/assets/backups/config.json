@@ -2,6 +2,7 @@
 	"modIDs": [],
 	"TOKEN": "",
 	"TESTTOKEN": "",
+	"PATH": "",
 	
 	"VERSION": "2.0.1",
 	"TITLE": "discord.ext UPDATE",
