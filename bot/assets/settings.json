@@ -1,6 +1,6 @@
 {
   "tag": "Default",
-  "settingsVer": "2.1",
+  "settingsVer": "2.2",
   "picCooldown": 30,
   "picReturn": false,
   "autopic": false,
@@ -9,5 +9,7 @@
   "autopicReturn": false,
   "uwu": false,
   "uwuCooldown": 15,
-  "uwuReturn": true
+  "uwuReturn": true,
+  "painCooldown": 15,
+  "painReturn": false
 }

@@ -11,6 +11,14 @@ yes gud
 * **sound effects**
 
 
+
+## 2.2 - AutoUpdate UPDATE!!
+<sub>??</sub>
+
+
+
+
+
 ## 2.1 - GRUVI'S SPIRIT UPDATE!! I.
 <sub>Oct. 21, 2021</sub>
 

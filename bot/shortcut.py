@@ -160,7 +160,7 @@ class Shortcut:
 				
 				embed = discord.Embed(
 					title="Now playing",
-					description=f"**{artist}** — *{title}*	[<@{context.author.id}>]",
+					description=f"**{artist}** — *{title}*	[<@{context.id}>]",
 					color=0xc96c0e
 				)
 				

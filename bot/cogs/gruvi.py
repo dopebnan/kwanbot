@@ -60,9 +60,7 @@ class Gruvi(commands.Cog, name="gruvi"):
 			self.is_playing = True
 
 			song = self.music_queue[0][0]['source']
-
-			#embed = Shortcut.Embeds.SuccessfulEmbeds().nowPlaying(self.ctx, self.music_queue[0][0])
-			#self.ctx.send(embed=embed)
+			auth = self.music_queue[0][2]
 
 			self.music_queue.pop(0)
 
@@ -104,10 +102,11 @@ class Gruvi(commands.Cog, name="gruvi"):
 			self.is_playing = True
 			self.vc = self.music_queue[0][1]
 			print(self.music_queue)
-			song = self.music_queue[0][0]['source']			
+			song = self.music_queue[0][0]['source']	
+			auth = self.music_queue[0][2]		
 			print(song)
 
-			embed = Shortcut.Embeds.SuccessfulEmbeds().nowPalying(self.ctx, self.music_queue[0][0])
+			embed = Shortcut.Embeds.SuccessfulEmbeds().nowPalying(auth, self.music_queue[0][0])
 			await self.ctx.send(embed=embed)
 			
 			self.music_queue.pop(0)
@@ -187,7 +186,7 @@ class Gruvi(commands.Cog, name="gruvi"):
 				await context.send(embed=Shortcut.Embeds.BotEmbeds().ytdlErrorNotVideo())
 			else:
 				await context.send(embed=Shortcut.Embeds.SuccessfulEmbeds().addedToQueue(song))
-				self.music_queue.append([song, voiceclient])
+				self.music_queue.append([song, voiceclient, context.author])
 				self.q.append(song)
 
 				if self.is_playing == False:
@@ -211,7 +210,7 @@ class Gruvi(commands.Cog, name="gruvi"):
 				raise commands.BadArgument			
 			else:
 				foo = Shortcut().pseudo_ytdl_parse(song)
-				self.music_queue.append([foo, voiceclient])
+				self.music_queue.append([foo, voiceclient, context.author])
 				self.q.append(foo)
 				await context.send(embed=Shortcut().Embeds.SuccessfulEmbeds().addedToQueue(foo))
 				
@@ -257,7 +256,7 @@ class Gruvi(commands.Cog, name="gruvi"):
 					song = "last_cum"
 
 				__song = Shortcut().pseudo_ytdl_parse(song)
-				self.music_queue.append([__song, voiceclient])
+				self.music_queue.append([__song, voiceclient, context.author])
 				self.q.append(__song)
 
 			await context.send("<:cum_zone:900770371698032640> WELCUM TO THE CUM ZONE <:cum_zone:900770371698032640>")

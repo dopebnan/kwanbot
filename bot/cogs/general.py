@@ -1,3 +1,7 @@
+'''
+TODO: Finish r!pain's DevTools
+'''
+
 import json
 import os
 import sys
@@ -211,6 +215,17 @@ class General(commands.Cog, name="general"):
 		else:
 			embed = discord.Embed(	title="Reload complete",	color=0x0C8708)
 			await context.send(embed=embed)
+
+	@commands.command(name="pain")
+	async def pain(self, context):
+		pic = f'./assets/img/pain/{random.choice(os.listdir("./assets/img/pain"))}'
+		msg = random.choice(["", "", "*pain.*", "*cri*", "not proud of that one", "very bigbrain moment"])
+		await context.send(msg, file=discord.File(pic))
+
+		if settings["picReturn"]:
+			await context.send(f"*Cooldown has been set to **{settings['painCooldown']}s***")
+		print(f"[r!pain], {pic}. {msg}\n")
+		Shortcut().logging(context.message, f"pic: {pic}, message: {msg}")
 
 	@commands.command(name="test")
 	async def test(self, context):

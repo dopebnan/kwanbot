@@ -10,6 +10,14 @@ import discord
 from discord.ext import commands
 
 
+
+# TODO: Finish the autoupdate thingy, if possible
+'''
+GitHub doesn't have good autoupdate stuff, be aware
+'''
+
+
+
 if not os.path.isfile("assets/config.json"):
 	sys.exit("config.json not found.")
 else:
@@ -34,7 +42,9 @@ defaultJSON = {
 	"autopicReturn": False,
 	"uwu": False,
 	"uwuCooldown": 15,
-	"uwuReturn": True
+	"uwuReturn": True,
+  	"painCooldown": 15,
+  	"painReturn": False
 }
 
 devJSON = {
@@ -48,7 +58,9 @@ devJSON = {
   "autopicReturn": True,
   "uwu": True,
   "uwuCooldown": 5,
-  "uwuReturn": True
+  "uwuReturn": True,
+  "painCooldown": 15,
+  "painReturn": False
 }
 
 defaultJSON_obj = json.dumps(defaultJSON, indent=2)
@@ -383,6 +395,11 @@ class DevTools(commands.Cog, name="devtools"):
 			
 			embed = Shortcut.Embeds.SuccessfulEmbeds().SavingComplete()
 			await context.send(embed=embed)
+
+	@commands.command(name="update")
+	async def update(self, context):
+		pass
+
 
 
 
