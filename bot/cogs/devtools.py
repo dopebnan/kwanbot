@@ -11,19 +11,11 @@ from discord.ext import commands
 
 
 
-# TODO: Finish the autoupdate thingy, if possible
-'''
-GitHub doesn't have good autoupdate stuff, be aware
-'''
-
-
-
 if not os.path.isfile("assets/config.json"):
 	sys.exit("config.json not found.")
 else:
 	with open("assets/config.json") as f:
 		config = json.load(f)
-
 
 if not os.path.isfile("assets/settings.json"):
 	sys.exit("settings.json not found.")

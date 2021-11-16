@@ -1,7 +1,3 @@
-'''
-TODO: Finish r!pain's DevTools
-'''
-
 import json
 import os
 import sys

@@ -1,8 +1,10 @@
+"""
+Moved it here to make it easier to modify/make the other code easier to read
+"""
+
 import json
 import os
 import sys
-
-from shortcut import Shortcut
 
 import discord
 from discord.ext import commands
@@ -206,7 +208,6 @@ class Help(commands.Cog, name="help"):
 			value="*Creates a new log.txt*"
 		)
 		await context.send(embed=embed)
-
 
 
 
