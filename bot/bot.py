@@ -60,8 +60,11 @@ if __name__ == "__main__":
 
 @bot.event
 async def on_command_completion(ctx):
-	if not ctx.command.qualified_name == "pic":
-		Shortcut().logging(ctx.message)
+	if not ctx.command.qualified_name == "pic" or not ctx.command.qualified_name == "log":
+		Shortcut.logging(ctx.message)
+	if ctx.command.qualified_name == "log":
+		Shortcut.logging(ctx.message, "None (r!log)", skip=True) # Unneeded, but makes log look nicer
+	
 
 @bot.event
 async def on_command_error(context, error):
@@ -79,108 +82,49 @@ async def on_command_error(context, error):
 
 	elif isinstance(error, commands.MissingRequiredArgument):
 		if context.command.qualified_name == "autopic":
-
 			embed = discord.Embed(
 				title=f"{missingArgPix[random.randint(0, len(missingArgPix) - 1)]}",
 				description="it's *r!autopic* ***number***, you dumbass",
 				color=0xE3170A
-			)
-			await context.send(embed=embed)
-			Shortcut().logging(context.message, "r!autopic missing number")
+				)
 
 		else:
 			embed = discord.Embed(
 				title=f"MissingRequiredArgument",
 				color=0xE3170A
-			)
-			await context.send(embed=embed)
-			Shortcut().logging(context.message, f"Missing arguments")
+				)
 	
 	elif isinstance(error, commands.BadArgument):
-		if context.command.qualified_name == "autoDev":
-			try:
-				msg = context.message.content.split(" ", 2)[2]
-			except IndexError:
-				msg = None
-
-			ftype = Shortcut().fileType(msg)
-
-			if context.message.content.startswith("r!autoDev Switch") or context.message.content.startswith("r!auto Return"):
-				embed = Shortcut.Embeds().TypeErrorEmbed("boolean", ftype)
-				Shortcut().logging(context.message, f"Invalid arguments")
-
-			elif context.message.content.startswith("r!autoDev Sleep"):
-				embed = Shortcut.Embeds().TypeErrorEmbed("integer", ftype)		
-				Shortcut().logging(context.message, "Invalid arguments")
-
-			else:
-				embed = Shortcut.Embeds().InvalidArgumentError(context.command.qualified_name)				
-				Shortcut().logging(context.message, "Invalid arguments")
-			
-			await context.send(embed=embed)
-		
-		elif context.command.qualified_name == "picDev":
-			try:
-				msg = context.message.content.split(" ", 2)[2]
-			except IndexError:
-				msg = None
-			
-			arg = context.message.content.split(" ", 2)[1]
-			ftype = Shortcut().fileType(msg)
-
-			if arg == "Cooldown":
-				embed = Shortcut().Embeds().TypeErrorEmbed("integer", ftype)
-			elif arg == "Return":
-				embed = Shortcut().Embeds().TypeErrorEmbed("boolean", ftype)
-			else:
-				embed = Shortcut().Embeds().InvalidArgumentError("r!picDev")
-			
-			await context.send(embed=embed)
-			Shortcut().logging(context.message, "TypeError")
-
-		elif context.command.qualified_name == "play":
-			embed = Shortcut().Embeds().InvalidArgumentError("play")
-			await context.send(embed=embed)
-
-			Shortcut().logging(context.message, "Music doesn't exist")
-
-		else:
-			embed = Shortcut.Embeds().InvalidArgumentError(f"r!{context.command.qualified_name}")
-			await context.send(embed=embed)
-			Shortcut().logging(context.message, "Invalid arguments")
+		embed = Shortcut.Embeds.Error.TypeErrorEmbed()
+	
+	elif isinstance(error, discord.InvalidArgument):
+		embed = Shortcut.Embeds.Error.InvalidArgumentError(f"r!{context.command.qualified_name}")
 	
 	elif isinstance(error, commands.MissingAnyRole):
-		embed = Shortcut.Embeds().MissingRoleError()
-		await context.send(embed=embed)
-		Shortcut().logging(context.message, error)
+		embed = Shortcut.Embeds.Error.MissingRoleError()
 	
 	elif isinstance(error, commands.CommandNotFound):
 		embed = discord.Embed(
 			title="That command doesn't exist, dummy",
 			description="better luck next time",
 			color=0xE3170A
-		)
-		await context.send(embed=embed)
-		Shortcut().logging(context.message, "Command not found")
+			)
 
 	elif isinstance(error, AttributeError):
-		if context.command.qualified_name == "cum" or context.command.qualified_name == "play" or context.command.qualified_name == "playlocal":
-			embed = Shortcut().Embeds.BotEmbeds().authorNotInVoice()
-
-			await context.send(embed=embed)
-			Shortcut().logging(context.message, error)
+			embed = Shortcut.Embeds.Error.authorNotInVoice()
 
 	else:
 		if context.command.qualified_name == "cum":
-			Shortcut().logging(context.message, error)
+			Shortcut.logging(context.message, error)
 			x = False
 		else:	
-			embed = Shortcut.Embeds().GenericError()
-			await context.send(embed=embed)
-			Shortcut().logging(context.message, error)
+			embed = Shortcut.Embeds.Error.GenericError()
 		
 	print(error)
 	if x:
+		await context.send(embed=embed)
+		Shortcut.logging(context.message)
+
 		raise error
 
 @bot.event

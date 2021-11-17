@@ -114,7 +114,7 @@ class General(commands.Cog, name="general"):
 		if settings["picReturn"]:
 			await context.send(f"*Cooldown has been set to **{settings['picCooldown']}s***")
 		print(f"[r!pic] queue'd, {pic}. {msg}\n")
-		Shortcut().logging(context.message, f"pic: {pic}, message: {msg}")
+		Shortcut.logging(context.message, f"pic: {pic}, message: {msg}")
 
 	@commands.command(name="autopic", aliases=["pics", "pix"])
 	@commands.cooldown(1, settings["autopicCooldown"], BucketType.guild)
@@ -221,7 +221,7 @@ class General(commands.Cog, name="general"):
 		if settings["picReturn"]:
 			await context.send(f"*Cooldown has been set to **{settings['painCooldown']}s***")
 		print(f"[r!pain], {pic}. {msg}\n")
-		Shortcut().logging(context.message, f"pic: {pic}, message: {msg}")
+		Shortcut.logging(context.message, f"pic: {pic}, message: {msg}")
 
 	@commands.command(name="test")
 	async def test(self, context):

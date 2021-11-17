@@ -4,24 +4,33 @@
 
 
 
-# v2.2 - Cleanup Update
+# Cleanup Update
 <sub>Unreleased</sub>
 
 ## Code
+* [x] Removed unused functions (commit#285486f)
+* [x] Fixed **bot2-4_play-2** (commit#285486f)
+* [ ] make code look nice and clean and neat and good and shit
 
-## DevTools %ver%
+
+## DevTools 1.1.1
 
 ## Shortcut
+* [x] Fixed formatting error for **nowPalying** (commit#285486f)
 * [ ] Refactoring everything. This is a mess. This isn't okay. Why did i do it like that. Stop it.
+* [ ] Make DevTool errors more verbose
 
 ## Configs
+* [x] Added **r!pain** values (commit#285486f)
 
 ## UX
+* [x] Added **r!pain**, pics that invoked pain while coding the bot (commit#285486f)  <sub>idea by pigon</sub>
 
 ## UX (DevTools)
+* [ ] Added **r!painDev Cooldown int**, change **r!pain** cooldown 
 
 ## Misc
-* [x] Reformatted the changelog
+* [x] Reformatted the changelog (commit#9ea5819)
 
 ## TSC: 2.5h
 
@@ -52,6 +61,7 @@
 
 ## UX
 * [x] Added **r!bugtracker**, you can check out the bugs there now (commit#ef958c2)
+* [x] Added **r!cum**, queues the cum trilogy (commit#cedcf86)
 * [x] Added **r!leave**, makes bot leave vc	(commit#cedcf86)
 * [x] Added **r!pause**, pauses/unpauses current song (commit#cedcf86)
 * [x] Added **r!play %songname%**, plays *songname* (commit#cedcf86)

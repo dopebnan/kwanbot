@@ -106,7 +106,7 @@ class Gruvi(commands.Cog, name="gruvi"):
 			auth = self.music_queue[0][2]		
 			print(song)
 
-			embed = Shortcut.Embeds.SuccessfulEmbeds().nowPalying(auth, self.music_queue[0][0])
+			embed = Shortcut.Embeds.Misc.nowPlaying(auth, self.music_queue[0][0])
 			await self.ctx.send(embed=embed)
 			
 			self.music_queue.pop(0)
@@ -177,15 +177,15 @@ class Gruvi(commands.Cog, name="gruvi"):
 		arg = " ".join(args)
 		
 		if vc is None:
-			await context.send(embed=Shortcut.Embeds.BotEmbeds().authorNotInVoice())
+			await context.send(embed=Shortcut.Embeds.Error.authorNotInVoice())
 		elif not voiceclient:
-			await context.send(embed=Shortcut.Embeds.BotEmbeds().noBotVoice_client())
+			await context.send(embed=Shortcut.Embeds.Error.noBotVoice_client())
 		else:
 			song = self.search_yt(arg)
 			if type(song) == type(True):
-				await context.send(embed=Shortcut.Embeds.BotEmbeds().ytdlErrorNotVideo())
+				await context.send(embed=Shortcut.Embeds.Error.ytdlErrorNotVideo())
 			else:
-				await context.send(embed=Shortcut.Embeds.SuccessfulEmbeds().addedToQueue(song))
+				await context.send(embed=Shortcut.Embeds.Misc.addedToQueue(song))
 				self.music_queue.append([song, voiceclient, context.author])
 				self.q.append(song)
 
@@ -198,21 +198,21 @@ class Gruvi(commands.Cog, name="gruvi"):
 		voiceclient = context.guild.voice_client
 
 		if vc is None:
-			embed = Shortcut.Embeds.BotEmbeds().authorNotInVoice()
+			embed = Shortcut.Embeds.Error.authorNotInVoice()
 			await context.send(embed=embed)
 
 		elif not voiceclient:
-				embed = Shortcut.Embeds.BotEmbeds().noBotVoice_client()
+				embed = Shortcut.Embeds.Error.noBotVoice_client()
 				await context.send(embed=embed)
 
 		else:
 			if not os.path.isfile(f"./assets/audio/{song}.mp3"):
-				raise commands.BadArgument			
+				raise discord.errors.InvalidArgument		
 			else:
 				foo = Shortcut().pseudo_ytdl_parse(song)
 				self.music_queue.append([foo, voiceclient, context.author])
 				self.q.append(foo)
-				await context.send(embed=Shortcut().Embeds.SuccessfulEmbeds().addedToQueue(foo))
+				await context.send(embed=Shortcut.Embeds.Misc.addedToQueue(foo))
 				
 				if self.is_playing == False:
 					await self.local_play_music()
@@ -241,10 +241,10 @@ class Gruvi(commands.Cog, name="gruvi"):
 		voiceclient = context.guild.voice_client
 
 		if vc is None:
-			embed = Shortcut.Embeds.BotEmbeds().authorNotInVoice()
+			embed = Shortcut.Embeds.Error.authorNotInVoice()
 			await context.send(embed=embed)
 		elif not voiceclient:
-				embed = Shortcut.Embeds.BotEmbeds().noBotVoice_client()
+				embed = Shortcut.Embeds.Error.noBotVoice_client()
 				await context.send(embed=embed)
 		else:
 			for i in range(3):
@@ -281,7 +281,7 @@ class Gruvi(commands.Cog, name="gruvi"):
 		voiceclient = context.guild.voice_client
 
 		if not voiceclient:
-			embed = Shortcut.Embeds.BotEmbeds().noBotVoice_client()
+			embed = Shortcut.Embeds.Error.noBotVoice_client()
 			await context.send(embed=embed)
 		else:
 			if voiceclient.is_playing():
@@ -311,7 +311,7 @@ class Gruvi(commands.Cog, name="gruvi"):
 		voiceclient = context.guild.voice_client
 
 		if not voiceclient:
-			embed = Shortcut.Embeds.BotEmbeds().noBotVoice_client()
+			embed = Shortcut.Embeds.Error.noBotVoice_client()
 			await context.send(embed=embed)
 		
 		else:
@@ -331,11 +331,11 @@ class Gruvi(commands.Cog, name="gruvi"):
 		authvoice = context.author.voice
 
 		if not authvoice:
-			embed = Shortcut.Embeds.BotEmbeds().authorNotInVoice()
+			embed = Shortcut.Embeds.Error.authorNotInVoice()
 			await context.send(embed=embed)
 
 		elif not voiceclient:
-			embed = Shortcut.Embeds.BotEmbeds().noBotVoice_client()
+			embed = Shortcut.Embeds.Error.noBotVoice_client()
 			await context.send(embed=embed)
 
 		elif context.bot.user in authvoice.channel.members:

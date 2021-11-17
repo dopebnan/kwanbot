@@ -4,7 +4,7 @@ import eyed3
 
 class Shortcut:
 
-	def getEmoji(self, context, discord, emojiname: str):
+	def getEmoji(context, discord, emojiname: str):
 		return f'\{discord.utils.get(context.message.guild.emojis, name=emojiname)}'
 
 	def variables(self, var: str):
@@ -13,7 +13,7 @@ class Shortcut:
 
 		return author, ID
 
-	def fileType(self, arg: str):
+	def varType(arg: str):
 		if arg == 'True' or arg == 'False':
 			ftype = 'bool'
 		elif arg == None:
@@ -27,24 +27,23 @@ class Shortcut:
 	
 		return ftype
 
-	def logging(self, message, errormsg=None):
-		with open("./logs/log.txt", 'a') as f:
-			f.write(f"[{time.strftime('%H:%M:%S', time.gmtime(time.time()))}] <{message.author}, ({message.author.id})>: {errormsg} ({message.content})\n")
+	def logging(message, errormsg=None, skip=False):
+			with open("./logs/log.txt", 'a') as f:
+				if skip is True:
+					f.write(f"[{time.strftime('%H:%M:%S', time.gmtime(time.time()))}] <{message.author}, ({message.author.id})>: {errormsg}\n")
+				else:
+					f.write(f"[{time.strftime('%H:%M:%S', time.gmtime(time.time()))}] <{message.author}, ({message.author.id})>: {errormsg} ({message.content})\n")
 
-	def pseudo_ytdl_parse(self, song):
+	def pseudo_ytdl_parse(song):
 		bar = eyed3.load(f"./assets/audio/{song}.mp3")
 		
 		lenght = round(int(bar.info.time_secs))
-		'''y = str(round(lenght % 60))
-		if len(y) < 2:
-			y = '0' + y
-		lenght = str(round( lenght // 60)) + ':' + y'''
 
 		foo = {'source': f'./assets/audio/{song}.mp3', "title": bar.tag.title, "artist": bar.tag.artist, "length": lenght}
 
 		return foo
 	
-	def queueFormat(self, queue):
+	def queueFormat(queue):
 		result = f"```fsharp\n"
 		for i in range(0, len(queue)):
 			foo = queue[i]['title'] + ' — ' + queue[i]['artist']
@@ -68,62 +67,63 @@ class Shortcut:
 			
 		
 	class Embeds:
-		def GenericError(self):
-			embed = discord.Embed(
-				title="UnknownError:",
-				description="An unknown error has occured, try again or tell bnan",
-				color=0xE3170A
-			)
-			embed.set_footer(text="sorry")
+		class Error:
+			def GenericError():
+				embed = discord.Embed(
+					title="UnknownError:",
+					description="An unknown error has occured, try again or tell bnan",
+					color=0xE3170A
+				)
+				embed.set_footer(text="sorry")
 
-			return embed
-	
-		def TypeErrorEmbed(self, type1: str, ftype: str):
-			embed = discord.Embed(
-				title="TypeError:",
-				description=f"a {type1} is required (got {ftype})",
-				color=0xE3170A
-			)
-			embed.set_footer(text="dumbass")
+				return embed
+			
+			def TypeErrorEmbed():
+				embed = discord.Embed(
+					title="TypeError:",
+					description=f"Bad variable type",
+					color=0xE3170A
+				)
+				embed.set_footer(text="dumbass")
 
-			return embed
+				return embed
 
-		def InvalidArgumentError(self, cmd):
-			embed = discord.Embed(
-				title="TypeError:",
-				description=f"{cmd} got an invalid argument",
-				color=0xE3170A
-			)
-			embed.set_footer(text="oof")
+			def InvalidArgumentError(cmd):
+				embed = discord.Embed(
+					title="TypeError:",
+					description=f"{cmd} got an invalid argument",
+					color=0xE3170A
+				)
+				embed.set_footer(text="oof")
 
-			return embed
+				return embed
 		
-		def MissingRoleError(self):
-			embed = discord.Embed(
-				title="MissingRoleError:",
-				description="Your role isn't high enough to use Developer Commands and DevTools",
-				color=0xE3170A
-			)
-			embed.set_footer(text="get fucked nerd")
+			def MissingRoleError():
+				embed = discord.Embed(
+					title="MissingRoleError:",
+					description="Your role isn't high enough to use Developer Commands and DevTools",
+					color=0xE3170A
+				)
+				embed.set_footer(text="get fucked nerd")
 
-			return embed
-		
-		class BotEmbeds:
-			def authorNotInVoice(self):
+				return embed
+			
+			def authorNotInVoice():
 				embed = discord.Embed(
 					title="You're not in a vc",
 					description="what are you, stupid?",
 					color=0xE3170A
 				)
 				return embed
-			def noBotVoice_client(self):
+
+			def noBotVoice_client():
 				embed = discord.Embed(
 					title="I'm not even in vc",
 					color=0xE3170A
 				)
 				return embed
-			
-			def ytdlErrorNotVideo(self):
+
+			def ytdlErrorNotVideo():
 				embed = discord.Embed(
 					title="That's not a video, dummy",
 					description="It was probably a livestream or something",
@@ -131,8 +131,8 @@ class Shortcut:
 				)
 				return embed
 
-		class SuccessfulEmbeds:
-			def SavingComplete(self):
+		class Misc:
+			def SavingComplete():
 				embed = discord.Embed(
 					title="Saving complete",
 					description=f"Your changes have been saved.",
@@ -143,7 +143,7 @@ class Shortcut:
 
 				return embed
 			
-			def addedToQueue(self, song):
+			def addedToQueue(song):
 				title = song['title'] 
 				
 				embed = discord.Embed(
@@ -153,8 +153,7 @@ class Shortcut:
 				
 				return embed
 			
-			# if i dont make this typo, it wont work
-			def nowPalying(self, context, song):
+			def nowPlaying(context, song):
 				title = song["title"]
 				artist = song["artist"]
 				
