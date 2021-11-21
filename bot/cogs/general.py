@@ -213,12 +213,13 @@ class General(commands.Cog, name="general"):
 			await context.send(embed=embed)
 
 	@commands.command(name="pain")
+	@commands.cooldown(1, settings["painCooldown"], BucketType.guild)
 	async def pain(self, context):
 		pic = f'./assets/img/pain/{random.choice(os.listdir("./assets/img/pain"))}'
-		msg = random.choice(["", "", "*pain.*", "*cri*", "not proud of that one", "very bigbrain moment"])
+		msg = random.choice(["", "", "*pain.*", "*cri*", "not proud of that one", "very bigbrain moment", "so dumb smh", "mf"])
 		await context.send(msg, file=discord.File(pic))
 
-		if settings["picReturn"]:
+		if settings["painReturn"]:
 			await context.send(f"*Cooldown has been set to **{settings['painCooldown']}s***")
 		print(f"[r!pain], {pic}. {msg}\n")
 		Shortcut.logging(context.message, f"pic: {pic}, message: {msg}")

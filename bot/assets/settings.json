@@ -10,6 +10,6 @@
   "uwu": true,
   "uwuCooldown": 15,
   "uwuReturn": true,
-  "painCooldown": 15,
-  "painReturn": false
+  "painCooldown": 5,
+  "painReturn": true
 }

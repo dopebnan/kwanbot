@@ -183,6 +183,39 @@ class DevTools(commands.Cog, name="devtools"):
 
 			embed = Shortcut.Embeds.Misc.SavingComplete()
 			await context.send(embed=embed)
+
+	@commands.command(name="painDev")
+	@commands.has_any_role(config["modID"][0], config["modID"][1])
+	async def painDev(self, context, delim=None, value=None):
+		if value is not None and value.isnumeric():
+			value = int(value)
+		elif delim is not None:
+			raise BadArgument
+		
+		if delim == "Cooldown":
+			settings["painCooldown"] = value
+		
+		elif delim == "Return":
+			settings["painReturn"] = bool(value)
+		
+		else:
+			foo = 1
+		
+		if "foo" in locals():
+			embed = discord.Embed( title="DevTools", description="r!pain values", color=0x8000B2)
+			embed.add_field( name="painCooldown:", value=f"{settings['painCooldown']}")
+			embed.add_field( name="painReturn", value=f"{settings['painReturn']}")
+			embed.set_footer(text="nerdshit")
+			
+			await context.send(embed=embed)
+		
+		else:
+			settings["tag"] = "Custom"
+			with open("assets/settings.json", 'w') as f:
+				json.dump(settings, f, indent=2)
+
+			embed = Shortcut.Embeds.Misc.SavingComplete()
+			await context.send(embed=embed)
 	
 	@commands.command(name="autoDev")
 	@commands.has_any_role(config["modID"][0], config["modID"][1])

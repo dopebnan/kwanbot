@@ -1,5 +1,7 @@
 # Changelog 
 
+!! You should use a proper markdown viewer !!
+
 ## Time Spent Coding: 50.5 hours
 
 
@@ -8,17 +10,27 @@
 <sub>Unreleased</sub>
 
 ## Code
+* [x] Made **r!log** not log comment logs twice (commit#a1c2e39)
+* [x] Moved all logging and message sends at the end of the error-handling function, no more code repetition (commit#a1c2e39)
+* [x] Removed all variable type checks in the error-handling function, for optimization (commit#a1c2e39)
+* [x] Removed most command checks in the error-handling function, for optimization (commit#a1c2e39)
 * [x] Removed unused functions (commit#285486f)
 * [x] Fixed **bot2-4_play-2** (commit#285486f)
-* [ ] make code look nice and clean and neat and good and shit
-
 
 ## DevTools 1.1.1
+* [x] Tidied up embeds (commit#a1c2e39)
+* [x] Removed unused TRY functions (commit#a1c2e39)
+* [x] Removed variable type checks (commit#a1c2e39)
+* [x] Removed unused functions (commit#a1c2e39)
 
 ## Shortcut
-* [x] Fixed formatting error for **nowPalying** (commit#285486f)
-* [ ] Refactoring everything. This is a mess. This isn't okay. Why did i do it like that. Stop it.
-* [ ] Make DevTool errors more verbose
+* [x] Added a **logging()** function, where it doesn't log the full message *(useful for logging messages)* (commit#a1c2e39)
+* [x] Refactored and reorganized embeds, because they weren't (commit#a1c2e39)
+* [ ] Made DevTools errors more verbose
+* [x] Removed **self** variable from functions that weren't using it (commit#a1c2e39)
+* [x] Removed unused code (commit#a1c2e39)
+* [x] Fixed formatting error for **nowPlaying** (commit#285486f)
+* [x] Fixed typos (commit#a1c2e39)
 
 ## Configs
 * [x] Added **r!pain** values (commit#285486f)
@@ -27,12 +39,15 @@
 * [x] Added **r!pain**, pics that invoked pain while coding the bot (commit#285486f)  <sub>idea by pigon</sub>
 
 ## UX (DevTools)
-* [ ] Added **r!painDev Cooldown int**, change **r!pain** cooldown 
+* [x] Added **r!painDev Cooldown int**, change **r!pain** cooldown 
+* [x] Added **r!painDev Return bool**, if **r!pain** should return the cooldown after pics
+* [x] Changed every command that takes a boolean, they now take integers as booleans (0 -> False, 1 -> True). Was needed for optimization. (commit#a1c2e39)
+    *(Ex. r!autoDev Switch True -> r!autoDev Switch 1)*
 
 ## Misc
 * [x] Reformatted the changelog (commit#9ea5819)
 
-## TSC: 2.5h
+## TSC: 5h
 
 
 # v2.1 - GRUVI'S SPIRIT UPDATE!! I.

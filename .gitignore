@@ -6,6 +6,7 @@ test.*
 bot/assets/img/pic/*
 bot/assets/img/uwu/*
 bot/assets/img/test/*
+bot/assets/img/pain/*
 bot/logs
 bot/assets/audio/*
 !bot/assets/audio/test*.mp3
@@ -13,6 +14,7 @@ asd.md
 bot/assets/icons/*
 *FORMAT.*
 release/*
+
 
 
 # get fucked nerd
