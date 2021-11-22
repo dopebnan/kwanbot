@@ -1,5 +1,6 @@
 
 bot/assets/config.json
+bot/assets/settings.json
 data.json
 *.bat
 test.*
@@ -14,6 +15,7 @@ asd.md
 bot/assets/icons/*
 *FORMAT.*
 release/*
+
 
 
 

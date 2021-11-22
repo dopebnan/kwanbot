@@ -18,7 +18,7 @@ goodReply = ["you are very yes", "hel ye", "pogpogpog", "poggers", "<:pogfield:8
 
 onCooldown = ["Slow down there buckaroo", "not so fast", "stop", "cooldown be poopin them parties", "cooldown rule", "no.", "anti-spam caught yo ass"]
 missingArgPix = ["HOW MANY TIMES???", "you forgot the part where number", "where number", "HOW MANY PICS???", "you need to give me a number too smh", "me need number innit"]
-status = ["r!help", "I'm gonna shit yourself", "bot be poggin", "omnibussy pog", "nope, it was just penis", "pigon be walkin doe", "glori comrade", "innit", "Ah yes, anti-bussyn't fancy water", "kwan isn't britain", "pee is coming out of my eyes", "raid shadow leg", "nipple crippling", "decreasing molesting rates", "slicing foreskin", "peeing from balls", "cancelling global warming", "have hair in your food", "finna bust out the thighstash", ""]
+status = ["r!help", "I'm gonna shit yourself", "bot be poggin", "omnibussy pog", "nope, it was just penis", "pigon be walkin doe", "glori comrade", "innit", "Ah yes, anti-bussyn't fancy water", "kwan isn't britain", "pee is coming out of my eyes", "raid shadow leg", "nipple crippling", "decreasing molesting rates", "slicing foreskin", "peeing from balls", "cancelling global warming", "have hair in your food", "finna bust out the thighstash", "piss shit and cum", "shiddin'", "lock meself outta the fridge", "OH NO! BUSSY BROKEN!", "who fucked oil", "transparent nutrient", "ALPHA SHITTING", "ratio + bald goku", "DO NOT FUCK SHIT"]
 
 # File checks and json opening
 if not os.path.isfile("assets/version.json"):
@@ -151,7 +151,7 @@ async def on_command_error(context, error):
 	print(error)
 	if x:
 		await context.send(embed=embed)
-		Shortcut.logging(context.message, str(error).split("\n", 1)[0])
+		Shortcut.logging(context.message, type(error))
 
 		raise error
 
@@ -181,4 +181,4 @@ async def on_message(message):
 
 
 
-bot.run(config["TESTTOKEN"])
+bot.run(config["TOKEN"])

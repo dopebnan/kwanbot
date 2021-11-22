@@ -59,7 +59,7 @@ class Help(commands.Cog, name="help"):
 		)
 		embed.add_field(
 			name="r!ping:",
-			value="get the bot ping"
+			value="get the bot latency"
 		)
 		embed.add_field(
 			name="r!report:",
@@ -75,6 +75,10 @@ class Help(commands.Cog, name="help"):
 		   name="r!autopic x:",
 		   value="Loops r!pic for **x** amount of times",
 		   inline=True
+		)
+		embed.add_field(
+			name="r!pain",
+			value="Get a pic that invoked pain while making bot <:eww:894571137441357844>"
 		)
 		embed.add_field(
 			name="r!succ:",
@@ -160,42 +164,57 @@ class Help(commands.Cog, name="help"):
 		)
 		embed.add_field(
 			name="r!reset",
-			value="*Reverts every setting to default (do a r!reload after it)*",
+			value="*Reverts every settings to default (do a r!reload after it)*",
 			inline=True
 		)
 		embed.add_field(
 			name="r!picDev Cooldown __picCooldown: int__",
-			value="*Change the cooldown for r!pic in seconds. Takes in an integer* ***(r!picCooldown 30)***",
+			value="*Change the cooldown for r!pic in seconds. Takes in an integer* ***(r!picDev Cooldown 30)***",
 			inline=False
 		)
 		embed.add_field(
-			name="r!picDev Return __picReturn: bool__",
-			value="*Turn on/off the cooldown message for r!pic* ***(r!picReturn False)***",
+			name="r!picDev Return __picReturn: int__",
+			value="*Turn the cooldown message on/off for r!pic* ***(r!picDev Return 0)***",
 			inline=False
 		)
 		embed.add_field(
-			name="r!autoDev Switch __autopic: bool__",
-			value="*Turn on/off r!autopic* ***(r!autoSwitch False)***",
+			name="r!autoDev Switch __autopic: int__",
+			value="*Turn r!autopic on/off * ***(r!autoDev Switch 0)***",
 			inline=False
 		)
 		embed.add_field(
 			name="r!autoDev Sleep __autopicSleep: int__",
-			value="*Change the cooldown inbetween images for r!autopic in seconds* ***(r!autoSwitch False)***",
+			value="*Change the cooldown inbetween images for r!autopic in seconds* ***(r!autoDev Sleep 15)***",
 			inline=False
 		)
 		embed.add_field(
-			name="r!autoDev Return __autopicReturn: bool__",
-			value="*Turn on/off the cooldown message for r!autopic* ***(r!autoReturn True)***",
+			name="r!autoDev Return __autopicReturn: int__",
+			value="*Turn the cooldown message on/off for r!autopic* ***(r!autoDev Return 1)***",
 			inline=False
 		)
 		embed.add_field(
 			name="r!uwuDev Switch __uwu: bool__",
-			value="*Turn on/off r!uwu* ***(r!uwuSwitch True)***",
+			value="*Turn r!uwu on/off* ***(r!uwuDev Switch 1)***",
 			inline=False
 		)
 		embed.add_field(
 			name="r!uwuDev Cooldown __uwuCooldown: int__",
-			value="*Turn on/off r!uwu* ***(r!uwuSwitch True)***",
+			value="*Change the cooldown for r!uwu* ***(r!uwuDev Cooldown 15)***",
+			inline=False
+		)
+		embed.add_field(
+			name="r!uwuDev Return __uwuReturn: int__",
+			value="*Turn the cooldown message on/off for r!uwu* ***(r!uwuDev Return 1)***",
+			inline=False
+		)
+		embed.add_field(
+			name="r!painDev Cooldown __painCooldown: int__",
+			value="*Change the cooldown for r!pain* ***(r!painDev Cooldown 15)***",
+			inline=False
+		)
+		embed.add_field(
+			name="r!painDev Return __painReturn: int__",
+			value="*Turn the cooldown message on/off for r!pain* ***(r!painDev Return 0)***",
 			inline=False
 		)
 		embed.add_field(

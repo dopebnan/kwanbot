@@ -49,8 +49,8 @@ devJSON = {
   "uwu": True,
   "uwuCooldown": 5,
   "uwuReturn": True,
-  "painCooldown": 15,
-  "painReturn": False}
+  "painCooldown": 5,
+  "painReturn": True}
 
 defaultJSON_obj = json.dumps(defaultJSON, indent=2)
 devJSON_obj = json.dumps(devJSON, indent=2)
