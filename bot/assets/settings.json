@@ -1,15 +1,15 @@
 {
-  "tag": "Custom",
-  "settingsVer": "2.2",
-  "picCooldown": 1,
-  "picReturn": true,
-  "autopic": true,
+  "tag": "Default-auto",
+  "settingsVer": "2.1",
+  "picCooldown": 30,
+  "picReturn": false,
+  "autopic": false,
   "autopicSleep": 15,
   "autopicCooldown": 60,
-  "autopicReturn": true,
-  "uwu": true,
+  "autopicReturn": false,
+  "uwu": false,
   "uwuCooldown": 15,
   "uwuReturn": true,
-  "painCooldown": 5,
-  "painReturn": true
+  "painCooldown": 15,
+  "painReturn": false
 }

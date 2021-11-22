@@ -14,6 +14,7 @@ britCommand = ["OI LUV", "shag ye mum, das wha' I'm finna do", "ey bruv", "ey ru
 succCommand = ["al hal ze bussy, al hal ze jus, al hal glorious feeshland", "by the light of Kwum, and the darkness of the Omnibussy, we shan't fall to cappy bullshit, comrade.", "May our realm look like Realm 0", "***S U C C***", "And with that outta the way, let's get ourselves some fermented moosucculents, shall we?", "Let Kwum, the Bussylords, and the Omnibussy hear our prayers. Succ ye.", "Let us pray to Marxboi, and the Omnibussy, comrade. Succ", "may ze omnibussy grant us greit tingz", "marxboi may grent uz wit jus", ]
 uwuCommand = ["hwands in the aiw, this is a wobbewy!!\nPUT DA UwU's IN DA BWAG", "you can make my earfquake..\nbut i can make your bedrock :smirk::smirk::smirk:", "hey! did you just fart? :point_right::point_left:\n*cuz your blowing me away*", "*roses **can** be red*\n*violets **aren't** blue* \n*this is an actual poem*\n*in conclusion: **i'd like to rail you***\n:smirk::smirk::smirk:"]
 
+# Loading json files
 if not os.path.isfile("assets/config.json"):
 	sys.exit("config.json not found.")
 else:
@@ -26,6 +27,11 @@ else:
 	with open("assets/settings.json") as f:
 		settings = json.load(f)
 
+if not os.path.isfile("assets/version.json"):
+	sys.exit("version.json not found.")
+else:
+	with open("assets/version.json") as f:
+		version = json.load(f)
 
 
 class General(commands.Cog, name="general"):
@@ -46,17 +52,17 @@ class General(commands.Cog, name="general"):
 		)
 		embed.add_field(
 			name="version:",
-			value=f'{config["VERSION"]} {config["TITLE"]}',
+			value=f'{version["VERSION"]} {version["TITLE"]}',
 			inline=True
 		)
 		embed.add_field(
 			name="DevTool version:",
-			value=f"{config['DEVTOOLVER']}",
+			value=f"{version['DEVTOOLVER']}",
 			inline=True
 		)
 		embed.add_field(
 			name="Last update was:",
-			value=f"<t:{config['lastUpdate']}:R>",
+			value=f"<t:{version['lastUpdate']}:R>",
 		)
 		embed.set_footer(text=f"Time spent coding: 20hrs")
 		await context.send(embed=embed)
@@ -90,7 +96,7 @@ class General(commands.Cog, name="general"):
 		)
 		embed.add_field(
 			name="Time since last update",	
-			value=f"<t:{config['lastUpdate']}:R>"
+			value=f"<t:{version['lastUpdate']}:R>"
 		)
 		embed.set_footer(text="vibecheck")
 		await context.send(embed=embed)

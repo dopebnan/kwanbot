@@ -6,15 +6,16 @@
 
 
 
-# Cleanup Update
-<sub>Unreleased</sub>
+# v2.2 - CLEANUP UPDATE!!!
+<sub>Nov. 22, 2021</sub>
 
 ## Code
-* [x] Made **r!log** not log comment logs twice (commit#a1c2e39)
+* [x] When **settings.json** is missing, bot makes a new one, instead of force-quitting
 * [x] Moved all logging and message sends at the end of the error-handling function, no more code repetition (commit#a1c2e39)
 * [x] Removed all variable type checks in the error-handling function, for optimization (commit#a1c2e39)
 * [x] Removed most command checks in the error-handling function, for optimization (commit#a1c2e39)
 * [x] Removed unused functions (commit#285486f)
+* [x] Removed config file checks from cogs
 * [x] Fixed **bot2-4_play-2** (commit#285486f)
 
 ## DevTools 1.1.1
@@ -22,11 +23,11 @@
 * [x] Removed unused TRY functions (commit#a1c2e39)
 * [x] Removed variable type checks (commit#a1c2e39)
 * [x] Removed unused functions (commit#a1c2e39)
+* [x] Removed config file checks
 
 ## Shortcut
 * [x] Added a **logging()** function, where it doesn't log the full message *(useful for logging messages)* (commit#a1c2e39)
 * [x] Refactored and reorganized embeds, because they weren't (commit#a1c2e39)
-* [ ] Made DevTools errors more verbose
 * [x] Removed **self** variable from functions that weren't using it (commit#a1c2e39)
 * [x] Removed unused code (commit#a1c2e39)
 * [x] Fixed formatting error for **nowPlaying** (commit#285486f)
@@ -34,20 +35,23 @@
 
 ## Configs
 * [x] Added **r!pain** values (commit#285486f)
+* [x] Added **version.json**, and moved the version stuff from **config.json** to **version.json**
 
 ## UX
 * [x] Added **r!pain**, pics that invoked pain while coding the bot (commit#285486f)  <sub>idea by pigon</sub>
 
 ## UX (DevTools)
-* [x] Added **r!painDev Cooldown int**, change **r!pain** cooldown 
-* [x] Added **r!painDev Return bool**, if **r!pain** should return the cooldown after pics
-* [x] Changed every command that takes a boolean, they now take integers as booleans (0 -> False, 1 -> True). Was needed for optimization. (commit#a1c2e39)
+* [x] Added **r!painDev Cooldown int**, change **r!pain** cooldown (commit#59011a4)
+* [x] Added **r!painDev Return bool**, if **r!pain** should return the cooldown after pics (commit#59011a4)
+* [x] Changed every command that takes a boolean. They now take integers as booleans (0 -> False, 1 -> True). Was needed for optimization. (commit#a1c2e39)
     *(Ex. r!autoDev Switch True -> r!autoDev Switch 1)*
+* [x] Made **r!log %msg%** only log messages
+* [x] Started logging error messages too
 
 ## Misc
 * [x] Reformatted the changelog (commit#9ea5819)
 
-## TSC: 5h
+## TSC: 5.5h
 
 
 # v2.1 - GRUVI'S SPIRIT UPDATE!! I.

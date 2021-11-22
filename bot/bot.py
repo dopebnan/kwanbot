@@ -20,6 +20,31 @@ onCooldown = ["Slow down there buckaroo", "not so fast", "stop", "cooldown be po
 missingArgPix = ["HOW MANY TIMES???", "you forgot the part where number", "where number", "HOW MANY PICS???", "you need to give me a number too smh", "me need number innit"]
 status = ["r!help", "I'm gonna shit yourself", "bot be poggin", "omnibussy pog", "nope, it was just penis", "pigon be walkin doe", "glori comrade", "innit", "Ah yes, anti-bussyn't fancy water", "kwan isn't britain", "pee is coming out of my eyes", "raid shadow leg", "nipple crippling", "decreasing molesting rates", "slicing foreskin", "peeing from balls", "cancelling global warming", "have hair in your food", "finna bust out the thighstash", ""]
 
+# File checks and json opening
+if not os.path.isfile("assets/version.json"):
+	sys.exit("version.json not found.")
+else:
+	with open("assets/version.json") as f:
+		version = json.load(f)
+	
+defaultJSON = {
+		"tag": "Default-auto",
+		"settingsVer": f"{version['VERSION']}",
+		"picCooldown": 30,
+		"picReturn": False,
+		"autopic": False,
+		"autopicSleep": 15,
+		"autopicCooldown": 60,
+		"autopicReturn": False,
+		"uwu": False,
+		"uwuCooldown": 15,
+		"uwuReturn": True,
+		"painCooldown": 15,
+		"painReturn": False
+		}
+
+defaultJSON_obj = json.dumps(defaultJSON, indent=2)
+
 if not os.path.isfile("assets/config.json"):
 	sys.exit(f"config.json not found. (dir: {os.path})")
 else:
@@ -30,10 +55,13 @@ if not os.path.isdir("./logs/"):
 	os.mkdir("./logs")
 
 if not os.path.isfile("assets/settings.json"):
-	sys.exit("settings.json not found.")
+	with open("assets/settings.json", "w") as f:
+		f.write(defaultJSON_obj)
 else:
 	with open("assets/settings.json") as f:
 		settings = json.load(f)
+
+
 
 intents = discord.Intents.default()
 
@@ -60,10 +88,11 @@ if __name__ == "__main__":
 
 @bot.event
 async def on_command_completion(ctx):
-	if not ctx.command.qualified_name == "pic" or not ctx.command.qualified_name == "log":
-		Shortcut.logging(ctx.message)
 	if ctx.command.qualified_name == "log":
-		Shortcut.logging(ctx.message, "None (r!log)", skip=True) # Unneeded, but makes log look nicer
+		pass # Unneeded, but makes log look nicer
+	if not ctx.command.qualified_name == "pic" and not ctx.command.qualified_name == "log":
+		Shortcut.logging(ctx.message) 
+	
 	
 
 @bot.event
@@ -78,7 +107,6 @@ async def on_command_error(context, error):
 			description=f"***{round(seconds)}s** left of cooldown. wait.*",
 			color=0x4361EE
 		)
-		await context.send(embed = embed)
 
 	elif isinstance(error, commands.MissingRequiredArgument):
 		if context.command.qualified_name == "autopic":
@@ -123,7 +151,7 @@ async def on_command_error(context, error):
 	print(error)
 	if x:
 		await context.send(embed=embed)
-		Shortcut.logging(context.message)
+		Shortcut.logging(context.message, str(error).split("\n", 1)[0])
 
 		raise error
 

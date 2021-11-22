@@ -11,23 +11,20 @@ from shortcut import Shortcut
 import discord
 from discord.ext import commands
 
+with open("assets/config.json") as f:
+	config = json.load(f)
 
 
-if not os.path.isfile("assets/config.json"):
-	sys.exit("config.json not found.")
-else:
-	with open("assets/config.json") as f:
-		config = json.load(f)
+with open("assets/settings.json") as f:
+	settings = json.load(f)
 
-if not os.path.isfile("assets/settings.json"):
-	sys.exit("settings.json not found.")
-else:
-	with open("assets/settings.json") as f:
-		settings = json.load(f)
+
+with open("assets/version.json") as f:
+	version = json.load(f)
 
 defaultJSON = {
 	"tag": "Default-auto",
-	"settingsVer": f"{config['VERSION']}",
+	"settingsVer": f"{version['VERSION']}",
 	"picCooldown": 30,
 	"picReturn": False,
 	"autopic": False,
@@ -42,7 +39,7 @@ defaultJSON = {
 
 devJSON = {
   "tag": "Dev",
-  "settingsVer": f"{config['VERSION']}",
+  "settingsVer": f"{version['VERSION']}",
   "picCooldown": 5,
   "picReturn": True,
   "autopic": True,
@@ -79,12 +76,12 @@ class DevTools(commands.Cog, name="devtools"):
 		embed.add_field(name="r!uwu Images:", value=f"`{uwuNums}`")
 		embed.add_field(name="settings.json Tag:", value=f"`# {settings['tag']}`", inline=False)
 		embed.add_field(name="settings.json Version:", value=f"`{settings['settingsVer']}`")
-		embed.add_field(name="Version:",value=f"`{config['VERSION']}`")
-		embed.add_field(name="DevTools Version:", value=f"`{config['DEVTOOLVER']}`")
+		embed.add_field(name="Version:",value=f"`{version['VERSION']}`")
+		embed.add_field(name="DevTools Version:", value=f"`{version['DEVTOOLVER']}`")
 		embed.add_field(name="ID:", value=f"`{self.bot.user.id}`", inline=False)
 		embed.add_field(name="API Version:", value=f"`{discord.__version__}`")
 		embed.add_field(name="Python Version:", value=f"`{platform.python_version()}`")
-		embed.add_field(name="Time Since Last Update", value=f"<t:{config['lastUpdate']}:R>", inline=False)
+		embed.add_field(name="Time Since Last Update", value=f"<t:{version['lastUpdate']}:R>", inline=False)
 		embed.set_footer(text="vibecheck")
 
 		await context.send(embed=embed)

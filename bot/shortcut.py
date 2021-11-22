@@ -81,7 +81,7 @@ class Shortcut:
 			def TypeErrorEmbed():
 				embed = discord.Embed(
 					title="TypeError:",
-					description=f"Bad variable type",
+					description=f"You used the wrong variable type",
 					color=0xE3170A
 				)
 				embed.set_footer(text="dumbass")

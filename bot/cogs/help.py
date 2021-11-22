@@ -15,11 +15,11 @@ else:
 	with open("assets/config.json") as f:
 		config = json.load(f)
 
-if not os.path.isfile("assets/settings.json"):
-	sys.exit("settings.json not found.")
+if not os.path.isfile("assets/version.json"):
+	sys.exit("version.json not found.")
 else:
-	with open("assets/settings.json") as f:
-		settings = json.load(f)
+	with open("assets/version.json") as f:
+		version = json.load(f)
 
 
 
@@ -145,7 +145,7 @@ class Help(commands.Cog, name="help"):
 	async def devtools(self, context):
 		embed = discord.Embed(
 			title="DevTools",
-			description=f'{config["DEVTOOLVER"]}',
+			description=f'{version["DEVTOOLVER"]}',
 			color=0x6F2377
 		)
 		embed.add_field(
