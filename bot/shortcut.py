@@ -5,7 +5,7 @@ import eyed3
 class Shortcut:
 
 	def getEmoji(context, discord, emojiname: str):
-		return f'\{discord.utils.get(context.message.guild.emojis, name=emojiname)}'
+		return f'\\{discord.utils.get(context.message.guild.emojis, name=emojiname)}'
 
 	def variables(self, var: str):
 		author = var.author

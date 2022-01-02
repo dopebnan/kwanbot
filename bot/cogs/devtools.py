@@ -8,6 +8,9 @@ from discord.ext.commands.errors import BadArgument
 
 from shortcut import Shortcut
 
+# TODO: change mod id thingy \
+	# @has_any_role()
+
 import discord
 from discord.ext import commands
 
@@ -62,7 +65,7 @@ class DevTools(commands.Cog, name="devtools"):
 		self.bot = bot
 		
 	@commands.command(name="filecheck", aliases=["dskchk", "chkdsk", "syscheck", "fsck"])
-	@commands.has_any_role(config["modID"][0], config["modID"][1])
+	@commands.has_any_role(config["modID"][0], config["modID"][1], config["modID"][2])
 	async def filecheck(self, context):
 		# Reloading settings.json in case it had any changes
 		with open("assets/settings.json") as f:
@@ -87,7 +90,7 @@ class DevTools(commands.Cog, name="devtools"):
 		await context.send(embed=embed)
 
 	@commands.command(name="reset", aliases=["default"])
-	@commands.has_any_role(config["modID"][0], config["modID"][1])
+	@commands.has_any_role(config["modID"][0], config["modID"][1], config["modID"][2])
 	async def reset(self, context):
 		with open("assets/settings.json", 'w') as f:
 			f.write(defaultJSON_obj)
@@ -99,7 +102,7 @@ class DevTools(commands.Cog, name="devtools"):
 		await context.send(embed=embed)
 
 	@commands.command(name="debug", aliases=["debugmode", "devmode", "developermode"])
-	@commands.has_any_role(config["modID"][0], config["modID"][1])
+	@commands.has_any_role(config["modID"][0], config["modID"][1], config["modID"][2])
 	async def debug(self, context):
 		# Replace settings.json with the dev settings
 		with open("assets/settings.json", 'w') as f:
@@ -122,7 +125,7 @@ class DevTools(commands.Cog, name="devtools"):
 		await context.send(embed=embed)
 
 	@commands.command(name="log", aliases=["dmlog", "logs", "givlog", "wood"])
-	@commands.has_any_role(config["modID"][0], config["modID"][1])
+	@commands.has_any_role(config["modID"][0], config["modID"][1], config["modID"][2])
 	async def log(self, context, *args):
 
 		arg = "".join(args)
@@ -139,7 +142,7 @@ class DevTools(commands.Cog, name="devtools"):
 			await context.send(embed=discord.Embed(title="Comment logged successfully", color=0x0C8708))
 
 	@commands.command(name="newlog", aliases=["deletelog", "fucklog"])
-	@commands.has_any_role(config["modID"][0], config["modID"][1])
+	@commands.has_any_role(config["modID"][0], config["modID"][1], config["modID"][2])
 	async def newlog(self, context):
 		os.rename("./logs/log.txt", f"./logs/log{int(time.time())}.txt")
 		with open("./logs/log.txt", 'a') as f:		
@@ -149,7 +152,7 @@ class DevTools(commands.Cog, name="devtools"):
 		await context.send(embed=embed)
 
 	@commands.command(name="picDev")
-	@commands.has_any_role(config["modID"][0], config["modID"][1])
+	@commands.has_any_role(config["modID"][0], config["modID"][1], config["modID"][2])
 	async def picDev(self, context, delim=None, value=None):
 		if value is not None and value.isnumeric():
 			value = int(value)
@@ -182,7 +185,7 @@ class DevTools(commands.Cog, name="devtools"):
 			await context.send(embed=embed)
 
 	@commands.command(name="painDev")
-	@commands.has_any_role(config["modID"][0], config["modID"][1])
+	@commands.has_any_role(config["modID"][0], config["modID"][1], config["modID"][2])
 	async def painDev(self, context, delim=None, value=None):
 		if value is not None and value.isnumeric():
 			value = int(value)
@@ -215,7 +218,7 @@ class DevTools(commands.Cog, name="devtools"):
 			await context.send(embed=embed)
 	
 	@commands.command(name="autoDev")
-	@commands.has_any_role(config["modID"][0], config["modID"][1])
+	@commands.has_any_role(config["modID"][0], config["modID"][1], config["modID"][2])
 	async def autoDev(self, context, delim=None, value=None):
 		if value is not None and value.isnumeric():
 			value = int(value)
@@ -253,7 +256,7 @@ class DevTools(commands.Cog, name="devtools"):
 			await context.send(embed=embed)
 		
 	@commands.command(name="uwuDev")
-	@commands.has_any_role(config["modID"][0], config["modID"][1])
+	@commands.has_any_role(config["modID"][0], config["modID"][1], config["modID"][2])
 	async def uwuDev(self, context, delim=None, value=None):
 		if value is not None and value.isnumeric():
 			value = int(value)

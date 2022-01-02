@@ -209,7 +209,7 @@ class Gruvi(commands.Cog, name="gruvi"):
 			if not os.path.isfile(f"./assets/audio/{song}.mp3"):
 				raise discord.errors.InvalidArgument		
 			else:
-				foo = Shortcut().pseudo_ytdl_parse(song)
+				foo = Shortcut.pseudo_ytdl_parse(song)
 				self.music_queue.append([foo, voiceclient, context.author])
 				self.q.append(foo)
 				await context.send(embed=Shortcut.Embeds.Misc.addedToQueue(foo))
@@ -255,7 +255,7 @@ class Gruvi(commands.Cog, name="gruvi"):
 				elif i == 2:
 					song = "last_cum"
 
-				__song = Shortcut().pseudo_ytdl_parse(song)
+				__song = Shortcut.pseudo_ytdl_parse(song)
 				self.music_queue.append([__song, voiceclient, context.author])
 				self.q.append(__song)
 
@@ -268,7 +268,7 @@ class Gruvi(commands.Cog, name="gruvi"):
 	async def queue(self, context):
 		result = ""
 		print(self.q)
-		result = Shortcut().queueFormat(self.q)
+		result = Shortcut.queueFormat(self.q)
 		print(result)
 
 		if result != "":

@@ -201,7 +201,7 @@ class General(commands.Cog, name="general"):
 			await context.send(embed=embed)
 	
 	@commands.command(name="reload", aliases=["restart"])
-	@commands.has_any_role(config["modID"][0], config["modID"][1])
+	@commands.has_any_role(config["modID"][0], config["modID"][1], config["modID"][2])
 	async def reload(self, context):
 		try:
 			with open("assets/config.json") as f:

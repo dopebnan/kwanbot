@@ -2,7 +2,7 @@
 
 !! You should use a proper markdown viewer !!
 
-## Time Spent Coding: 50.5 hours
+## Time Spent Coding: 56 hours
 
 
 
