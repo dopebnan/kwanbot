@@ -7,7 +7,6 @@ import time
 
 from assets import shortcut, embeds
 
-# TODO: move bugs to github
 # TODO: linux
 
 import discord
@@ -31,7 +30,7 @@ status = ["r!help", "I'm gonna shit yourself", "bot be poggin'", "nope, it was j
 			"innit", "pee is coming out of my eyes", "raid shadow leg", "nipple crippling", "decreasing molesting rates",
 			"slicing foreskin", "peeing from balls", "cancelling global warming", "have hair in your food", "shiddin'",
 			"lock meself outta the fridge", "OH NO! BUSSY BROKEN!", "who fucked oil", "transparent nutrient",
-			"ALPHA SHITTING", "ratio + bald goku", "DO NOT FUCK SHIT", "PADORU PADORUUU"]
+			"ALPHA SHITTING", "ratio + bald goku", "DO NOT FUCK SHIT"]
 
 # File checks and json opening
 if not os.path.isfile("assets/version.json"):
@@ -164,7 +163,7 @@ async def on_command_error(context, error):
 			x = False
 		else:	
 			embed = embeds.unknown_error()
-		
+
 	print(error)
 	if x:
 		await context.send(embed=embed)

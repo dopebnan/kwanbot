@@ -80,18 +80,13 @@ class General(commands.Cog, name="general"):
 			name="Last update was:",
 			value=f"<t:{version['lastUpdate']}:R>",
 		)
-		embed.set_footer(text=f"Time spent coding: 6hrs")
+		embed.set_footer(text=f"Time spent coding: 6hrs") # TODO
 		await context.send(embed=embed)
 
 	@commands.command(name="changelog", aliases=["change", "changes", "updates"])
 	async def changelog(self, context):
 		file = discord.File('../changelog.md')
 		await context.send(random.choice(["updates innit", "changes", "nerd shit"]), file=file)
-
-	@commands.command(name="bugtracker", aliases=["bugs", "buglist"])
-	async def bugtracker(self, context):
-		file = discord.File('../bugtracker.md')
-		await context.send("bugs, i have", file=file)
 
 	@commands.command(name="check", aliases=["chk"])
 	async def check(self, context):
@@ -124,7 +119,13 @@ class General(commands.Cog, name="general"):
 
 	@commands.command(name="report", aliases=["bugreport", "bug"])
 	async def report(self, context):
-		await context.send(random.choice(["DM bnanboi", "spam the devs", "spam bnan", "ping banan or smth", "tell the devs innit"]))  # TODO
+		embed = discord.Embed(
+			title="Report",
+			description="To file a report, go to the [bot's page](https://github.com/dopebnan/kwanbot/issues), and open"
+			" 	an issue there!",
+			color=0x7209b7
+		)
+		await context.send(embed=embed)
 
 	@commands.command(name="pic")
 	@commands.cooldown(1, settings["picCooldown"], BucketType.guild)

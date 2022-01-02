@@ -10,9 +10,9 @@
 ## Code
 * [x] Made code more pythonic (commit#91edc69)
   * [x] reformatted/organized code (commit#91edc69)
-* [x] Improved Cogs.Gruvi
+* [x] Improved Cogs.Gruvi (commit#284f391)
+* [x] Moved bugs to GitHub Issue tracker
 * [ ] Work on bugs
-* [ ] Move bugs to GitHub Issues
 * [ ] Work on linux compatibility
 * [ ] 24/7 hosting
 
@@ -22,6 +22,8 @@
 
 ## UI
 * [ ] r!playfile
+* [x] `r!report` now links you to the bot's GitHub page
+* [x] Removed `r!bugtracker`, it's now on GitHub
 
 ## TSC: 2.5h 
 
