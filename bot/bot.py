@@ -95,7 +95,7 @@ async def status_task():
 
 bot.remove_command("help")
 if __name__ == "__main__":
-	print("ASd")
+	pass
 
 bot.load_extension('cogs.help')
 bot.load_extension('cogs.general')

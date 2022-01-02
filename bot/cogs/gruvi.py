@@ -8,8 +8,7 @@ imagine complying with legal stuff, couldn't be me smh
 # GRUVI'S SPIRIT
 
 # TODO: playfile
-
-
+import asyncio
 import json
 import os
 import sys
@@ -32,6 +31,8 @@ if not os.path.isfile("assets/settings.json"):
 else:
 	with open("assets/settings.json") as f:
 		settings = json.load(f)
+
+popcat = "<a:popcat:888905645431070742>"
 
 
 class Gruvi(commands.Cog, name="gruvi"):
@@ -61,57 +62,13 @@ class Gruvi(commands.Cog, name="gruvi"):
 				'length': info['duration']
 				}
 
-	def play_next(self):
-		if len(self.music_queue) > 0:
-			self.is_playing = True
-
-			song = self.music_queue[0][0]['source']
-
-			self.music_queue.pop(0)
-
-			if not song.startswith("./"):
-				a = self.FFMPEG_OPTS["bopts"]
-				b = self.FFMPEG_OPTS["opts"]
-				print(True)
-			else:
-				a = None
-				b = None
-
-			self.vc.play(discord.FFmpegPCMAudio(song, before_options=a, options=b), after=lambda e: self.play_next())
-		else:
-			self.is_playing = False
-
-	# function not used, probs needs deleting
-	async def __play_music(self):
-		if len(self.music_queue) > 0:
-			self.is_playing = True
-
-			url = self.music_queue[0][0]['source']
-
-			'''if self.vc == "" or not self.vc.is_connected():
-				self.vc = await self.music_queue[0][1].connect()
-			else:
-				self.vc = await self.bot.move_to(self.music_queue[0][1])'''
-
-			self.music_queue.pop(0)
-
-			self.vc.play(discord.FFmpegPCMAudio(url,
-												before_options="-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5",
-												options='-vn'
-											),
-												after=lambda e: self.play_next())
-		else:
-			self.is_playing = False
-
-	async def local_play_music(self):
+	async def play_music(self):
 		if len(self.music_queue) > 0:
 			# i hate.
 			self.is_playing = True
 			self.vc = self.music_queue[0][1]
-			print(self.music_queue)
 			song = self.music_queue[0][0]['source']
 			auth = self.music_queue[0][2]
-			print(song)
 
 			embed = embeds.now_playing(auth, self.music_queue[0][0])
 			await self.ctx.send(embed=embed)
@@ -122,12 +79,14 @@ class Gruvi(commands.Cog, name="gruvi"):
 			if not song.startswith("./"):
 				a = self.FFMPEG_OPTS["bopts"]
 				b = self.FFMPEG_OPTS["opts"]
-				print(True)
 			else:
 				a = None
 				b = None
 
-			self.vc.play(discord.FFmpegPCMAudio(song, before_options=a, options=b), after=lambda e: self.play_next())
+			self.vc.play(discord.FFmpegPCMAudio(song, before_options=a, options=b),
+							after=lambda e: asyncio.run_coroutine_threadsafe(self.play_music(), self.bot.loop))
+		else:
+			self.is_playing = False
 
 	async def play_cum(self):
 		if len(self.music_queue) > 0:
@@ -138,7 +97,8 @@ class Gruvi(commands.Cog, name="gruvi"):
 			print(self.music_queue)
 			self.music_queue.pop(0)
 
-			self.vc.play(discord.FFmpegPCMAudio(song), after=lambda e: self.play_next)
+			self.vc.play(discord.FFmpegPCMAudio(song), after=lambda e:
+							asyncio.run_coroutine_threadsafe(self.vc.guild.voice_client.disconnect(), self.bot.loop))
 
 	@commands.command(name="pop", aliases=["j", "summon", "join"])
 	async def pop(self, context):
@@ -155,7 +115,7 @@ class Gruvi(commands.Cog, name="gruvi"):
 				await voice_client.move_to(vc)
 
 			embed = discord.Embed(
-				title="<a:popcat:888905645431070742>Popped in vc<a:popcat:888905645431070742>",
+				title=f"{popcat}Popped in vc{popcat}",
 				color=0x0C8708
 			)
 			await context.send(embed=embed)
@@ -187,7 +147,7 @@ class Gruvi(commands.Cog, name="gruvi"):
 			await context.send(embed=embeds.bot_not_in_vc())
 		else:
 			song = self.search_yt(arg)
-			if type(song).isinstance(bool):
+			if isinstance(song, bool):
 				await context.send(embed=embeds.error_ytdl())
 			else:
 				await context.send(embed=embeds.added_to_queue(song))
@@ -195,7 +155,7 @@ class Gruvi(commands.Cog, name="gruvi"):
 				self.q.append(song)
 
 				if not self.is_playing:
-					await self.local_play_music()
+					await self.play_music()
 
 	@commands.command(name="playlocal", aliases=["pl"])
 	async def playlocal(self, context, song):
@@ -220,7 +180,7 @@ class Gruvi(commands.Cog, name="gruvi"):
 				await context.send(embed=embeds.added_to_queue(foo))
 
 				if not self.is_playing:
-					await self.local_play_music()
+					await self.play_music()
 
 	@commands.command(name="songlist", aliases=["song", "music", "songs"])
 	async def songlist(self, context, name=None):
@@ -231,12 +191,12 @@ class Gruvi(commands.Cog, name="gruvi"):
 			for song in song_list:
 				song_id = eyed3.load(f"./assets/audio/{song}")
 				song = song.split('.', 1)[0]
-				lenght = song_id.info.time_secs
-				y = str(round(lenght % 60))
+				length = song_id.info.time_secs
+				y = str(round(length % 60))
 				if len(y) < 2:
 					y = '0' + y
-				lenght = str(round(lenght // 60)) + ':' + y
-				x += f"{song}{' ' * (27 - len(song))}{lenght}\n"
+				length = str(round(length // 60)) + ':' + y
+				x += f"{song}{' ' * (27 - len(song))}{length}\n"
 
 			await context.send(f"```fsharp\nSonglist:\n{x}\n```")
 
@@ -267,7 +227,7 @@ class Gruvi(commands.Cog, name="gruvi"):
 			await context.send("<:cum_zone:900770371698032640> WELCUM TO THE CUM ZONE <:cum_zone:900770371698032640>")
 
 			if not self.is_playing:
-				await self.local_play_music()
+				await self.play_music()
 
 	@commands.command(name="queue", aliases=["q"])
 	async def queue(self, context):
@@ -308,7 +268,6 @@ class Gruvi(commands.Cog, name="gruvi"):
 		if self.vc != "":
 			self.vc.stop()
 			await context.send(embed=discord.Embed(title="Skipped song", color=0x0C8708))
-			self.play_next()
 
 	@commands.command(name="stop")
 	async def stop(self, context):

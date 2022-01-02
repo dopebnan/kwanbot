@@ -8,8 +8,9 @@
 <sub>Jan. ?, 2022</sub>
 
 ## Code
-* [x] Made code more pythonic
-  * [x] reformatted/organized code
+* [x] Made code more pythonic (commit#91edc69)
+  * [x] reformatted/organized code (commit#91edc69)
+* [x] Improved Cogs.Gruvi
 * [ ] Work on bugs
 * [ ] Move bugs to GitHub Issues
 * [ ] Work on linux compatibility
@@ -22,7 +23,7 @@
 ## UI
 * [ ] r!playfile
 
-## TSC: 2h 
+## TSC: 2.5h 
 
 # v2.2 - CLEANUP UPDATE!!!
 <sub>Nov. 22, 2021</sub>

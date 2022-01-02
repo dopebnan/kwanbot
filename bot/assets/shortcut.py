@@ -2,6 +2,7 @@ import time
 import discord
 import eyed3
 
+
 def get_emoji(context, _discord, emoji_name: str):
 	return f'\\{discord.utils.get(context.message.guild.emojis, name=emoji_name)}'
 
@@ -59,7 +60,7 @@ def queue_format(queue):
 		else:
 			foo = foo + ' ' * (37 - len(foo))
 
-		result += f" {i}) {foo} {length}      \n"
+		result += f" {i+1}) {foo} {length}      \n"
 
 	result += "\n    Das the end of the queue!\n```"
 
