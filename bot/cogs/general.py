@@ -4,15 +4,31 @@ import sys
 import random
 import asyncio
 
-from shortcut import Shortcut
+from assets import shortcut
 
 import discord
 from discord.ext import commands
 from discord.ext.commands import BucketType
 
-britCommand = ["OI LUV", "shag ye mum, das wha' I'm finna do", "ey bruv", "ey rude boi, you cool?", "That's rubbish, bot no do the bri'ish", "bloody brilliant, innit?", "oh bloody hell", "bit rewd to put da knoife in me chest innit bruv?", "OI OI OI YEAOUH WANKA WOTS OL DIS DEN", "bloody hell"]
-succCommand = ["al hal ze bussy, al hal ze jus, al hal glorious feeshland", "by the light of Kwum, and the darkness of the Omnibussy, we shan't fall to cappy bullshit, comrade.", "May our realm look like Realm 0", "***S U C C***", "And with that outta the way, let's get ourselves some fermented moosucculents, shall we?", "Let Kwum, the Bussylords, and the Omnibussy hear our prayers. Succ ye.", "Let us pray to Marxboi, and the Omnibussy, comrade. Succ", "may ze omnibussy grant us greit tingz", "marxboi may grent uz wit jus", ]
-uwuCommand = ["hwands in the aiw, this is a wobbewy!!\nPUT DA UwU's IN DA BWAG", "you can make my earfquake..\nbut i can make your bedrock :smirk::smirk::smirk:", "hey! did you just fart? :point_right::point_left:\n*cuz your blowing me away*", "*roses **can** be red*\n*violets **aren't** blue* \n*this is an actual poem*\n*in conclusion: **i'd like to rail you***\n:smirk::smirk::smirk:"]
+britCommand = ["OI LUV", "shag ye mum, das wha' I'm finna do", "ey bruv", "ey rude boi, you cool?",
+				"That's rubbish, bot no do the bri'ish", "bloody brilliant, innit?", "oh bloody hell",
+				"bit rewd to put da knoife in me chest innit bruv?", "OI OI OI YEAOUH WANKA WOTS OL DIS DEN",
+				"bloody hell"]
+succCommand = ["al hal ze bussy, al hal ze jus, al hal glorious feeshland",
+				"by the light of Kwum, and the darkness of the Omnibussy, we shan't fall to cappy bullshit, comrade.",
+				"May our realm look like Realm 0", "***S U C C***",
+				"And with that outta the way, let's get ourselves some fermented moosucculents, shall we?",
+				"Let Kwum, the Bussylords, and the Omnibussy hear our prayers. Succ ye.",
+				"Let us pray to Marxboi, and the Omnibussy, comrade. Succ", "may ze omnibussy grant us greit tingz",
+				"marxboi may grent uz wit jus", ]
+uwuCommand = ["hwands in the aiw, this is a wobbewy!!\nPUT DA UwU's IN DA BWAG",
+				"you can make my earfquake..\nbut i can make your bedrock :smirk::smirk::smirk:",
+				"hey! did you just fart? :point_right::point_left:\n*cuz your blowing me away*",
+				"""*roses **can** be red*
+				*violets **aren't** blue* 
+				*this is an actual poem*
+				*in conclusion: **i'd like to rail you***
+				:smirk::smirk::smirk:"""]
 
 # Loading json files
 if not os.path.isfile("assets/config.json"):
@@ -37,7 +53,7 @@ else:
 class General(commands.Cog, name="general"):
 	def __init__(self, bot):
 		self.bot = bot
-	
+
 	@commands.command(name="info")
 	async def info(self, context):
 		embed = discord.Embed(
@@ -46,9 +62,9 @@ class General(commands.Cog, name="general"):
 			color=0x560BAD
 		)
 		embed.add_field(
-		   name="developed by:",
-		   value="programur bnan",
-		   inline=False
+			name="developed by:",
+			value="programur bnan",
+			inline=False
 		)
 		embed.add_field(
 			name="version:",
@@ -79,8 +95,8 @@ class General(commands.Cog, name="general"):
 
 	@commands.command(name="check", aliases=["chk"])
 	async def check(self, context):
-		picNums = str(len(os.listdir("./assets/img/pic")))
-		uwuNums = str(len(os.listdir("./assets/img/uwu")))
+		pic_num = str(len(os.listdir("./assets/img/pic")))
+		uwu_num = str(len(os.listdir("./assets/img/uwu")))
 
 		embed = discord.Embed(
 			title="check",
@@ -88,14 +104,14 @@ class General(commands.Cog, name="general"):
 		)
 		embed.add_field(
 			name="r!pic images:",
-			value=f"{picNums}"
+			value=f"{pic_num}"
 		)
 		embed.add_field(
 			name="r!uwu images:",
-			value=f"{uwuNums}"
+			value=f"{uwu_num}"
 		)
 		embed.add_field(
-			name="Time since last update",	
+			name="Time since last update",
 			value=f"<t:{version['lastUpdate']}:R>"
 		)
 		embed.set_footer(text="vibecheck")
@@ -103,13 +119,13 @@ class General(commands.Cog, name="general"):
 
 	@commands.command(name="ping")
 	async def ping(self, context):
-		embed = discord.Embed(title="reeeEEEEEEE",description=f"ping at {round(self.bot.latency * 1000)}ms",color=0x3F37C9)
+		embed = discord.Embed(title="reeeEEEEEEE", description=f"ping at {round(self.bot.latency * 1000)}ms", color=0x3F37C9)
 		await context.send(embed=embed)
-	
+
 	@commands.command(name="report", aliases=["bugreport", "bug"])
 	async def report(self, context):
-		await context.send(random.choice(["DM bnanboi", "spam the devs", "spam bnan", "ping banan or smth", "tell the devs innit"]))
-	
+		await context.send(random.choice(["DM bnanboi", "spam the devs", "spam bnan", "ping banan or smth", "tell the devs innit"]))  # TODO
+
 	@commands.command(name="pic")
 	@commands.cooldown(1, settings["picCooldown"], BucketType.guild)
 	async def pic(self, context):
@@ -120,7 +136,7 @@ class General(commands.Cog, name="general"):
 		if settings["picReturn"]:
 			await context.send(f"*Cooldown has been set to **{settings['picCooldown']}s***")
 		print(f"[r!pic] queue'd, {pic}. {msg}\n")
-		Shortcut.logging(context.message, f"pic: {pic}, message: {msg}")
+		shortcut.logging(context.message, f"pic: {pic}, message: {msg}")
 
 	@commands.command(name="autopic", aliases=["pics", "pix"])
 	@commands.cooldown(1, settings["autopicCooldown"], BucketType.guild)
@@ -136,15 +152,15 @@ class General(commands.Cog, name="general"):
 					)
 					embed.set_footer(text="sucks to be you")
 					await context.send(embed=embed)
-					self.autopic.reset_cooldown(context)		
-				
+					self.autopic.reset_cooldown(context)
+
 				else:
 					for i in range(arg):
 						pic = f'./assets/img/pic/{random.choice(os.listdir("./assets/img/pic"))}'
 						await context.send(f"{i + 1}/{arg} images", file=discord.File(pic))
 						if arg - i > 1:
 							await asyncio.sleep(settings["autopicSleep"])
-						
+
 					if settings["autopicReturn"]:
 						await context.send(f"*Cooldown has been set to **{settings['autopicCooldown']}s***")
 			else:
@@ -165,9 +181,9 @@ class General(commands.Cog, name="general"):
 			embed.set_footer(text="mods be ruining the fun innit")
 			await context.send(embed=embed)
 			self.autopic.reset_cooldown(context)
-	
+
 	@commands.command(name="succ", aliases=["succyea", "prayer"])
-	@commands.cooldown(1, 2, BucketType.user)				
+	@commands.cooldown(1, 2, BucketType.user)
 	async def succ(self, context):
 		await context.send(random.choice(succCommand))
 
@@ -175,22 +191,22 @@ class General(commands.Cog, name="general"):
 	@commands.cooldown(1, 2, BucketType.user)
 	async def brit(self, context):
 		await context.send(random.choice(britCommand))
-	
+
 	@commands.command(name="uwu", aliases=["heresy", "cappybs", "bullshit", "bs"])
 	@commands.cooldown(1, settings["uwuCooldown"], BucketType.guild)
 	async def uwu(self, context):
 		if context.channel.id in config["uwuChannel"] or settings["uwu"]:
-			cum = random.choice([1, 0, 1, 0, 0, 1, 0]) # weighted random.choice
+			cum = random.choice([1, 0, 1, 0, 0, 1, 0])  # weighted random.choice
 			if cum == 1:
 				file = f'./assets/img/uwu/{random.choice(os.listdir("./assets/img/uwu"))}'
 				await context.send(random.choice(["uwu", "UwU", "OwO", "ÒwÓ", "ÙwÚ", "ÓwÒ", "^w^", ":3"]), file=discord.File(file))
-			
+
 			else:
 				await context.send(random.choice(uwuCommand))
-			
+
 			if settings["picReturn"]:
 				await context.send(f"*To use this command outside <#884924639346823218> wait {settings['uwuCooldown']} seconds..*")
-		
+
 		else:
 			embed = discord.Embed(
 				title="Mods back at it again",
@@ -199,21 +215,24 @@ class General(commands.Cog, name="general"):
 			)
 			embed.set_footer(text="get mod'd, nerd")
 			await context.send(embed=embed)
-	
+
 	@commands.command(name="reload", aliases=["restart"])
-	@commands.has_any_role(config["modID"][0], config["modID"][1], config["modID"][2])
+	@commands.has_role("devtools")
 	async def reload(self, context):
 		try:
-			with open("assets/config.json") as f:
+			with open("assets/config.json") as file:
 				global config
-				config = json.load(f)
+				config = json.load(file)
 
-			with open("assets/settings.json") as f:
+			with open("assets/settings.json") as file:
 				global settings
-				settings = json.load(f)
+				settings = json.load(file)
 		except:
-			embed = discord.Embed(title="An error occurred while reloading",description="your luck must be fucked",color=0xE3170A)
-			await context.send(embed=embed)	
+			embed = discord.Embed(title="An error occurred while reloading",
+									description="your luck must be fucked",
+									color=0xE3170A
+									)
+			await context.send(embed=embed)
 		else:
 			embed = discord.Embed(	title="Reload complete",	color=0x0C8708)
 			await context.send(embed=embed)
@@ -222,20 +241,21 @@ class General(commands.Cog, name="general"):
 	@commands.cooldown(1, settings["painCooldown"], BucketType.guild)
 	async def pain(self, context):
 		pic = f'./assets/img/pain/{random.choice(os.listdir("./assets/img/pain"))}'
-		msg = random.choice(["", "", "*pain.*", "*cri*", "not proud of that one", "very bigbrain moment", "so dumb smh", "mf"])
+		msg = random.choice(["", "", "*pain.*", "*cri*", "not proud of that one", "very bigbrain moment", "so dumb smh",
+								"mf"
+								])
 		await context.send(msg, file=discord.File(pic))
 
 		if settings["painReturn"]:
 			await context.send(f"*Cooldown has been set to **{settings['painCooldown']}s***")
 		print(f"[r!pain], {pic}. {msg}\n")
-		Shortcut.logging(context.message, f"pic: {pic}, message: {msg}")
+		shortcut.logging(context.message, f"pic: {pic}, message: {msg}")
 
 	@commands.command(name="test")
 	async def test(self, context):
 		await context.send("```python\nIndentationError: Unexpected indent [273, 3]\n```")
 		await asyncio.sleep(3)
 		await context.send("```python\n[Finished in 3.4s with exit code 1]\n```")
-
 
 
 def setup(bot):

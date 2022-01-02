@@ -4,7 +4,25 @@
 
 ## Time Spent Coding: 56 hours
 
+# v2.3 - LINUX UPDATE!!!
+<sub>Jan. ?, 2022</sub>
 
+## Code
+* [x] Made code more pythonic
+  * [x] reformatted/organized code
+* [ ] Work on bugs
+* [ ] Move bugs to GitHub Issues
+* [ ] Work on linux compatibility
+* [ ] 24/7 hosting
+
+## Shortcuts
+* [x] split `shortcuts.py` into `shortcuts.py` and `embeds.py`
+* [x] removed classes from `shortcuts.py`
+
+## UI
+* [ ] r!playfile
+
+## TSC: 2h 
 
 # v2.2 - CLEANUP UPDATE!!!
 <sub>Nov. 22, 2021</sub>
@@ -37,10 +55,10 @@
 * [x] Added **r!pain** values (commit#285486f)
 * [x] Added **version.json**, and moved the version stuff from **config.json** to **version.json** (commit#026817f)
 
-## UX
+## UI
 * [x] Added **r!pain**, pics that invoked pain while coding the bot (commit#285486f)  <sub>idea by pigon</sub>
 
-## UX (DevTools)
+## UI (DevTools)
 * [x] Added **r!painDev Cooldown int**, change **r!pain** cooldown (commit#59011a4)
 * [x] Added **r!painDev Return bool**, if **r!pain** should return the cooldown after pics (commit#59011a4)
 * [x] Changed every command that takes a boolean. They now take integers as booleans (0 -> False, 1 -> True). Was needed for optimization. (commit#a1c2e39)
@@ -78,7 +96,7 @@
 ## Configs
 * [x] Reformatted config.json (commit#b2dd861)
 
-## UX
+## UI
 * [x] Added **r!bugtracker**, you can check out the bugs there now (commit#ef958c2)
 * [x] Added **r!cum**, queues the cum trilogy (commit#cedcf86)
 * [x] Added **r!leave**, makes bot leave vc	(commit#cedcf86)
@@ -89,7 +107,7 @@
 * [x] Added **r!skip**, skips current song (commit#cedcf86)
 * [x] Added **r!songlist**, lists all locally downloaded songs (commit#cedcf86)
 
-## UX (DevTools)
+## UI (DevTools)
 * [x] Added **r!newlog**, creates new log.txt. Does NOT delete old log. *Old logs can only be accessed locally.* (commit#b2dd861)
 * [x] Made **r!log** able to log comments too (commit#c253fcb)
 
@@ -110,10 +128,10 @@
 ## Configs
 * [x] Added **"uwuChannel"**, and **"uwuIDs"** variables to **config.json** (commit#55a03cc)
 
-## UX
+## UI
 * [x] Removed **sorry bot** (commit#55a03cc)
 
-## UX (DevTools)
+## UI (DevTools)
 * [x] Added **r!sourcecode**, you can check the source code of kwanbot. *You don't need DevTool perms to use this command.* (commit#55a03cc)
 
 ## TSC: 2h
@@ -173,7 +191,7 @@ Everything here happened in commit#2471c74
 * [x] Changed **data.py** into **config.json** and **settings.json**
 * [x] Made backups of these in **assets/backups**
 
-## UX
+## UI
 * [x] Added **r!changelog**, you can now see the changelog, *you're looking at it rn!*
 * [x] **r!check** now displays time passed since last update
 * [x] Added **r!ping**, see the latency of the bot
@@ -181,7 +199,7 @@ Everything here happened in commit#2471c74
 * [x] **glori** Replaced that If chunk with one if for IDs
 * [x] Started removing **sorry bot**
 
-## UX (DevTools)
+## UI (DevTools)
 * [x] Added **r!debug**, changes **config.json** into debug mode
 * [x] Added **r!log**, gives you the log file in DMs
 * [x] Added **r!reload**, reloads the config files

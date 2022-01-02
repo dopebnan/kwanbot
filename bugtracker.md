@@ -24,3 +24,4 @@
   * **description**: only the user that made the bot join vc gets to be mentioned in embeds
   * **status**: Fixed
   * **fix version**: 2.2
+

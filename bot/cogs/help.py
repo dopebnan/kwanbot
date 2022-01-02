@@ -22,7 +22,6 @@ else:
 		version = json.load(f)
 
 
-
 class Help(commands.Cog, name="help"):
 	def __init__(self, bot):
 		self.bot = bot
@@ -72,9 +71,9 @@ class Help(commands.Cog, name="help"):
 			inline=True
 		)
 		embed.add_field(
-		   name="r!autopic x:",
-		   value="Loops r!pic for **x** amount of times",
-		   inline=True
+			name="r!autopic x:",
+			value="Loops r!pic for **x** amount of times",
+			inline=True
 		)
 		embed.add_field(
 			name="r!pain",
@@ -97,53 +96,52 @@ class Help(commands.Cog, name="help"):
 		)
 		embed.set_footer(text=f"mh yez, very")
 
-		membed = discord.Embed(
+		gruvi_embed = discord.Embed(
 			title="<:groovy:899682087114793050>GRUVI<:groovy:899682087114793050>",
 			color=0x78a5fa
 		)
-		membed.add_field(
+		gruvi_embed.add_field(
 			name="r!pop:",
 			value="make bot pop into vc"
 		)
-		membed.add_field(
+		gruvi_embed.add_field(
 			name="r!play *song*:",
 			value="plays **song** (bruh-)"
 		)
-		membed.add_field(
+		gruvi_embed.add_field(
 			name="r!playlocal *song*:",
 			value="play a song from bot's directory"
 		)
-		membed.add_field(
+		gruvi_embed.add_field(
 			name="r!songlist:",
 			value="view songs in bot's directory"
 		)
-		membed.add_field(
+		gruvi_embed.add_field(
 			name="r!cum:",
 			value="queues the cum trilogy (locally)"
 		)
-		membed.add_field(
+		gruvi_embed.add_field(
 			name="r!queue:",
 			value="view the queue"
 		)
-		membed.add_field(
+		gruvi_embed.add_field(
 			name="r!skip:",
 			value="skip to the next song"
 		)
-		membed.add_field(
+		gruvi_embed.add_field(
 			name="r!stop:",
 			value="stop everything playing, and clear queue"
 		)
-		membed.add_field(
+		gruvi_embed.add_field(
 			name="r!leave:",
 			value="leave vc, no shit"
 		)
-		membed.set_footer(text="GRUVI'S SPIRIT")
+		gruvi_embed.set_footer(text="GRUVI'S SPIRIT")
 
 		await context.send(embed=embed)
-		await context.send(embed=membed)
+		await context.send(embed=gruvi_embed)
 
-
-
+	# DevTools
 	@commands.command(name="devtools", aliases=["DevTools", "dt", "devhelp"])
 	@commands.has_any_role(config["modID"][0], config["modID"][1])
 	async def devtools(self, context):
@@ -227,7 +225,6 @@ class Help(commands.Cog, name="help"):
 			value="*Creates a new log.txt*"
 		)
 		await context.send(embed=embed)
-
 
 
 def setup(bot):
