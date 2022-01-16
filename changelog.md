@@ -8,10 +8,10 @@
 <sub>Jan. ?, 2022</sub>
 
 ## Code
-* [x] Made code more pythonic (commit#91edc69)
-  * [x] reformatted/organized code (commit#91edc69)
-* [x] Improved Cogs.Gruvi (commit#284f391)
-* [x] Moved bugs to GitHub Issue tracker
+* [x] Made code more pythonic  (commit#91edc69)
+  * [x] reformatted/organized code  (commit#91edc69)
+* [x] Improved Cogs.Gruvi  (commit#284f391)
+* [x] Moved bugs to GitHub Issue tracker  (commit#eab8469)
 * [ ] Work on bugs
 * [ ] Work on linux compatibility
 * [ ] 24/7 hosting
@@ -21,11 +21,11 @@
 * [x] removed classes from `shortcuts.py`
 
 ## UI
-* [ ] r!playfile
-* [x] `r!report` now links you to the bot's GitHub page
-* [x] Removed `r!bugtracker`, it's now on GitHub
+* [ ] Added **r!playfile**, you can send the bot files to play now
+* [x] `r!report` now links you to the bot's GitHub page  (commit#eab8469)
+* [x] Removed `r!bugtracker`, it's now on GitHub  (commit#eab8469)
 
-## TSC: 2.5h 
+## TSC: 5.5h 
 
 # v2.2 - CLEANUP UPDATE!!!
 <sub>Nov. 22, 2021</sub>

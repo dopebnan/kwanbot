@@ -123,7 +123,18 @@ async def on_command_error(context, error):
 			color=0x4361EE
 		)
 
-	elif isinstance(error, commands.MissingRequiredArgument):
+	elif isinstance(error, commands.BadArgument):
+		if context.command.qualified_name == "playfile":
+			embed = discord.Embed(
+				title="Wrong filetype",
+				description="It has to be an audio file, dumbass",
+				color=0xE3170A
+			)
+			embed.set_footer(text="preferably an mp3")
+		else:
+			embed = embeds.error_type()
+
+	elif isinstance(error.original, commands.MissingRequiredArgument):
 		if context.command.qualified_name == "autopic":
 			embed = discord.Embed(
 				title=f"{missingArgPix[random.randint(0, len(missingArgPix) - 1)]}",
@@ -136,9 +147,14 @@ async def on_command_error(context, error):
 				title=f"MissingRequiredArgument",
 				color=0xE3170A
 				)
-	
-	elif isinstance(error, commands.BadArgument):
-		embed = embeds.error_type()
+
+	elif isinstance(error.original, TypeError):
+		if context.command.qualified_name == "playfile":
+			embed = discord.Embed(
+				title="I can't play that",
+				description="CUZ YOU DIDNT GIVE ME A FILE, DUMBASS",
+				color=0xE3170A
+			)
 	
 	elif isinstance(error, discord.InvalidArgument):
 		embed = embeds.error_invalid_arg(f"r!{context.command.qualified_name}")
@@ -155,6 +171,13 @@ async def on_command_error(context, error):
 
 	elif isinstance(error, AttributeError):
 		embed = embeds.author_not_in_vc()
+
+	elif isinstance(error.original, FileExistsError):
+		embed = discord.Embed(
+			title="Sorry",
+			description="You cannot download multiple files at once\ntry again when it's done playing",
+			color=0xE3170A
+		)
 
 	else:
 		# ostrich algorithm

@@ -35,9 +35,11 @@ def logging(message, error_msg=None, skip=False):
 def pseudo_ytdl_parse(song):
 	song_obj = eyed3.load(f"./assets/audio/{song}.mp3")
 	length = round(int(song_obj.info.time_secs))
+	title = song_obj.tag.title or "Unknown" if song == "temp" else song
+	artist = song_obj.tag.artist or "Unknown Artist"
 	song_atr = {'source': f'./assets/audio/{song}.mp3',
-				"title": song_obj.tag.title,
-				"artist": song_obj.tag.artist,
+				"title": title,
+				"artist": artist,
 				"length": length
 				}
 
