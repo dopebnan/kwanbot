@@ -21,9 +21,12 @@
 * [x] removed classes from `shortcuts.py`
 
 ## UI
-* [ ] Added **r!playfile**, you can send the bot files to play now
+* [x] Added **r!playfile**, you can send the bot files to play now
 * [x] `r!report` now links you to the bot's GitHub page  (commit#eab8469)
 * [x] Removed `r!bugtracker`, it's now on GitHub  (commit#eab8469)
+
+## BETA
+* [x] **r!remove**, it's still under heavy work, but it works... kinda..? maybe not that much
 
 ## TSC: 5.5h 
 

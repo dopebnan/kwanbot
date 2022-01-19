@@ -7,13 +7,16 @@ imagine complying with legal stuff, couldn't be me smh
 
 # GRUVI'S SPIRIT
 
-# TODO: playfile
+# TODO: stuff with self.id and shit to do the remove command
+# yea right smh
+
 import asyncio
 import json
 import os
 import sys
 import eyed3
 from youtube_dl import YoutubeDL as ytdl
+from urllib.request import Request, urlopen
 
 from assets import shortcut, embeds
 
@@ -43,6 +46,7 @@ class Gruvi(commands.Cog, name="gruvi"):
 
 		self.music_queue = []
 		self.q = []
+		self.id = 0
 		self.YDL_OPTS = {'format': 'bestaudio', "noplaylist": "true"}
 		self.FFMPEG_OPTS = {'bopts': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5', "opts": '-vn'}
 
@@ -56,13 +60,13 @@ class Gruvi(commands.Cog, name="gruvi"):
 			except Exception:
 				return False
 
-		return {'source': info['formats'][0]['url'],
+			return {'source': info['formats'][0]['url'],
 				'title': info['title'],
 				'artist': info['uploader'],
-				'length': info['duration']
+				'length': info['duration'],
 				}
 
-	async def play_music(self):
+	async def play_music(self, delete=False):
 		if len(self.music_queue) > 0:
 			# i hate.
 			self.is_playing = True
@@ -75,6 +79,14 @@ class Gruvi(commands.Cog, name="gruvi"):
 
 			self.music_queue.pop(0)
 
+			if delete:
+				os.remove("assets/audio/temp.mp3")
+
+			if song.startswith("./temp.mp3"):
+				delete = True
+			else:
+				delete = False
+
 			# mf really breaks without this, smh couldn't be me
 			if not song.startswith("./"):
 				a = self.FFMPEG_OPTS["bopts"]
@@ -84,7 +96,7 @@ class Gruvi(commands.Cog, name="gruvi"):
 				b = None
 
 			self.vc.play(discord.FFmpegPCMAudio(song, before_options=a, options=b),
-							after=lambda e: asyncio.run_coroutine_threadsafe(self.play_music(), self.bot.loop))
+							after=lambda e: asyncio.run_coroutine_threadsafe(self.play_music(delete), self.bot.loop))
 		else:
 			self.is_playing = False
 
@@ -151,6 +163,7 @@ class Gruvi(commands.Cog, name="gruvi"):
 				await context.send(embed=embeds.error_ytdl())
 			else:
 				await context.send(embed=embeds.added_to_queue(song))
+
 				self.music_queue.append([song, voice_client, context.author])
 				self.q.append(song)
 
@@ -182,6 +195,46 @@ class Gruvi(commands.Cog, name="gruvi"):
 				if not self.is_playing:
 					await self.play_music()
 
+	@commands.command(name="playfile", aliases=["pf"])
+	async def playfile(self, ctx):
+		vc = ctx.author.voice.channel
+		voice_client = ctx.guild.voice_client
+
+		if vc is None:
+			embed = embeds.author_not_in_vc()
+			await ctx.send(embed=embed)
+
+		elif not voice_client:
+			embed = embeds.bot_not_in_vc()
+			await ctx.send(embed=embed)
+
+		if ctx.message.attachments:
+			file = ctx.message.attachments[0]
+		else:
+			raise TypeError
+
+		if "audio" in file.content_type:
+			url = file.url
+			req = Request(url, headers={"User-Agent": "Mozilla/5.0"})
+			with urlopen(req) as web:
+				data = web.read()
+			if os.path.isfile("assets/audio/temp.mp3"):
+				raise FileExistsError
+			else:
+				with open("assets/audio/temp.mp3", "wb") as web:
+					web.write(data)
+
+			parse = shortcut.pseudo_ytdl_parse("temp")
+			self.music_queue.append([parse, voice_client, ctx.author])
+			self.q.append(parse)
+			await ctx.send(embed=embeds.added_to_queue(parse))
+
+			if not self.is_playing:
+				await self.play_music()
+
+		else:
+			raise commands.BadArgument
+
 	@commands.command(name="songlist", aliases=["song", "music", "songs"])
 	async def songlist(self, context, name=None):
 		if name is None:
@@ -198,7 +251,22 @@ class Gruvi(commands.Cog, name="gruvi"):
 				length = str(round(length // 60)) + ':' + y
 				x += f"{song}{' ' * (27 - len(song))}{length}\n"
 
-			await context.send(f"```fsharp\nSonglist:\n{x}\n```")
+			await context.send(f"```fsharp\nSong list:\n{x}\n```")
+
+	@commands.command(name="remove")
+	async def remove(self, ctx, id_num):
+		if id_num is not None and id_num.isnumeric():
+			if 1 < int(id_num) <= len(self.music_queue):
+				id_num = int(id_num) - 2
+				self.music_queue.pop(id_num)
+			else:
+				await ctx.send(embed=discord.Embed(
+					title="That song doesn't exist",
+					description="That ID doesn't exist, sorry",
+					color=0xe5383b
+				))
+		else:
+			raise discord.ext.commands.BadArgument
 
 	@commands.command(name="cum")
 	async def cum(self, context):
@@ -282,6 +350,9 @@ class Gruvi(commands.Cog, name="gruvi"):
 				self.music_queue.clear()
 				self.q.clear()
 				voice_client.stop()
+				await asyncio.sleep(6)  # if it accidentally lags, having it at a lower number won't work.
+				if os.path.isfile("assets/audio/temp.mp3"):
+					os.remove("assets/audio/temp.mp3")
 				embed = discord.Embed(title="Stopped the music", color=0x0C8708)
 				await context.send(embed=embed)
 			else:
@@ -308,6 +379,10 @@ class Gruvi(commands.Cog, name="gruvi"):
 				color=0x0C8708
 			)
 			await context.send(embed=embed)
+
+			await asyncio.sleep(6)  # if it accidentally lags, having it at a lower number won't work.
+			if os.path.isfile("assets/audio/temp.mp3"):
+				os.remove("assets/audio/temp.mp3")
 
 			self.q.clear()
 
