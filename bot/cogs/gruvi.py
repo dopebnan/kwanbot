@@ -7,9 +7,6 @@ imagine complying with legal stuff, couldn't be me smh
 
 # GRUVI'S SPIRIT
 
-# TODO: stuff with self.id and shit to do the remove command
-# yea right smh
-
 import asyncio
 import json
 import os

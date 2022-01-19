@@ -28,7 +28,7 @@
 ## BETA
 * [x] **r!remove**, it's still under heavy work, but it works... kinda..? maybe not that much
 
-## TSC: 5.5h 
+## TSC: 6h 
 
 # v2.2 - CLEANUP UPDATE!!!
 <sub>Nov. 22, 2021</sub>
