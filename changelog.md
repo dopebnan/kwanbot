@@ -12,23 +12,22 @@
   * [x] reformatted/organized code  (commit#91edc69)
 * [x] Improved Cogs.Gruvi  (commit#284f391)
 * [x] Moved bugs to GitHub Issue tracker  (commit#eab8469)
-* [ ] Work on bugs
-* [ ] Work on linux compatibility
 * [ ] 24/7 hosting
 
 ## Shortcuts
-* [x] split `shortcuts.py` into `shortcuts.py` and `embeds.py`
-* [x] removed classes from `shortcuts.py`
+* [x] split `shortcuts.py` into `shortcuts.py` and `embeds.py`  (commit#91edc692)
+* [x] removed classes from `shortcuts.py`  (commit#91edc692)
 
 ## UI
 * [x] Added **r!playfile**, you can send the bot files to play now
 * [x] `r!report` now links you to the bot's GitHub page  (commit#eab8469)
+* [x] Made it so that running the bot without any pictures doesn't crash it
 * [x] Removed `r!bugtracker`, it's now on GitHub  (commit#eab8469)
 
 ## BETA
-* [x] **r!remove**, it's still under heavy work, but it works... kinda..? maybe not that much
+* [x] **r!remove**, it's still under heavy work, but it works... kinda..? maybe not that much  (commit#58585d45)
 
-## TSC: 6h 
+## TSC: 7h 
 
 # v2.2 - CLEANUP UPDATE!!!
 <sub>Nov. 22, 2021</sub>

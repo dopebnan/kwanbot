@@ -7,7 +7,6 @@ import time
 
 from assets import shortcut, embeds
 
-# TODO: linux
 
 import discord
 from discord.ext import commands, tasks
@@ -134,7 +133,7 @@ async def on_command_error(context, error):
 		else:
 			embed = embeds.error_type()
 
-	elif isinstance(error.original, commands.MissingRequiredArgument):
+	elif isinstance(error, commands.MissingRequiredArgument):
 		if context.command.qualified_name == "autopic":
 			embed = discord.Embed(
 				title=f"{missingArgPix[random.randint(0, len(missingArgPix) - 1)]}",
@@ -148,7 +147,7 @@ async def on_command_error(context, error):
 				color=0xE3170A
 				)
 
-	elif isinstance(error.original, TypeError):
+	elif isinstance(error, TypeError):
 		if context.command.qualified_name == "playfile":
 			embed = discord.Embed(
 				title="I can't play that",

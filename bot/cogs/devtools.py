@@ -68,8 +68,8 @@ class DevTools(commands.Cog, name="devtools"):
 		with open("assets/settings.json") as file:
 			setting = json.load(file)
 
-		pic_num = str(len(os.listdir("./assets/img/pic")))
-		uwu_num = str(len(os.listdir("./assets/img/uwu")))
+		pic_num = str(len(os.listdir("./assets/img/pic"))) if os.path.isdir("./assets/img/pic") else 0
+		uwu_num = str(len(os.listdir("./assets/img/uwu"))) if os.path.isdir("./assets/img/pic") else 0
 
 		embed = discord.Embed(title="filecheck", color=0x2000DF)
 		embed.add_field(name="r!pic Images:", value=f"`{pic_num}`")
@@ -81,6 +81,8 @@ class DevTools(commands.Cog, name="devtools"):
 		embed.add_field(name="ID:", value=f"`{self.bot.user.id}`", inline=False)
 		embed.add_field(name="API Version:", value=f"`{discord.__version__}`")
 		embed.add_field(name="Python Version:", value=f"`{platform.python_version()}`")
+		osys = '-'.join(platform.platform().split('-', 2)[0:2])
+		embed.add_field(name="Operating System:", value=f'`{osys}`')
 		embed.add_field(name="Time Since Last Update", value=f"<t:{version['lastUpdate']}:R>", inline=False)
 		embed.set_footer(text="vibecheck")
 

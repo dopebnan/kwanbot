@@ -37,10 +37,6 @@ class Help(commands.Cog, name="help"):
 			value="see the changelog, bruh"
 		)
 		embed.add_field(
-			name="r!bugtracker:",
-			value="see the bugs"
-		)
-		embed.add_field(
 			name="r!check:",
 			value="like r!info, but more technical stuff"
 		)
@@ -109,6 +105,10 @@ class Help(commands.Cog, name="help"):
 			value="plays **song** (bruh-)"
 		)
 		gruvi_embed.add_field(
+			name="r!playfile *file*:",
+			value="play your files"
+		)
+		gruvi_embed.add_field(
 			name="r!playlocal *song*:",
 			value="play a song from bot's directory"
 		)
@@ -136,6 +136,10 @@ class Help(commands.Cog, name="help"):
 			name="r!leave:",
 			value="leave vc, no shit"
 		)
+		gruvi_embed.add_field(
+			name="r!remove:",
+			value="BETA"
+		)
 		gruvi_embed.set_footer(text="GRUVI'S SPIRIT")
 
 		await context.send(embed=embed)
@@ -143,7 +147,7 @@ class Help(commands.Cog, name="help"):
 
 	# DevTools
 	@commands.command(name="devtools", aliases=["DevTools", "dt", "devhelp"])
-	@commands.has_any_role(config["modID"][0], config["modID"][1])
+	@commands.has_role("devtools")
 	async def devtools(self, context):
 		embed = discord.Embed(
 			title="DevTools",

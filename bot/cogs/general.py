@@ -90,8 +90,8 @@ class General(commands.Cog, name="general"):
 
 	@commands.command(name="check", aliases=["chk"])
 	async def check(self, context):
-		pic_num = str(len(os.listdir("./assets/img/pic")))
-		uwu_num = str(len(os.listdir("./assets/img/uwu")))
+		pic_num = str(len(os.listdir("./assets/img/pic"))) if os.path.exists("./assets/img/pic") else 0
+		uwu_num = str(len(os.listdir("./assets/img/uwu"))) if os.path.exists("./assets/img/uwu") else 0
 
 		embed = discord.Embed(
 			title="check",
@@ -121,7 +121,7 @@ class General(commands.Cog, name="general"):
 	async def report(self, context):
 		embed = discord.Embed(
 			title="Report",
-			description="To file a report, go to the [bot's page](https://github.com/dopebnan/kwanbot/issues), and open"
+			description="To report a bug, go to the [bot's page](https://github.com/dopebnan/kwanbot/issues) and open"
 			" 	an issue there!",
 			color=0x7209b7
 		)
