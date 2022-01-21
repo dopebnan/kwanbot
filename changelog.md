@@ -5,14 +5,14 @@
 ## Time Spent Coding: 56 hours
 
 # v2.3 - LINUX UPDATE!!!
-<sub>Jan. ?, 2022</sub>
+<sub>Jan. 21, 2022</sub>
 
 ## Code
 * [x] Made code more pythonic  (commit#91edc69)
   * [x] reformatted/organized code  (commit#91edc69)
 * [x] Improved Cogs.Gruvi  (commit#284f391)
 * [x] Moved bugs to GitHub Issue tracker  (commit#eab8469)
-* [ ] 24/7 hosting
+* [x] Added 24/7 hosting, thanks to moving to a Raspberry Pi!  (commit#ccb4df70)
 
 ## Shortcuts
 * [x] split `shortcuts.py` into `shortcuts.py` and `embeds.py`  (commit#91edc692)
@@ -27,7 +27,7 @@
 ## BETA
 * [x] **r!remove**, it's still under heavy work, but it works... kinda..? maybe not that much  (commit#58585d45)
 
-## TSC: 7h 
+## TSC: 12h 
 
 # v2.2 - CLEANUP UPDATE!!!
 <sub>Nov. 22, 2021</sub>
