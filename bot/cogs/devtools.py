@@ -66,6 +66,7 @@ class DevTools(commands.Cog, name="devtools"):
 	async def filecheck(self, context):
 		# Reloading settings.json in case it had any changes
 		with open("assets/settings.json") as file:
+			global settings
 			setting = json.load(file)
 
 		pic_num = str(len(os.listdir("./assets/img/pic"))) if os.path.isdir("./assets/img/pic") else 0
@@ -93,6 +94,9 @@ class DevTools(commands.Cog, name="devtools"):
 	async def reset(self, context):
 		with open("assets/settings.json", 'w') as file:
 			file.write(defaultJSON_obj)
+		with open("assets/settings.json") as file:
+			global settings
+			settings = json.load(file)
 
 		embed = discord.Embed(
 			title="Reset settings.json to default",
@@ -106,10 +110,12 @@ class DevTools(commands.Cog, name="devtools"):
 		# Replace settings.json with the dev settings
 		with open("assets/settings.json", 'w') as file:
 			file.write(devJSON_obj)
+		with open("assets/settings.json") as file:
+			global settings
+			settings = json.load(file)
 
 		embed = discord.Embed(
 			title="settings.json in DebugMode",
-			description="Do a r!reload for changes to take effect",
 			color=0x0C8708
 		)
 		await context.send(embed=embed)

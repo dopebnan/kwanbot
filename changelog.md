@@ -4,6 +4,14 @@
 
 ## Time Spent Coding: 56 hours
 
+# v2.3.1
+<sub>Feb. 22, 2021</sub>
+
+## DevTools 1.1.2
+* [x] Fixed bug where updated values weren't displayed correctly
+
+## UI
+
 # v2.3 - LINUX UPDATE!!!
 <sub>Jan. 21, 2022</sub>
 

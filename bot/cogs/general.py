@@ -221,10 +221,6 @@ class General(commands.Cog, name="general"):
 	@commands.has_role("devtools")
 	async def reload(self, context):
 		try:
-			with open("assets/config.json") as file:
-				global config
-				config = json.load(file)
-
 			with open("assets/settings.json") as file:
 				global settings
 				settings = json.load(file)
@@ -235,7 +231,7 @@ class General(commands.Cog, name="general"):
 									)
 			await context.send(embed=embed)
 		else:
-			embed = discord.Embed(	title="Reload complete",	color=0x0C8708)
+			embed = discord.Embed(title="Reload complete", color=0x0C8708)
 			await context.send(embed=embed)
 
 	@commands.command(name="pain")
