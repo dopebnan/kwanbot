@@ -1,6 +1,7 @@
 import json
 import os
 import platform
+import subprocess
 import time
 
 from discord.ext.commands.errors import BadArgument
@@ -60,7 +61,7 @@ devJSON_obj = json.dumps(devJSON, indent=2)
 class DevTools(commands.Cog, name="devtools"):
 	def __init__(self, bot):
 		self.bot = bot
-		
+
 	@commands.command(name="filecheck", aliases=["dskchk", "chkdsk", "syscheck", "fsck"])
 	@commands.has_role("devtools")
 	async def filecheck(self, context):
@@ -88,6 +89,20 @@ class DevTools(commands.Cog, name="devtools"):
 		embed.set_footer(text="vibecheck")
 
 		await context.send(embed=embed)
+
+	@commands.command(name="raspberrypi", aliases=["rpi", "temp", "pi"])
+	async def raspberrypi(self, ctx):
+		uptime = shortcut.terminal("uptime -p")
+
+		try:
+			temp = shortcut.terminal("vcgencmd measure_temp").split('=', 1)[1]
+		except subprocess.CalledProcessError:
+			temp = None
+
+		embed = discord.Embed(title="raspberry pi", description="info and stuff", color=0x7209b7)
+		embed.add_field(name="the pi has been", value=uptime)
+		embed.add_field(name="the CPU temp is at", value=temp)
+		await ctx.send(embed=embed)
 
 	@commands.command(name="reset", aliases=["default"])
 	@commands.has_role("devtools")
@@ -119,7 +134,7 @@ class DevTools(commands.Cog, name="devtools"):
 			color=0x0C8708
 		)
 		await context.send(embed=embed)
-	
+
 	@commands.command(name="sourcecode", aliases=["gh", "code", "source", "github"])
 	async def sourcecode(self, context):
 		embed = discord.Embed(
@@ -134,14 +149,14 @@ class DevTools(commands.Cog, name="devtools"):
 	async def log(self, context, *args):
 
 		arg = "".join(args)
-		
+
 		if arg == "":
 			user = context.message.author
 			log = discord.File("./logs/log.txt")
 
-			await user.send("Here's the log", file=log)	
+			await user.send("Here's the log", file=log)
 			await context.send("Check DMs")
-		
+
 		else:
 			shortcut.logging(context.message, arg, skip=True)
 			await context.send(embed=discord.Embed(title="Comment logged successfully", color=0x0C8708))
@@ -163,24 +178,24 @@ class DevTools(commands.Cog, name="devtools"):
 			value = int(value)
 		elif delim is not None:
 			raise BadArgument
-		
+
 		if delim == "Cooldown":
 			settings["picCooldown"] = value
-		
+
 		elif delim == "Return":
 			settings["picReturn"] = bool(value)
-		
+
 		else:
 			foo = 1
-		
+
 		if "foo" in locals():
 			embed = discord.Embed(title="DevTools", description="r!pic values", color=0x8000B2)
 			embed.add_field(name="picCooldown:", value=f"{settings['picCooldown']}")
 			embed.add_field(name="picReturn", value=f"{settings['picReturn']}")
 			embed.set_footer(text="nerdshit")
-			
+
 			await context.send(embed=embed)
-		
+
 		else:
 			settings["tag"] = "Custom"
 			with open("assets/settings.json", 'w') as file:
@@ -196,24 +211,24 @@ class DevTools(commands.Cog, name="devtools"):
 			value = int(value)
 		elif delim is not None:
 			raise BadArgument
-		
+
 		if delim == "Cooldown":
 			settings["painCooldown"] = value
-		
+
 		elif delim == "Return":
 			settings["painReturn"] = bool(value)
-		
+
 		else:
 			foo = 1
-		
+
 		if "foo" in locals():
 			embed = discord.Embed(title="DevTools", description="r!pain values", color=0x8000B2)
 			embed.add_field(name="painCooldown:", value=f"{settings['painCooldown']}")
 			embed.add_field(name="painReturn", value=f"{settings['painReturn']}")
 			embed.set_footer(text="nerdshit")
-			
+
 			await context.send(embed=embed)
-		
+
 		else:
 			settings["tag"] = "Custom"
 			with open("assets/settings.json", 'w') as file:
@@ -221,7 +236,7 @@ class DevTools(commands.Cog, name="devtools"):
 
 			embed = embeds.successful_save()
 			await context.send(embed=embed)
-	
+
 	@commands.command(name="autoDev")
 	@commands.has_role("devtools")
 	async def auto_dev(self, context, delim=None, value=None):
@@ -229,20 +244,20 @@ class DevTools(commands.Cog, name="devtools"):
 			value = int(value)
 		elif delim is not None:
 			raise BadArgument
-		
+
 		if delim == "Switch":
 			settings["autopic"] = bool(value)
 
 		elif delim == "Sleep":
 			settings["autopicSleep"] = value
 			settings["autopicCooldown"] = value * 4
-		
+
 		elif delim == "Return":
 			settings["autopicReturn"] = bool(value)
-		
+
 		else:
 			foo = 1
-		
+
 		if "foo" in locals():
 			embed = discord.Embed(title="DevTools", description="r!autopic values", color=0x8000B2)
 			embed.add_field(name="autopic:", value=f"{settings['autopic']}")
@@ -256,10 +271,10 @@ class DevTools(commands.Cog, name="devtools"):
 			settings["tag"] = "Custom"
 			with open("assets/settings.json", 'w') as file:
 				json.dump(settings, file, indent=2)
-			
+
 			embed = embeds.successful_save()
 			await context.send(embed=embed)
-		
+
 	@commands.command(name="uwuDev")
 	@commands.has_role("devtools")
 	async def uwu_dev(self, context, delim=None, value=None):
@@ -273,10 +288,10 @@ class DevTools(commands.Cog, name="devtools"):
 
 		elif delim == "Cooldown":
 			settings["uwuCooldown"] = value
-		
+
 		elif delim == "Return":
 			settings["uwuReturn"] = bool(value)
-		
+
 		else:
 			foo = 1
 
@@ -287,12 +302,12 @@ class DevTools(commands.Cog, name="devtools"):
 			embed.add_field(name="uwuReturn", value=f"{settings['uwuReturn']}")
 			embed.set_footer(text="nerdshit")
 			await context.send(embed=embed)
-		
+
 		else:
 			settings["tag"] = "Custom"
 			with open("assets/settings.json", 'w') as file:
 				json.dump(settings, file, indent=2)
-			
+
 			embed = embeds.successful_save()
 			await context.send(embed=embed)
 
