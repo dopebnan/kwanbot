@@ -105,23 +105,22 @@ async def temp_task():
     try:
         temp = float(shortcut.terminal("vcgencmd measure_temp").split('=', 1)[1].split("'", 1)[0])
     except subprocess.CalledProcessError:
-        temp = 66
+        temp = 1
     if temp > 65:
         bot.temp_warning += 1
 
-    if bot.temp_warning < 5:
+    if 0 < bot.temp_warning < 5:
         embed = discord.Embed(title="WARNING", description=f"the pi's temp is `{temp}'C`", color=0xffc300)
         embed.set_footer(text=f"{bot.temp_warning}. warning")
         for channel in id_list:
             await channel.send(embed=embed)
-    else:
+    elif bot.temp_warning > 5:
         bot.temp_warning = 0
         embed = discord.Embed(title="STOPPING", description=f"the pi's temp is `{temp}'C`", color=0xcc3300)
         embed.set_footer(text=f"last warning")
         for channel in id_list:
             await channel.send(embed=embed)
         await reload(1)
-
 
 bot.remove_command("help")
 if __name__ == "__main__":

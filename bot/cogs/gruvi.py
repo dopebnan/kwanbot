@@ -18,7 +18,7 @@ from urllib.request import Request, urlopen
 from assets import shortcut, embeds
 
 import discord
-from discord.ext import commands
+from discord.ext import commands, tasks
 
 if not os.path.isfile("assets/config.json"):
 	sys.exit("config.json not found.")
@@ -69,10 +69,12 @@ class Gruvi(commands.Cog, name="gruvi"):
 			self.is_playing = True
 			self.vc = self.music_queue[0][1]
 			song = self.music_queue[0][0]['source']
-			auth = self.music_queue[0][2]
+			auth = self.music_queue[0][2].author
 
 			embed = embeds.now_playing(auth, self.music_queue[0][0])
 			await self.ctx.send(embed=embed)
+			self.music_queue[0][0].pop("source")
+			shortcut.logging(self.music_queue[0][2], self.music_queue[0][0], skip=True)
 
 			self.music_queue.pop(0)
 
@@ -109,6 +111,23 @@ class Gruvi(commands.Cog, name="gruvi"):
 			self.vc.play(discord.FFmpegPCMAudio(song), after=lambda e:
 							asyncio.run_coroutine_threadsafe(self.vc.guild.voice_client.disconnect(), self.bot.loop))
 
+	async def stopping(self):
+		self.music_queue.clear()
+		self.q.clear()
+
+		await asyncio.sleep(3)  # if it accidentally lags, having it at a lower number won't work.
+		if os.path.isfile("assets/audio/temp.mp3"):
+			os.remove("assets/audio/temp.mp3")
+
+	@tasks.loop(minutes=5)
+	async def inactivity(self, ctx):
+		await asyncio.sleep(60)  # some time so that they can put on some song before it checks
+		if self.is_playing is False:
+			await self.stopping()
+			await ctx.guild.voice_client.disconnect()
+			await ctx.send("left cuz of inactivity")
+			self.inactivity.cancel()
+
 	@commands.command(name="pop", aliases=["j", "summon", "join"])
 	async def pop(self, context):
 		voice_client = context.guild.voice_client
@@ -120,6 +139,7 @@ class Gruvi(commands.Cog, name="gruvi"):
 			if author_voice_client and not voice_client:
 				await vc.connect()
 				self.ctx = context
+				self.inactivity.start(context)
 			elif author_voice_client:
 				await voice_client.move_to(vc)
 
@@ -161,11 +181,12 @@ class Gruvi(commands.Cog, name="gruvi"):
 			else:
 				await context.send(embed=embeds.added_to_queue(song))
 
-				self.music_queue.append([song, voice_client, context.author])
+				self.music_queue.append([song, voice_client, context])
 				self.q.append(song)
 
 				if not self.is_playing:
 					await self.play_music()
+
 
 	@commands.command(name="playlocal", aliases=["pl"])
 	async def playlocal(self, context, song):
@@ -185,7 +206,7 @@ class Gruvi(commands.Cog, name="gruvi"):
 				raise discord.errors.InvalidArgument
 			else:
 				foo = shortcut.pseudo_ytdl_parse(song)
-				self.music_queue.append([foo, voice_client, context.author])
+				self.music_queue.append([foo, voice_client, context])
 				self.q.append(foo)
 				await context.send(embed=embeds.added_to_queue(foo))
 
@@ -286,7 +307,7 @@ class Gruvi(commands.Cog, name="gruvi"):
 					song = "last_cum"
 
 				__song = shortcut.pseudo_ytdl_parse(song)
-				self.music_queue.append([__song, voice_client, context.author])
+				self.music_queue.append([__song, voice_client, context])
 				self.q.append(__song)
 
 			await context.send("<:cum_zone:900770371698032640> WELCUM TO THE CUM ZONE <:cum_zone:900770371698032640>")
@@ -344,12 +365,8 @@ class Gruvi(commands.Cog, name="gruvi"):
 
 		else:
 			if voice_client.is_playing():
-				self.music_queue.clear()
-				self.q.clear()
 				voice_client.stop()
-				await asyncio.sleep(6)  # if it accidentally lags, having it at a lower number won't work.
-				if os.path.isfile("assets/audio/temp.mp3"):
-					os.remove("assets/audio/temp.mp3")
+				await self.stopping()
 				embed = discord.Embed(title="Stopped the music", color=0x0C8708)
 				await context.send(embed=embed)
 			else:
@@ -370,18 +387,14 @@ class Gruvi(commands.Cog, name="gruvi"):
 			await context.send(embed=embed)
 
 		elif context.bot.user in author_voice_client.channel.members:
+			voice_client.stop()
+			await self.stopping()
 			await context.guild.voice_client.disconnect()
 			embed = discord.Embed(
 				title="It's not like i wanted to join or anything! Dummy!",
 				color=0x0C8708
 			)
 			await context.send(embed=embed)
-
-			await asyncio.sleep(6)  # if it accidentally lags, having it at a lower number won't work.
-			if os.path.isfile("assets/audio/temp.mp3"):
-				os.remove("assets/audio/temp.mp3")
-
-			self.q.clear()
 
 
 def setup(bot):
