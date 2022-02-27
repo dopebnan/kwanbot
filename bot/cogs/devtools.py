@@ -104,6 +104,25 @@ class DevTools(commands.Cog, name="devtools"):
 		embed.add_field(name="the CPU temp is at", value=temp)
 		await ctx.send(embed=embed)
 
+	@commands.command(name="update")
+	async def update(self, ctx):
+		def authorcheck(m):
+			return ctx.author == m.author
+
+		status = shortcut.terminal("cd ../ && git fetch && git status").split('\n', 3)[1]
+
+		if status.startswith("Your branch is up to date with"):
+			await ctx.send(status)
+		else:
+			await ctx.send(status + "\nDo you want to continue? [Y/n]")
+			msg = await self.bot.wait_for('message', timeout=30, check=authorcheck)
+
+			if msg.content.lower() == 'y':
+				pull = shortcut.terminal("cd ../ && git pull --no-stat")
+				await ctx.send(pull + "\n...   Done\nUpdate successful")
+			else:
+				await ctx.send("update cancelled")
+
 	@commands.command(name="reset", aliases=["default"])
 	@commands.has_role("devtools")
 	async def reset(self, context):

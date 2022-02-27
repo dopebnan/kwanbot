@@ -4,6 +4,7 @@ import sys
 import random
 import unicodedata
 import time
+import asyncio
 
 from assets import shortcut, embeds
 
@@ -107,8 +108,21 @@ async def on_command_completion(ctx):
 		pass  # Unneeded, but makes log look nicer
 	if not ctx.command.qualified_name == "pic" and not ctx.command.qualified_name == "log":
 		shortcut.logging(ctx.message)
-	
-	
+
+
+# TODO: reload with this
+# reload files incase of an update
+@bot.listen("on_command_completion")
+async def reload(ctx):
+	if ctx.command.qualified_name == "update":
+		await asyncio.sleep(3)
+		bot.reload_extension("cogs.help")
+		bot.reload_extension("cogs.general")
+		bot.reload_extension("cogs.devtools")
+		bot.reload_extension("cogs.gruvi")
+		print("a")
+
+
 @bot.event
 async def on_command_error(context, error):
 	x = True
