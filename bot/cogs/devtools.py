@@ -67,7 +67,6 @@ class DevTools(commands.Cog, name="devtools"):
 	async def filecheck(self, context):
 		# Reloading settings.json in case it had any changes
 		with open("assets/settings.json") as file:
-			global settings
 			setting = json.load(file)
 
 		pic_num = str(len(os.listdir("./assets/img/pic"))) if os.path.isdir("./assets/img/pic") else 0
@@ -90,6 +89,7 @@ class DevTools(commands.Cog, name="devtools"):
 
 		await context.send(embed=embed)
 
+	# TODO
 	@commands.command(name="raspberrypi", aliases=["rpi", "temp", "pi"])
 	async def raspberrypi(self, ctx):
 		uptime = shortcut.terminal("uptime -p")
@@ -104,7 +104,9 @@ class DevTools(commands.Cog, name="devtools"):
 		embed.add_field(name="the CPU temp is at", value=temp)
 		await ctx.send(embed=embed)
 
+	# TODO
 	@commands.command(name="update")
+	@commands.has_role("devtools")
 	async def update(self, ctx):
 		def authorcheck(m):
 			return ctx.author == m.author
@@ -119,11 +121,11 @@ class DevTools(commands.Cog, name="devtools"):
 
 			if msg.content.lower() == 'y':
 				pull = shortcut.terminal("cd ../ && git pull --no-stat")
-				await ctx.send(pull + "\n...   Done\nUpdate successful")
+				await ctx.send(pull + "\nUpdate successful")
 			else:
-				await ctx.send("update cancelled")
+				await ctx.send("Update cancelled")
 
-	@commands.command(name="reset", aliases=["default"])
+	@commands.command(name="resetDev", aliases=["default", "reset"])
 	@commands.has_role("devtools")
 	async def reset(self, context):
 		with open("assets/settings.json", 'w') as file:
@@ -138,15 +140,18 @@ class DevTools(commands.Cog, name="devtools"):
 		)
 		await context.send(embed=embed)
 
-	@commands.command(name="debug", aliases=["debugmode", "devmode", "developermode"])
+	@commands.command(name="reloadDev", aliases=["restart", "reload"])
+	@commands.has_role("devtools")
+	async def reload(self, context):
+		embed = discord.Embed(title="Reload complete", color=0x0C8708)
+		await context.send(embed=embed)
+
+	@commands.command(name="debugDev", aliases=["debugmode", "devmode", "developermode", "debug"])
 	@commands.has_role("devtools")
 	async def debug(self, context):
 		# Replace settings.json with the dev settings
 		with open("assets/settings.json", 'w') as file:
 			file.write(devJSON_obj)
-		with open("assets/settings.json") as file:
-			global settings
-			settings = json.load(file)
 
 		embed = discord.Embed(
 			title="settings.json in DebugMode",

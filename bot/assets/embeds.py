@@ -77,10 +77,9 @@ def error_ytdl():
 def successful_save():
 	embed = discord.Embed(
 		title="Saving complete",
-		description=f"Your changes have been saved.",
+		description=f"Your changes have been applied.",
 		color=0x0C8708
 	)
-	embed.set_footer(text="you need to r!reload for your changes to take effect")
 
 	return embed
 
