@@ -160,13 +160,23 @@ class Help(commands.Cog, name="help"):
 			inline=True
 		)
 		embed.add_field(
-			name="r!debug:",
-			value="*Changes settings.json into dev-mode*",
+			name="r!raspberrypi",
+			value="*Gives temp and uptime*",
 			inline=True
 		)
 		embed.add_field(
+			name="r!update",
+			value="*Checks for updates*",
+			inline=True
+		)
+		embed.add_field(
+			name="r!debug:",
+			value="*Changes settings.json into dev-mode*",
+			inline=False
+		)
+		embed.add_field(
 			name="r!reset",
-			value="*Reverts every settings to default (do a r!reload after it)*",
+			value="*Reverts every settings to default*",
 			inline=True
 		)
 		embed.add_field(

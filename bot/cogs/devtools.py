@@ -89,7 +89,6 @@ class DevTools(commands.Cog, name="devtools"):
 
         await context.send(embed=embed)
 
-    # TODO
     @commands.command(name="raspberrypi", aliases=["rpi", "temp", "pi"])
     async def raspberrypi(self, ctx):
         uptime = shortcut.terminal("uptime -p")
@@ -104,7 +103,6 @@ class DevTools(commands.Cog, name="devtools"):
         embed.add_field(name="the CPU temp is at", value=temp)
         await ctx.send(embed=embed)
 
-    # TODO
     @commands.command(name="update")
     @commands.has_role("devtools")
     async def update(self, ctx):
