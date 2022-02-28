@@ -2,15 +2,34 @@
 
 !! You should use a proper markdown viewer !!
 
-## Time Spent Coding: 56 hours
+## Time Spent Coding: 75 hours
 
 # v2.3.1
-<sub>Feb. 22, 2021</sub>
+<sub>Feb. 29, 2021</sub>
+
+## Code
+* [x] Added `reload()` function, which restarts every cog  
+* [x] Changed identation to spaces
 
 ## DevTools 1.1.2
+* [x] Added `r!raspberrypi`, which displays the pi's current CPU temperature and uptime  (issue#8)  
+* [x] Added `r!update`, which checks for new commits and updates accordingly  (issue#8)
+* [x] Moved `r!reload` back into `devtools.py`
 * [x] Fixed bug where updated values weren't displayed correctly
 
-## UI
+## UX
+* [x] Bot shuts down whenever the CPU heat is too big  (issue#8)
+* [x] Bot leaves vc after 10 mins of inactivity  (issue#11)
+* [x] No more unknown errors  (issue#7)
+* [x] Made `glori` also be available to UwU-people
+
+## UX (DevTools)
+* [x] Changed the way reloading works: thanks to the reload function, now you don't need to manually reload anything
+* [x] Now everything that gets played will be logged  (issue#7)
+* [x] Deprecated `r!reload`
+* [x] Fixed issue where errors weren't getting logged well enough  (issue#7)
+
+## TSC: 9h 
 
 # v2.3 - LINUX UPDATE!!!
 <sub>Jan. 21, 2022</sub>
@@ -26,7 +45,7 @@
 * [x] split `shortcuts.py` into `shortcuts.py` and `embeds.py`  (commit#91edc692)
 * [x] removed classes from `shortcuts.py`  (commit#91edc692)
 
-## UI
+## UX
 * [x] Added **r!playfile**, you can send the bot files to play now
 * [x] `r!report` now links you to the bot's GitHub page  (commit#eab8469)
 * [x] Made it so that running the bot without any pictures doesn't crash it
@@ -68,10 +87,10 @@
 * [x] Added **r!pain** values (commit#285486f)
 * [x] Added **version.json**, and moved the version stuff from **config.json** to **version.json** (commit#026817f)
 
-## UI
+## UX
 * [x] Added **r!pain**, pics that invoked pain while coding the bot (commit#285486f)  <sub>idea by pigon</sub>
 
-## UI (DevTools)
+## UX (DevTools)
 * [x] Added **r!painDev Cooldown int**, change **r!pain** cooldown (commit#59011a4)
 * [x] Added **r!painDev Return bool**, if **r!pain** should return the cooldown after pics (commit#59011a4)
 * [x] Changed every command that takes a boolean. They now take integers as booleans (0 -> False, 1 -> True). Was needed for optimization. (commit#a1c2e39)
@@ -109,7 +128,7 @@
 ## Configs
 * [x] Reformatted config.json (commit#b2dd861)
 
-## UI
+## UX
 * [x] Added **r!bugtracker**, you can check out the bugs there now (commit#ef958c2)
 * [x] Added **r!cum**, queues the cum trilogy (commit#cedcf86)
 * [x] Added **r!leave**, makes bot leave vc	(commit#cedcf86)
@@ -120,7 +139,7 @@
 * [x] Added **r!skip**, skips current song (commit#cedcf86)
 * [x] Added **r!songlist**, lists all locally downloaded songs (commit#cedcf86)
 
-## UI (DevTools)
+## UX (DevTools)
 * [x] Added **r!newlog**, creates new log.txt. Does NOT delete old log. *Old logs can only be accessed locally.* (commit#b2dd861)
 * [x] Made **r!log** able to log comments too (commit#c253fcb)
 
@@ -141,10 +160,10 @@
 ## Configs
 * [x] Added **"uwuChannel"**, and **"uwuIDs"** variables to **config.json** (commit#55a03cc)
 
-## UI
+## UX
 * [x] Removed **sorry bot** (commit#55a03cc)
 
-## UI (DevTools)
+## UX (DevTools)
 * [x] Added **r!sourcecode**, you can check the source code of kwanbot. *You don't need DevTool perms to use this command.* (commit#55a03cc)
 
 ## TSC: 2h
@@ -204,7 +223,7 @@ Everything here happened in commit#2471c74
 * [x] Changed **data.py** into **config.json** and **settings.json**
 * [x] Made backups of these in **assets/backups**
 
-## UI
+## UX
 * [x] Added **r!changelog**, you can now see the changelog, *you're looking at it rn!*
 * [x] **r!check** now displays time passed since last update
 * [x] Added **r!ping**, see the latency of the bot
@@ -212,7 +231,7 @@ Everything here happened in commit#2471c74
 * [x] **glori** Replaced that If chunk with one if for IDs
 * [x] Started removing **sorry bot**
 
-## UI (DevTools)
+## UX (DevTools)
 * [x] Added **r!debug**, changes **config.json** into debug mode
 * [x] Added **r!log**, gives you the log file in DMs
 * [x] Added **r!reload**, reloads the config files
