@@ -81,6 +81,7 @@ bot = Bot(command_prefix="r!", intents=intents)
 bot.version = version
 bot.temp_warning = 0
 
+
 @bot.event
 async def on_ready():
     print(f"        Kwanbot!\n    API ver: {discord.__version__}\n    bot: {bot.user.name}\n\n\n")
@@ -94,6 +95,7 @@ async def on_ready():
 async def status_task():
     await bot.change_presence(activity=discord.Game(random.choice(status)))
     print("\nChanged status message.\n")
+
 
 # TODO
 @tasks.loop(minutes=5)
@@ -158,8 +160,10 @@ async def on_command_completion(ctx):
 
 @bot.event
 async def on_command_error(context, error):
-    cmd = context.command.qualified_name
+    cmd = context.command.qualified_name if context.command else context.command
+
     x = True
+    errormsg = str(error).replace("Command raised an exception: ", '')
 
     if isinstance(error, commands.CommandOnCooldown):
         seconds = round(error.retry_after)
@@ -168,6 +172,13 @@ async def on_command_error(context, error):
             title=f"{onCooldown[random.randint(0, len(onCooldown) - 1)]}",
             description=f"***{seconds}s** left of cooldown. wait.*",
             color=0x4361EE
+        )
+
+    elif isinstance(error, commands.CommandNotFound):
+        embed = discord.Embed(
+            title="That command doesn't exist, dummy",
+            description="better luck next time",
+            color=0xE3170A
         )
 
     elif isinstance(error, commands.BadArgument):
@@ -203,18 +214,8 @@ async def on_command_error(context, error):
                 color=0xE3170A
             )
 
-    elif isinstance(error, discord.InvalidArgument):
-        embed = embeds.error_invalid_arg(f"r!{context.command.qualified_name}")
-
     elif isinstance(error, commands.MissingAnyRole):
         embed = embeds.error_missing_role()
-
-    elif isinstance(error, commands.CommandNotFound):
-        embed = discord.Embed(
-            title="That command doesn't exist, dummy",
-            description="better luck next time",
-            color=0xE3170A
-        )
 
     elif isinstance(error, AttributeError):
         embed = embeds.author_not_in_vc()
@@ -226,18 +227,26 @@ async def on_command_error(context, error):
             color=0xE3170A
         )
 
+    elif isinstance(error.original, ConnectionError):
+        embed = embeds.error_ytdl()
+
+    elif isinstance(error.original, discord.errors.InvalidArgument):
+        embed = embeds.error_invalid_arg(f"r!{context.command.qualified_name}")
+
     else:
         # ostrich algorithm
         if cmd == "cum":
             shortcut.logging(context.message, error)
             x = False
         else:
-            embed = embeds.unknown_error()
+            errormsg_split = errormsg.split(':', 1)
+            embed = discord.Embed(title=errormsg_split[0], description=errormsg_split[1], color=0xE3170A)
+            embed.set_footer(text="sorry, tell bnan")
 
     print(error)
     if x:
         await context.send(embed=embed)
-        shortcut.logging(context.message, type(error))
+        shortcut.logging(context.message, errormsg)
 
         raise error
 
@@ -253,11 +262,7 @@ async def on_message(message):
         await message.channel.send(random.choice(jusReply))
 
     elif 'glori' in msg:
-        if message.author.id not in config["uwuIDs"]:
-            await message.channel.send(random.choice(gloriReply))
-        else:
-            await message.channel.send(random.choice(["something isn't right", "WE GOT A WESTERN SPY HERE BOIS",
-                                                      "..fake commie..", "this fucking cappy smh", "cappy bullshit"]))
+        await message.channel.send(random.choice(gloriReply))
 
     elif msg == 'bad bot':
         await message.channel.send(random.choice(badReply))
