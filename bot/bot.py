@@ -153,7 +153,7 @@ async def on_command_completion(ctx):
     if cmd.endswith("Dev"):
         await reload(1)
     elif cmd == "update":
-        await reload(3)
+        await reload(6)
         await ctx.send(f"    current version: `{bot.version['VERSION']}`")
 
 
