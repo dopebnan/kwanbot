@@ -97,7 +97,6 @@ async def status_task():
     print("\nChanged status message.\n")
 
 
-# TODO
 @tasks.loop(minutes=5)
 async def temp_task():
     await bot.wait_until_ready()
