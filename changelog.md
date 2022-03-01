@@ -5,7 +5,7 @@
 ## Time Spent Coding: 75 hours
 
 # v2.3.1
-<sub>Feb. 29, 2021</sub>
+<sub>Mar. 1, 2021</sub>
 
 ## Code
 * [x] Added `reload()` function, which restarts every cog  
@@ -22,6 +22,7 @@
 * [x] Bot leaves vc after 10 mins of inactivity  (issue#11)
 * [x] No more unknown errors  (issue#7)
 * [x] Made `glori` also be available to UwU-people
+* [x] Fixed `r!playfile` not working with queues (issue#5)
 
 ## UX (DevTools)
 * [x] Changed the way reloading works: thanks to the reload function, now you don't need to manually reload anything
