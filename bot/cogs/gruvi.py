@@ -14,7 +14,6 @@ import sys
 import eyed3
 from youtube_dl import YoutubeDL as ytdl
 from youtube_dl import utils as ytdl_errors
-from urllib.request import Request, urlopen
 
 from assets import shortcut, embeds
 
@@ -74,14 +73,8 @@ class Gruvi(commands.Cog, name="gruvi"):
 
             embed = embeds.now_playing(auth, self.music_queue[0][0])
             await self.ctx.send(embed=embed)
-
-            if song.endswith("/temp.mp3"):
-                delete = True
-
-            else:
-                shortcut.logging(self.music_queue[0][2], self.music_queue[0][0], skip=True)
-                self.music_queue[0][0].pop("source")
-                delete = False
+            self.music_queue[0][0].pop("source")
+            shortcut.logging(self.music_queue[0][2], self.music_queue[0][0], skip=True)
 
             self.music_queue.pop(0)
 
@@ -97,8 +90,6 @@ class Gruvi(commands.Cog, name="gruvi"):
                          after=lambda e: asyncio.run_coroutine_threadsafe(self.play_music(delete), self.bot.loop))
         else:
             self.is_playing = False
-            if delete:
-                os.remove("assets/audio/temp.mp3")
 
     async def play_cum(self):
         if len(self.music_queue) > 0:
@@ -117,8 +108,6 @@ class Gruvi(commands.Cog, name="gruvi"):
         self.q.clear()
 
         await asyncio.sleep(3)  # if it accidentally lags, having it at a lower number won't work.
-        if os.path.isfile("assets/audio/temp.mp3"):
-            os.remove("assets/audio/temp.mp3")
 
     @tasks.loop(minutes=10)
     async def inactivity(self, ctx):
@@ -234,24 +223,15 @@ class Gruvi(commands.Cog, name="gruvi"):
                 raise TypeError("no attachment")
 
             if "audio" in file.content_type:
-                url = file.url
-                shortcut.logging(ctx.message, url, skip=True)
-                req = Request(url, headers={"User-Agent": "Mozilla/5.0"})
-                with urlopen(req) as web:
-                    data = web.read()
-                if os.path.isfile("assets/audio/temp.mp3"):
-                    raise FileExistsError("temp.mp3 already exists")
-                else:
-                    with open("assets/audio/temp.mp3", "wb") as web:
-                        web.write(data)
+                shortcut.logging(ctx.message, file.proxy_url, skip=True)
 
-            parse = shortcut.pseudo_ytdl_parse("temp")
-            self.music_queue.append([parse, voice_client, ctx])
-            self.q.append(parse)
-            await ctx.send(embed=embeds.added_to_queue(parse))
+                parse = shortcut.pseudo_ytdl_dcparse(file)
+                self.music_queue.append([parse, voice_client, ctx])
+                self.q.append(parse)
+                await ctx.send(embed=embeds.added_to_queue(parse))
 
-            if not self.is_playing:
-                await self.play_music()
+                if not self.is_playing:
+                    await self.play_music()
 
             else:
                 raise commands.BadArgument("attachment isn't an audio file")
