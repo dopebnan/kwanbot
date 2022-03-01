@@ -166,7 +166,7 @@ class Help(commands.Cog, name="help"):
 		)
 		embed.add_field(
 			name="r!update",
-			value="*Checks for updates*",
+			value="*Updates the bot, or resets it to the last commit*",
 			inline=True
 		)
 		embed.add_field(

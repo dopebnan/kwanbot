@@ -113,10 +113,10 @@ class DevTools(commands.Cog, name="devtools"):
         exceptions = ["-r", "--reset"]
 
         if arg == "-h" or arg == "--help":
-            msg = "```bat\nr!update\n    you can update or reset the bot to the last commit\n\nOPTIONS:\n" \
-                   "    -r, --reset\n        deletes changes and reverts back to original commit\n" \
-                   "    --hard-pull\n        deletes changes and updates the bot\n" \
-                   "    -m, --merge\n        saves changes and updates the bot\n" \
+            msg = "```bat\nr!update\n    Updates the bot, or resets it to the last commit\n\nOPTIONS:\n" \
+                   "    -r, --reset\n        deletes any changes and reverts back to the original commit\n" \
+                   "    --hard-pull\n        deletes any changes and updates the bot\n" \
+                   "    -m, --merge\n        saves changes and updates to the latest commit\n" \
                    "    -h, --help\n        this\n```"
             await ctx.send(msg)
 
