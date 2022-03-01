@@ -2,18 +2,16 @@
 
 !! You should use a proper markdown viewer !!
 
-## Time Spent Coding: 75 hours
+## Time Spent Coding: 76 hours
 
 # v2.3.1
 <sub>Mar. 1, 2021</sub>
 
 ## Code
 * [x] Added `reload()` function, which restarts every cog  
-* [x] Changed identation to spaces
+* [x] Changed indentation to spaces
 
 ## DevTools 1.1.2
-* [x] Added `r!raspberrypi`, which displays the pi's current CPU temperature and uptime  (issue#8)  
-* [x] Added `r!update`, which checks for new commits and updates accordingly  (issue#8)
 * [x] Moved `r!reload` back into `devtools.py`
 * [x] Fixed bug where updated values weren't displayed correctly
 
@@ -25,12 +23,15 @@
 * [x] Fixed `r!playfile` not working with queues (issue#5)
 
 ## UX (DevTools)
+* [x] Added `r!raspberrypi`, which displays the pi's current CPU temperature and uptime  (issue#8)  
+* [x] Added `r!update`, which checks for new commits and updates accordingly  (issue#8)
+  * [x] it has different options, which you can check out via `r!update --help`
 * [x] Changed the way reloading works: thanks to the reload function, now you don't need to manually reload anything
 * [x] Now everything that gets played will be logged  (issue#7)
 * [x] Deprecated `r!reload`
 * [x] Fixed issue where errors weren't getting logged well enough  (issue#7)
 
-## TSC: 9h 
+## TSC: 10h 
 
 # v2.3 - LINUX UPDATE!!!
 <sub>Jan. 21, 2022</sub>

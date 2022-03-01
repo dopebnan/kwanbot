@@ -61,8 +61,6 @@ def pseudo_ytdl_dcparse(attachment):
     return song_atr
 
 
-
-
 def queue_format(queue):
     result = f"```fsharp\n"
     for i in range(0, len(queue)):

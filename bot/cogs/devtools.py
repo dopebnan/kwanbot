@@ -105,21 +105,35 @@ class DevTools(commands.Cog, name="devtools"):
 
     @commands.command(name="update")
     @commands.has_role("devtools")
-    async def update(self, ctx):
+    async def update(self, ctx, arg="--help"):
         def authorcheck(m):
             return ctx.author == m.author
 
         status = shortcut.terminal("cd ../ && git fetch && git status").split('\n', 3)[1]
+        exceptions = ["-r", "--reset"]
 
-        if status.startswith("Your branch is up to date with"):
+        if arg == "-h" or arg == "--help":
+            msg = "```bat\nr!update\n    you can update or reset the bot to the last commit\n\nOPTIONS:\n" \
+                   "    -r, --reset\n        deletes changes and reverts back to original commit\n" \
+                   "    --hard-pull\n        deletes changes and updates the bot\n" \
+                   "    -m, --merge\n        saves changes and updates the bot\n" \
+                   "    -h, --help\n        this\n```"
+            await ctx.send(msg)
+
+        elif status.startswith("Your branch is up to date with") and arg not in exceptions:
             await ctx.send(status)
         else:
             await ctx.send(status + "\nDo you want to continue? [Y/n]")
             msg = await self.bot.wait_for('message', timeout=30, check=authorcheck)
 
             if msg.content.lower() == 'y':
-                pull = shortcut.terminal("cd ../ && git pull --no-stat")
-                await ctx.send(pull + "\nUpdate successful")
+                if arg == "--reset" or arg == "-r":
+                    pull = shortcut.terminal("cd ../ && git reset --hard")
+                elif arg == "--hard-pull":
+                    pull = shortcut.terminal("cd ../ && git reset --hard && git pull --no-stat")
+                elif arg == "--merge" or arg == "-m":
+                    pull = shortcut.terminal("cd ../ && git merge --no-commit --no-stat -v")
+                await ctx.send(pull + "\nUpdate successful\n")
             else:
                 await ctx.send("Update cancelled")
 
