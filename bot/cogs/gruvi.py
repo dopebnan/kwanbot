@@ -107,8 +107,6 @@ class Gruvi(commands.Cog, name="gruvi"):
         self.music_queue.clear()
         self.q.clear()
 
-        await asyncio.sleep(3)  # if it accidentally lags, having it at a lower number won't work.
-
     @tasks.loop(minutes=10)
     async def inactivity(self, ctx):
         await asyncio.sleep(60)  # some time so that they can put on some song before it checks

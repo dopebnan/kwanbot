@@ -80,7 +80,7 @@ class General(commands.Cog, name="general"):
             name="Last update was:",
             value=f"<t:{version['lastUpdate']}:R>",
         )
-        embed.set_footer(text=f"Time spent coding: 9hrs")
+        embed.set_footer(text=f"Time spent coding: 10hrs")
         await context.send(embed=embed)
 
     @commands.command(name="changelog", aliases=["change", "changes", "updates"])
