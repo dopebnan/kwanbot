@@ -106,19 +106,21 @@ async def temp_task():
     try:
         temp = float(shortcut.terminal("vcgencmd measure_temp").split('=', 1)[1].split("'", 1)[0])
     except subprocess.CalledProcessError:
-        temp = 1
+        temp = 69
     if temp > 65:
         bot.temp_warning += 1
 
     if 0 < bot.temp_warning < 5:
         embed = discord.Embed(title="WARNING", description=f"the pi's temp is `{temp}'C`", color=0xffc300)
         embed.set_footer(text=f"{bot.temp_warning}. warning")
+        shortcut.logging(error_msg=f"WARN: the CPU is at {temp}'C", raw=True)
         for channel in id_list:
             await channel.send(embed=embed)
     elif bot.temp_warning > 5:
         bot.temp_warning = 0
         embed = discord.Embed(title="STOPPING", description=f"the pi's temp is `{temp}'C`", color=0xcc3300)
         embed.set_footer(text=f"last warning")
+        shortcut.logging(error_msg=f"CRITICAL: the CPU is at {temp}'C", raw=True)
         for channel in id_list:
             await channel.send(embed=embed)
         await reload(1)
@@ -218,13 +220,6 @@ async def on_command_error(context, error):
 
     elif isinstance(error, AttributeError):
         embed = embeds.author_not_in_vc()
-
-    elif isinstance(error.original, FileExistsError):
-        embed = discord.Embed(
-            title="Sorry",
-            description="You cannot download multiple files at once\ntry again when it's done playing",
-            color=0xE3170A
-        )
 
     elif isinstance(error.original, ConnectionError):
         embed = embeds.error_ytdl()

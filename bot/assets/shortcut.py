@@ -23,9 +23,12 @@ def var_type(arg: str):
     return filetype
 
 
-def logging(message, error_msg=None, skip=False):
+def logging(message=None, error_msg=None, skip=False, raw=False):
     with open("./logs/log.txt", 'a') as f:
-        if skip is True:
+        if raw is True:
+            f.write(f"[{time.strftime('%H:%M:%S', time.gmtime(time.time()))}] "
+                    f"{error_msg}\n")
+        elif skip is True:
             f.write(f"[{time.strftime('%H:%M:%S', time.gmtime(time.time()))}] "
                     f"<{message.author}, ({message.author.id})>: {error_msg}\n")
         else:
@@ -36,7 +39,7 @@ def logging(message, error_msg=None, skip=False):
 def pseudo_ytdl_parse(song):
     song_obj = eyed3.load(f"./assets/audio/{song}.mp3")
     length = round(int(song_obj.info.time_secs))
-    title = song_obj.tag.title or "Unknown" if song == "temp" else song
+    title = song_obj.tag.title or "Unknown"
     artist = song_obj.tag.artist or "Unknown Artist"
     song_atr = {'source': f'./assets/audio/{song}.mp3',
                 "title": title,
@@ -45,6 +48,19 @@ def pseudo_ytdl_parse(song):
                 }
 
     return song_atr
+
+
+def pseudo_ytdl_dcparse(attachment):
+    title = attachment.filename
+    artist = "Unknown Artist"
+    song_atr = {'source': attachment.url,
+                "title": title,
+                "artist": artist,
+                "length": 1
+                }
+    return song_atr
+
+
 
 
 def queue_format(queue):
