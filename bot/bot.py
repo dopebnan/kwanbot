@@ -106,7 +106,7 @@ async def temp_task():
     try:
         temp = float(shortcut.terminal("vcgencmd measure_temp").split('=', 1)[1].split("'", 1)[0])
     except subprocess.CalledProcessError:
-        temp = 69
+        temp = 1
     if temp > 65:
         bot.temp_warning += 1
 
