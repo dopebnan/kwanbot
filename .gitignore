@@ -1,39 +1,8 @@
-
-bot/assets/config.json
-bot/assets/settings.json
-data.json
-*.bat
-test.*
-bot/assets/img/pic/*
-bot/assets/img/uwu/*
-bot/assets/img/test/*
-bot/assets/img/pain/*
-bot/logs
-bot/assets/audio/*
-!bot/assets/audio/test*.mp3
-asd.md
-bot/assets/icons/*
-*FORMAT.*
-release/*
-
-# get fucked nerd
-TODO.md 
-
-
-
-## VSCode
-
-.vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
-*.code-workspace
-
-# Local History for Visual Studio Code
-.history/
-
-## Python
+# Custom
+*config*
+logs/*
+settings.json
+.idea/*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -164,5 +133,3 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
-
-.vscode/launch.json
