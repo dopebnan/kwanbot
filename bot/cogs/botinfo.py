@@ -9,8 +9,13 @@ You should have received a copy of the GNU General Public License
 along with kwanBot. If not, see <https://www.gnu.org/licenses/>.
 """
 
+import os
+from platform import platform, python_version
+
 import discord
 from discord.ext import commands
+
+from shortcuts import terminal
 
 
 class BotInfo(commands.Cog, name="Bot Info", description="Info about bot pogpog"):
@@ -60,6 +65,33 @@ class BotInfo(commands.Cog, name="Bot Info", description="Info about bot pogpog"
             color=0x5de7b4
         )
         await ctx.send(embed=embed)
+
+    @commands.command(name="sysinfo", aliases=["chkdsk", "filecheck", "fsck"], brief="Gives technical info about bot")
+    async def sysinfo(self, ctx):
+        pic_num = len(os.listdir("usercontent/images/pic/"))
+        uwu_num = len(os.listdir("usercontent/images/uwu/"))
+        pain_num = len(os.listdir("usercontent/images/pain/"))
+        header = f"{self.bot.user.name}@[kwanCore]"
+        latest_ver = terminal("git tag -l").split('\n')[0]
+        try:
+            temp = terminal("vcgencmd measure_temp").split('=')[1]
+        except IndexError:
+            self.logger.log("warn", "stats", "Couldn't measure CPU temp, are you sure this is a raspberrypi?")
+            temp = 0
+        result = (f"```yaml\n"
+                  f"{header}\n{'-' * len(header)}\n"
+                  f"OS: {platform().split('-', 1)[0]}\n"
+                  f"CPU: {temp}\n"
+                  f"Uptime: {terminal(b'uptime -p').replace('up ', '')}"
+                  f"Python: {python_version()}\n"
+                  f"Discord.py: {discord.__version__}\n"
+                  f"Current Version: {self.bot.version}\n"
+                  f"Latest Version: {latest_ver}\n"
+                  f"r!pic Images: {pic_num}\n"
+                  f"r!uwu Images: {uwu_num}\n"
+                  f"r!pain Images: {pain_num}\n"
+                  f"```")
+        await ctx.send(result)
 
 
 def setup(bot):
