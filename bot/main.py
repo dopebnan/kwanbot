@@ -82,7 +82,7 @@ status_msg = ["KWANCORE!!!", "r!", "I'm gonna shit yourself", "nope, it was just
               "do NOT FUCK SHIT", "cancelling global warming", "just came from eating honey",
               "kwan appreciation time!", "FUCK YOU URBDIC", "bot be popping off doe"]
 
-bot = Bot(command_prefix="kc!")
+bot = Bot(command_prefix="r!")
 
 bot.config = config
 bot.logger = logger
@@ -95,9 +95,9 @@ replies = config["replies"]
 @bot.event
 async def on_ready():
     logger.log()
-    logger.log(message="kwancore".center(79))
-    logger.log(message=f"discord.py version: {discord.__version__}".center(79))
-    logger.log(message=f"bot: {bot.user.name}".center(79))
+    logger.log(message="kwanBot".center(30))
+    logger.log(message=f"discord.py version: {discord.__version__}".center(30))
+    logger.log(message=f"bot: {bot.user.name}".center(30))
     logger.log()
     status_task.start()
     logger.log("info", "on_ready", "started status_task")

@@ -8,7 +8,7 @@ Copyright (C) 2022 dopebnan
 You should have received a copy of the GNU General Public License
 along with kwanCore. If not, see <https://www.gnu.org/licenses/>.
 """
-
+import asyncio
 import json
 import os
 import random
@@ -71,17 +71,32 @@ class BotInfo(commands.Cog, name="Bot Info", description="Stuff about the bot"):
 
     @commands.command(name="pic", brief="Sends an out of context pic")
     @commands.cooldown(1, settings["pic_cooldown"], BucketType.user)
-    async def pic(self, ctx, i=1):
+    async def pic(self, ctx):
+        p = "usercontent/images/pic/"
+        img = p + random.choice(os.listdir(p))
+        msg = random.choice(["remember this:", "bruh", "pic pog", ":kwanbruh:"])
+        await ctx.send(msg, file=discord.File(img))
+        self.logger.log("info", "pic", f"Sent {img} to #{ctx.channel}")
+
+    @commands.command(name="autopic", brief="Sends multiple out of context pics")
+    @commands.cooldown(1, settings["autopic_sleep"]*6, BucketType.user)
+    async def autopic(self, ctx, i=None):
+        try:
+            i = int(i)
+        except ValueError:
+            self.autopic.reset_cooldown(ctx)
+            raise TypeError("Do you know how numbers work??")
         if i > 10:
-            raise
+            self.autopic.reset_cooldown(ctx)
+            raise TypeError("I can't go over 10 (pick a smaller number)")
         if i > 0:
             for j in range(i):
                 p = "usercontent/images/pic/"
                 img = p + random.choice(os.listdir(p))
-                msg = random.choice(["remember this:", "bruh", "pic pog", ":kwanbruh:"]) + f"({j+1}/{i} images)"
+                msg = random.choice(["remember this:", "bruh", "pic pog", ":kwanbruh:"]) + f" ({j + 1}/{i})"
                 await ctx.send(msg, file=discord.File(img))
-
-                self.logger.log("info", "pic", f"Sent {img} to {ctx.channel} ({j+1}/{i})")
+                self.logger.log("info", "pic", f"Sent {img} to #{ctx.channel} ({j + 1}/{i})")
+                await asyncio.sleep(settings["autopic_sleep"])
 
 
 def setup(bot):
