@@ -70,7 +70,7 @@ class BotInfo(commands.Cog, name="Bot Info", description="Stuff about the bot"):
         )
         await ctx.send(embed=embed)
 
-    @commands.command(name="pic", brief="Sends an out of context pic")
+    @commands.command(name="pic", brief="Out of context pictures innit")
     @commands.cooldown(1, settings["pic_cooldown"], BucketType.user)
     async def pic(self, ctx):
         p = "usercontent/images/pic/"
@@ -79,7 +79,7 @@ class BotInfo(commands.Cog, name="Bot Info", description="Stuff about the bot"):
         await ctx.send(msg, file=discord.File(img))
         self.logger.log("info", "pic", f"Sent {img} to #{ctx.channel}")
 
-    @commands.command(name="autopic", aliases=["pix", "pics"], brief="Sends multiple out of context pics")
+    @commands.command(name="autopic", aliases=["pix", "pics"], brief="MORE OUT OF CONTEXT PICS")
     @commands.cooldown(1, settings["autopic_sleep"]*6, BucketType.user)
     async def autopic(self, ctx, i=None):
         try:
@@ -125,6 +125,15 @@ class BotInfo(commands.Cog, name="Bot Info", description="Stuff about the bot"):
 
         roulette = [image, text]
         await random.choice(roulette)()
+
+    @commands.command(name="pain", brief="Epic programur bnan moments")
+    @commands.cooldown(1, settings["pain_cooldown"], BucketType.user)
+    async def pain(self, ctx):
+        p = "usercontent/images/pain"
+        img = p + random.choice(os.listdir(p))
+        msg = random.choice(["*pain.*", "*cri*", "not proud of that one", "very bigbrein moment", "so dumb smh", "mf"])
+        await ctx.send(msg, file=discord.File(img))
+        self.logger.log("info", "pain", f"Sent {img} to #{ctx.channel}")
 
 
 def setup(bot):
