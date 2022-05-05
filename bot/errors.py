@@ -52,3 +52,9 @@ class NoAttachment(GenericError):
 class RoleError(GenericError):
     def __init__(self, role, author):
         super().__init__(f"'{role}' not in '{author}'.roles")
+
+
+class UwUTurnedOff(GenericError):
+    def __init__(self, channel, msg=None):
+        msg = f"Using this command outside <#{channel}> has been disabled." or msg
+        super().__init__(msg)

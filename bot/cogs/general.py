@@ -25,6 +25,7 @@ class BotInfo(commands.Cog, name="Bot Info", description="Stuff about the bot"):
     def __init__(self, bot):
         self.bot = bot
         self.logger = bot.logger
+        self.replies = bot.config["general"]
 
     @commands.command(name="changelog", aliases=["changes", "updates"], brief="Sends the changelog, bruh")
     async def changelog(self, ctx):
@@ -78,7 +79,7 @@ class BotInfo(commands.Cog, name="Bot Info", description="Stuff about the bot"):
         await ctx.send(msg, file=discord.File(img))
         self.logger.log("info", "pic", f"Sent {img} to #{ctx.channel}")
 
-    @commands.command(name="autopic", brief="Sends multiple out of context pics")
+    @commands.command(name="autopic", aliases=["pix", "pics"], brief="Sends multiple out of context pics")
     @commands.cooldown(1, settings["autopic_sleep"]*6, BucketType.user)
     async def autopic(self, ctx, i=None):
         try:
@@ -95,8 +96,35 @@ class BotInfo(commands.Cog, name="Bot Info", description="Stuff about the bot"):
                 img = p + random.choice(os.listdir(p))
                 msg = random.choice(["remember this:", "bruh", "pic pog", ":kwanbruh:"]) + f" ({j + 1}/{i})"
                 await ctx.send(msg, file=discord.File(img))
-                self.logger.log("info", "pic", f"Sent {img} to #{ctx.channel} ({j + 1}/{i})")
+                self.logger.log("info", "autopic", f"Sent {img} to #{ctx.channel} ({j + 1}/{i})")
                 await asyncio.sleep(settings["autopic_sleep"])
+
+    @commands.command(name="succ", brief="HOLI BUSSY PRAYERZ SUCCSUCCSUCC")
+    async def succ(self, ctx):
+        await ctx.send(random.choice(self.replies["succ"]))
+
+    @commands.command(name="brit", brief="God save the Queen")
+    async def brit(self, ctx):
+        await ctx.send(random.choice(self.replies["brit"]))
+
+    @commands.command(name="uwu", aliases=["heresy", "cappybs"], brief="Only the Finest Cappy Bullshit:tm: 24/7")
+    @commands.cooldown(1, settings["uwu_cooldown"], BucketType.user)
+    async def uwu(self, ctx):
+        if ctx.channel.id != self.bot.config["uwu_channel"] and not settings["uwu"]:
+            raise self.bot.errors.UwUTurnedOff(self.bot.config["uwu_channel"])
+
+        async def image():
+            p = "usercontent/images/uwu/"
+            img = p + random.choice(os.listdir(p))
+            msg = random.choice(["uwu", "UwU", "OwO", "ÒwÓ", "ÙwÚ", "ÓwÒ", "^w^", ":3"])
+            await ctx.send(msg, file=discord.File(img))
+            self.logger.log("info", "uwu", f"Sent {img} to #{ctx.channel}")
+
+        async def text():
+            await ctx.send(random.choice(self.replies["uwu"]))
+
+        roulette = [image, text]
+        await random.choice(roulette)()
 
 
 def setup(bot):
