@@ -72,7 +72,7 @@ class BotInfo(commands.Cog, name="Bot Info", description="Info about bot pogpog"
         uwu_num = len(os.listdir("usercontent/images/uwu/"))
         pain_num = len(os.listdir("usercontent/images/pain/"))
         header = f"{self.bot.user.name}@[kwanCore]"
-        latest_ver = terminal("git tag -l").split('\n')[0]
+        latest_ver = terminal("git tag -l").split('\n')[-2]
         try:
             temp = terminal("vcgencmd measure_temp").split('=')[1]
         except IndexError:
@@ -92,6 +92,15 @@ class BotInfo(commands.Cog, name="Bot Info", description="Info about bot pogpog"
                   f"r!pain Images: {pain_num}\n"
                   f"```")
         await ctx.send(result)
+
+    @commands.command(name="sourcecode", aliases=["gh", "source", "github"], brief="Checkout the inner workings of bot")
+    async def sourcecode(self, ctx):
+        embed = discord.Embed(
+            title="Source code",
+            description="You can view the source code on [GitHub](https://github.com/dopebnan/kwanbot)",
+            color=discord.Color.random()
+        )
+        await ctx.send(embed=embed)
 
 
 def setup(bot):
