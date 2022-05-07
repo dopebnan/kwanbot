@@ -21,7 +21,7 @@ with open("usercontent/settings.json") as file:
     settings = json.load(file)
 
 
-class BotInfo(commands.Cog, name="Bot Info", description="Stuff about the bot"):
+class General(commands.Cog, name="General", description="Legacy fun stuff"):
     def __init__(self, bot):
         self.bot = bot
         self.logger = bot.logger
@@ -60,11 +60,11 @@ class BotInfo(commands.Cog, name="Bot Info", description="Stuff about the bot"):
     async def succ(self, ctx):
         await ctx.send(random.choice(self.replies["succ"]))
 
-    @commands.command(name="brit", brief="God save the Queen")
+    @commands.command(name="brit", brief="GOD SAVE THE QUEEEN")
     async def brit(self, ctx):
         await ctx.send(random.choice(self.replies["brit"]))
 
-    @commands.command(name="uwu", aliases=["heresy", "cappybs"], brief="Only the Finest Cappy Bullshit:tm: 24/7")
+    @commands.command(name="uwu", aliases=["heresy", "cappybs"], brief="Only the Finest Cappy Bullshit™ 24/7")
     @commands.cooldown(1, settings["uwu_cooldown"], BucketType.user)
     async def uwu(self, ctx):
         if ctx.channel.id != self.bot.config["uwu_channel"] and not settings["uwu"]:
@@ -94,4 +94,4 @@ class BotInfo(commands.Cog, name="Bot Info", description="Stuff about the bot"):
 
 
 def setup(bot):
-    bot.add_cog(BotInfo(bot))
+    bot.add_cog(General(bot))
