@@ -10,6 +10,8 @@ along with kwanCore. If not, see <https://www.gnu.org/licenses/>.
 """
 
 import asyncio
+from random import choice
+
 import agenius
 
 import discord
@@ -19,7 +21,7 @@ from yt_dlp import YoutubeDL as yt_dlp
 from shortcuts import misc
 
 ytdl_opts = {'format': 'bestaudio/audio', "quiet": True, "ignoreerrors": True}
-ffmpeg_opts = {"bopts": "-reconnect 1", "opts": "-vn"}
+ffmpeg_opts = '-vn'
 
 
 class Music(commands.Cog, name="Music", description="Music commands"):
@@ -29,6 +31,7 @@ class Music(commands.Cog, name="Music", description="Music commands"):
         self.checks = 0
         self.genius = agenius.Genius(self.bot.config["genius_token"])
         self.emojis = bot.config["emojis"]
+        self.dance = [e for e in bot.config["emojis"] if e.endswith("_dance")]
 
         self.music_queue = []
         self.queue_index = 0
@@ -73,13 +76,13 @@ class Music(commands.Cog, name="Music", description="Music commands"):
             if video.startswith("https://"):
                 info = yt_l.extract_info(video, download=False)
                 if len(info["entries"]) < 1:
-                    raise ValueError("Search result returned nothing")
+                    raise ValueError(":x: That doesn't exist")
                 self.logger.log("info", "search", f"Playlist ({info['webpage_url']})")
             else:
                 # info = yt_l.extract_info(f"ytsearch:{video}", download=False)["entries"][0]
                 info = yt_l.extract_info(f"{arg}{video}", download=False)
                 if len(info["entries"]) < 1:
-                    raise ValueError("Search result returned nothing")
+                    raise ValueError(":x: That doesn't exist")
                 self.logger.log("info", "search", f"Found '{info['title']}' ({info['entries'][0]['display_id']})")
         result = info
         if len(result["entries"]) > 50:
@@ -116,6 +119,25 @@ class Music(commands.Cog, name="Music", description="Music commands"):
 
         return file
 
+    def cum_queue(self, ctx):
+        """
+        Adds the Cum Trilogy to the queue
+
+        :param ctx: discord.Context, the context
+        """
+        p = "./usercontent/audio/cum.mp3"
+        length = misc.terminal(f"ffprobe {p} -show_entries format=duration -v quiet -of csv=\"p=0\"")
+        result ={
+            "hls": p,
+            "url": p,
+            "title": "Cum Trilogy",
+            "artist": "OblivionFall",
+            "length": round(float(length)),
+            "keywords": "Welcome to The Cum Zone"
+        }
+        self.music_queue.append([result, ctx.guild.voice_client, ctx.author])
+        self.logger.log("info", "cum_queue", "Queued the Cum Trilogy")
+
     async def play_music(self):
         if len(self.music_queue) > self.queue_index:
             song = self.music_queue[self.queue_index][0]
@@ -123,8 +145,8 @@ class Music(commands.Cog, name="Music", description="Music commands"):
             author = self.music_queue[self.queue_index][2]
 
             embed = discord.Embed(
-                title="Now playing",
-                description=f"{song['artist']} - {song['title']} [{author.mention}]",
+                title=f"{self.emojis[choice(self.dance)]} **Now playing** {self.emojis[choice(self.dance)]}",
+                description=f"**{song['artist']}** - *{song['title']}* [{author.mention}]",
                 color=discord.Color.random()
             )
             await self.ctx[vc.guild.id].send(embed=embed)
@@ -133,8 +155,7 @@ class Music(commands.Cog, name="Music", description="Music commands"):
             self.queue_index += 1
 
             self.logger.log('info', "play_music", f"Playing '{song['title']}'")
-            vc.play(discord.FFmpegPCMAudio(song["hls"],
-                                           before_options=ffmpeg_opts["bopts"], options=ffmpeg_opts["opts"]),
+            vc.play(discord.FFmpegPCMAudio(song["hls"], options=ffmpeg_opts),
                     after=lambda play: asyncio.run_coroutine_threadsafe(self.play_music(), self.bot.loop))
 
     @tasks.loop(minutes=5)
@@ -157,28 +178,30 @@ class Music(commands.Cog, name="Music", description="Music commands"):
             self.checks = 0
             self.inactivity.cancel()
 
-    @commands.command(name="join", brief="Joins the voice channel")
-    async def join(self, ctx):
+    @commands.command(name="pop", aliases=['join', 'j', 'summon'], brief="Joins the voice channel")
+    async def pop(self, ctx):
         voice_client = ctx.guild.voice_client
         author_voice = ctx.author.voice
 
         if not author_voice:
-            raise self.bot.errors.AuthorNotInVoice("Author not in any voice channel")
+            raise self.bot.errors.AuthorNotInVoice("**You need to be in a vc, dummy**")
 
         vc = author_voice.channel
         if not voice_client:
             await vc.connect()
             self.ctx = {ctx.guild.id: ctx}
             self.logger.log("info", "join", f"Joined {str(ctx.guild) + '/' + str(vc)}")
-            await ctx.send(f"Joined `{vc}`!")
+            msg = f"{self.emojis['popcat']} **I've popped into `{vc}`!** {self.emojis['hype_dance']}"
+            await ctx.send(msg)
             await asyncio.sleep(300)
             self.inactivity.start(ctx)
         else:
             await voice_client.move_to(vc)
             self.logger.log("info", "join", f"Joined {str(ctx.guild) + '/' + str(vc)}")
-            await ctx.send(f"Joined `{vc}`!")
+            msg = f"{self.emojis['popcat']} **I've popped into `{vc}`** {self.emojis['hype_dance']}"
+            await ctx.send(msg)
 
-    @commands.command(name="play", brief="Plays your requested song")
+    @commands.command(name="play", aliases=['p'], brief="Plays your requested song")
     async def play(self, ctx, *args):
         args = list(args)
         if args[0].startswith("-"):
@@ -190,7 +213,7 @@ class Music(commands.Cog, name="Music", description="Music commands"):
         elif flag in ('-sc', "--soundcloud"):
             search_type = "scsearch:"
         else:
-            raise self.bot.errors.BadArgument("That flag doesn't exist", flag)
+            raise self.bot.errors.BadArgument(":x: **That flag doesn't exist**", flag)
         self.logger.log("info", "play", flag)
 
         args = " ".join(args)
@@ -198,47 +221,64 @@ class Music(commands.Cog, name="Music", description="Music commands"):
         vc = ctx.author.voice
 
         if not vc:
-            raise self.bot.errors.AuthorNotInVoice()
+            raise self.bot.errors.AuthorNotInVoice(":x: You're not in vc, dumbass")
         if not voice_client:
-            raise self.bot.errors.NoVoiceClient()
+            raise self.bot.errors.NoVoiceClient(":x: I'm not in vc")
 
         async with ctx.typing():
             songs = self.search(args, search_type)
             song = self.add_to_queue(songs, ctx)
             self.music_queue[-1][0]["keywords"] = args
             if not args.startswith("https://"):
-                await ctx.send(f"Added `{song['title']}` to the queue!")
+                await ctx.send(f":headphones: Added `{song['title']}` to the queue!")
             else:
-                await ctx.send(f"Added `{songs['title']}` to the queue!")
+                await ctx.send(f":headphones: Added `{songs['title']}` to the queue!")
 
         if not voice_client.is_playing():
             await self.play_music()
 
-    @commands.command(name="queue", brief="Shows the queue")
+    @commands.command(name="cum", brief="CUM??!?!")
+    async def cum(self, ctx):
+        voice_client = ctx.guild.voice_client
+        vc = ctx.author.voice
+
+        if not vc:
+            raise self.bot.errors.AuthorNotInVoice(":x: You're not in vc, dumbass")
+        if not voice_client:
+            raise self.bot.errors.NoVoiceClient(":x: I'm not in vc")
+
+        async with ctx.typing():
+            self.cum_queue(ctx)
+            await ctx.send(f"{self.emojis['cum']} **WELCUM TO THE CUM ZONE** {self.emojis['cum']}")
+
+        if not voice_client.is_playing():
+            await self.play_music()
+
+    @commands.command(name="queue", aliases=['q'], brief="Shows the queue")
     async def queue(self, ctx):
         if self.music_queue:
             result = misc.queue_format(self.music_queue, self.queue_index)
             await ctx.send(result)
         else:
-            await ctx.send("The queue is empty")
+            await ctx.send("**The queue is empty**\nC'mon, y'all can do better")
 
-    @commands.command(name="playfile", brief="Plays your file")
+    @commands.command(name="playfile", aliases=['pf'], brief="Plays your file")
     async def playfile(self, ctx):
         author_voice = ctx.author.voice
         voice_client = ctx.guild.voice_client
 
         if not author_voice:
-            raise self.bot.errors.AuthorNotInVoice()
+            raise self.bot.errors.AuthorNotInVoice(":x: You're not in vc, dumbass")
         if not voice_client:
-            raise self.bot.errors.NoVoiceClient()
+            raise self.bot.errors.NoVoiceClient(":x: I'm not in vc")
         if not ctx.message.attachments:
-            raise self.bot.errors.NoAttachment("There are no files attached to your message")
+            raise self.bot.errors.NoAttachment(":x: Give files, dummy")
 
         song = self.add_attachment_to_queue(ctx.message.attachments, ctx)
         if not len(ctx.message.attachments) > 1:
-            await ctx.send(f"Added {song.filename} to the queue!")
+            await ctx.send(f":headphones: Added {song.filename} to the queue!")
         else:
-            await ctx.send("Added the songs to the queue!")
+            await ctx.send(":headphones: Added the songs to the queue!")
 
         if not voice_client.is_playing():
             await self.play_music()
@@ -248,15 +288,15 @@ class Music(commands.Cog, name="Music", description="Music commands"):
         voice_client = ctx.guild.voice_client
 
         if not voice_client:
-            raise self.bot.errors.NoVoiceClient()
+            raise self.bot.errors.NoVoiceClient(":x: I'm not in vc")
 
         if voice_client.is_playing():
             voice_client.pause()
-            await ctx.send("Paused the music")
+            await ctx.send(f":pause_button: **I've paused it for you!** {self.emojis['catThumbsUp']}")
             self.logger.log("info", "pause", "Paused the music")
         else:
             voice_client.resume()
-            await ctx.send("Resumed the music")
+            await ctx.send(f":arrow_forward: **I've resumed it for you!** {self.emojis['swag_cat']}")
             self.logger.log("info", "pause", "Resumed the music")
 
     @commands.command(name="skip", brief="Skips the current song and goes to the next one")
@@ -265,59 +305,61 @@ class Music(commands.Cog, name="Music", description="Music commands"):
         author_voice_client = ctx.author.voice
 
         if not voice_client:
-            raise self.bot.errors.NoVoiceClient()
+            raise self.bot.errors.AuthorNotInVoice(":x: You're not in vc, dumbass")
         if not author_voice_client:
-            raise self.bot.errors.AuthorNotInVoice()
+            raise self.bot.errors.NoVoiceClient(":x: I'm not in vc")
         if not self.music_queue or len(self.music_queue) < self.queue_index:
-            raise self.bot.errors.EmptyQueue("You've reached the end of the queue")
+            raise self.bot.errors.EmptyQueue("You've reached the end of the queue!")
 
         voice_client.stop()
-        await ctx.send("Skipped the song")
+        await ctx.send(f":next_track: **I've skipped that for you!** {self.emojis['catThumbsUp']}")
 
-    @commands.command(name="stop", brief="Stops the music and clears the queue")
+    @commands.command(name="stop", aliases=['s'], brief="Stops the music and clears the queue")
     async def stopping(self, ctx):
         voice_client = ctx.guild.voice_client
 
         if not voice_client:
-            raise self.bot.errors.NoVoiceClient("Bot not in any voice channel")
+            raise self.bot.errors.NoVoiceClient(":x: I'm not in vc")
 
         if not voice_client.is_playing():
-            await ctx.send("There's nothing playing")
+            await ctx.send(":x: There's nothing playing")
         else:
             self.music_queue.clear()
             self.queue_index = 0
             voice_client.stop()
-            await ctx.send("Stopped the music")
+            await ctx.send(f"**Stopped everything, and cleared the queue!** {self.emojis['swag_cat']}")
 
-    @commands.command(name="leave", brief="Leaves the voice channel")
+    @commands.command(name="leave", aliases=['die', 'disconnect', 'd', 'kys'], brief="Leaves the voice channel")
     async def leave(self, ctx):
         voice_client = ctx.guild.voice_client
         author_voice_client = ctx.author.voice
 
         if not author_voice_client:
-            raise self.bot.errors.AuthorNotInVoice()
+            raise self.bot.errors.AuthorNotInVoice(":x: You're not in vc, dumbass")
         if not voice_client:
-            raise self.bot.errors.NoVoiceClient()
+            raise self.bot.errors.NoVoiceClient(":x: I'm not in vc")
         if author_voice_client.channel != voice_client.channel:
-            raise self.bot.errors.AuthorNotInVoice("Author not in same voice channel as bot")
+            raise self.bot.errors.AuthorNotInVoice(":x: You're not even in the right vc, you dumbnut")
 
         self.music_queue.clear()
         self.queue_index = 0
         await voice_client.disconnect()
         self.inactivity.cancel()
-        await ctx.send("Left voice channel")
+        await ctx.send(f"**I've left the channel, have fun!!** {self.emojis['duck_dance']}")
 
-    @commands.command(name="remove", brief="Removes an item from the queue")
+    @commands.command(name="remove", aliases=['r'], brief="Removes an item from the queue")
     async def remove(self, ctx, index: int):
         if not 1 < index <= len(self.music_queue):
-            raise IndexError("Index out of range")
+            raise IndexError(":x: Can't remove that cuz it doesn't exist")
 
-        await ctx.send(f"Removed `{self.music_queue.pop(index - 1)[0]['title']}` from the queue")
+        await ctx.send(
+            f"**Removed `{self.music_queue.pop(index - 1)[0]['title']}` from the queue!** {self.emojis['swag_cat']}"
+        )
 
-    @commands.command(name="lyrics", brief="Searches for the currently playing lyrics")
+    @commands.command(name="lyrics", aliases=['l'], brief="Searches for the currently playing lyrics")
     async def lyrics(self, ctx):
         if not ctx.guild.voice_client.is_playing:
-            raise self.bot.errors.VoiceClientError("voice_client isn't playing anything")
+            raise self.bot.errors.VoiceClientError(":x: There's nothing playing")
 
         song = self.music_queue[self.queue_index - 1][0]
         async with ctx.typing():
