@@ -52,7 +52,6 @@ Here's the command list compared:
 
 
 
-
 ## Legal Notices
 
 Every version of this project under version v3.0 (not including version v3.0) is licensed under the Mozilla Public License 2.0. Every version above v3.0 (including v3.0) is licensed under the GNU General Public License v3.
@@ -60,6 +59,3 @@ Every version of this project under version v3.0 (not including version v3.0) is
 Versions v3.0 and above are based on kwanCore, a discord.py bot foundation. Its source-code can be found [here](https://github.com/dopebnan/kwanCore).
 
 Any similarity to other intellectual property, not stated in this file, is purely coincidental.
-
-
-

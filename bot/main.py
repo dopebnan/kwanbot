@@ -87,7 +87,7 @@ bot = Bot(command_prefix="r!")
 bot.config = config
 bot.logger = logger
 bot.errors = errors
-bot.version = "3.0-b"
+bot.version = "3.0"
 bot.temp_warning = 0
 replies = config["replies"]
 
