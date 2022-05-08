@@ -51,17 +51,18 @@ class Memes(commands.Cog, name="Memes", description="Newer fun stufff"):
             i += 1
             submission = await subreddit.random()
 
-        self.logger.log("info", "get_post_embed", f"Found {submission.permalink} from {submission.subreddit}")
+        self.logger.log("info", "get_post_embed", f"Found {submission.permalink} from r/{submission.subreddit}")
         embed = discord.Embed(
             title=submission.title,
             url=submission.url,
             color=color
         )
         embed.set_image(url=submission.url)
+        embed.add_field(name=f"{self.upvote} {submission.score} {self.downvote}", value="\u200b")
         embed.set_footer(text=f"Posted by u/{submission.author} in r/{submission.subreddit}")
         return embed
 
-    @commands.command(name="memes", brief="Gets you some of the freshest memes")
+    @commands.command(name="memes", aliases=['meme', 'dankmemes'], brief="Get the freshest memes straight from reddit")
     async def memes(self, ctx):
         embed = await self.get_post_embed("memes+dankmemes", 0x29024a)
         await ctx.send(embed=embed)
@@ -79,6 +80,7 @@ class Memes(commands.Cog, name="Memes", description="Newer fun stufff"):
                 description=submission.selftext,
                 color=0x316ebb
             )
+            embed.add_field(name=f"{self.upvote} {submission.score} {self.downvote}", value="\u200b")
             embed.set_footer(text=f"Posted by u/{submission.author} in r/{submission.subreddit}")
             await ctx.send(embed=embed)
 

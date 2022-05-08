@@ -9,8 +9,9 @@ You should have received a copy of the GNU General Public License
 along with kwanCore. If not, see <https://www.gnu.org/licenses/>.
 """
 
-import discord
 import random
+import discord
+
 
 cooldown = ["Slow down there buckaroo", "not so fast", "stop", "cooldown be poopin' them parties", "cooldown rule",
             "no.", "anti-spam caught yo ass", "dam you got arrested for brushing your teeth too fast"]
