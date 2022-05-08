@@ -14,6 +14,44 @@ Images not included (get penis'd)
 
 
 ## Notices
+`urbandictionary-py` should be installed from [GitHub](https://github.com/bocong/urbandictionary-py), not PyPI.
+
+## Comparison
+Here's the command list compared:
+
+|   kwancore   |                 kwanbot v1                 |                  kwanbot v2                  |                      kwanbot v3                      |
+|:------------:|:------------------------------------------:|:--------------------------------------------:|:----------------------------------------------------:|
+|   sysinfo    |              d!check, r!check              |            check,  filecheck, rpi            |                       sysinfo                        |
+|    update    |                                            |                    update                    |                        update                        |
+|     log      |                                            |                 log, newlog                  |                         log                          |
+|   settings   | d!default, d!pic, d!autopic, d!uwu, d!save | reset, picDev, autoDev, uwuDev, ..., painDev |                       settings                       |
+|              |                 d!restart                  |                                              |                                                      |
+|  changelog   |                 changelog                  |                  changelog                   |                      changelog                       |
+|              |                                            |                    debug                     |                                                      |
+| source_code  |                                            |                  sourcecode                  |                      sourcecode                      |
+|     echo     |                 succ, brit                 |                  succ, brit                  |                      succ, brit                      |
+|     pic      |             autopic, pic, uwu              |           autopic, pic,  uwu, pain           |               autopic, pic, uwu, pain                |
+|     help     |               d!help, r!help               |                     help                     |                         help                         |
+|     info     |                    info                    |                     info                     |                         info                         |
+|     ping     |                                            |                     ping                     |                         ping                         |
+|    report    |                   report                   |                    report                    |                        report                        |
+| random_image |                                            |                                              | tifu, wholesomememes, shitpost, memes, meirl, tumblr |
+|              |                                            |                                              |                   urbandictionary                    |
+|     stop     |                                            |                     stop                     |                         stop                         |
+|    leave     |                                            |                    leave                     |                        leave                         |
+|    remove    |                                            |                                              |                        remove                        |
+|    lyrics    |                                            |                                              |                        lyrics                        |
+|     join     |                                            |                     pop                      |                         pop                          |
+|     play     |                                            |                  play, cum                   |                      play, cum                       |
+|    queue     |                                            |                    queue                     |                        queue                         |
+|   playfile   |                                            |                   playfile                   |                       playfile                       |
+|              |                                            |                  playlocal                   |                                                      |
+|              |                                            |                   songlist                   |                                                      |
+|    pause     |                                            |                 pause/resume                 |                     pause/resume                     |
+|     skip     |                                            |                     skip                     |                         skip                         |
+
+
+
 
 ## Legal Notices
 
