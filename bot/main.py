@@ -132,7 +132,9 @@ async def temp_task():
     if 0 < bot.temp_warning < 5:
         embed = discord.Embed(title="WARNING", description=f"the pi's temp is `{temp}'C`", color=0xffc300)
         embed.set_footer(text=f"{bot.temp_warning}. warning")
-        logger.log("warn", "temp_task", f"the cpu reached {temp}'C ({bot.temp_warning})")
+        uptime = shortcuts.terminal('uptime').split(': ')[1][:-1]
+        logger.log("warn", "temp_task",
+                   f"the cpu reached {temp}'C ({bot.temp_warning}) [{uptime}]")
 
         chan = bot.get_channel(config["warningChannel"])
         await chan.send(embed=embed)
