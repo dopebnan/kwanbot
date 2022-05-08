@@ -2,8 +2,11 @@
 kwanCore, a discord.py bot foundation.
 Copyright (C) 2022  dopebnan
 
+kwanBot, images not included
+Copyright (C) 2022 dopebnan
+
 You should have received a copy of the GNU General Public License
-along with kwanCore. If not, see <https://www.gnu.org/licenses/>.
+along with kwanBot. If not, see <https://www.gnu.org/licenses/>.
 """
 
 import aiohttp
@@ -11,12 +14,6 @@ import asyncpraw
 
 import discord
 from discord.ext import commands
-
-
-async def is_pic(url):
-    async with aiohttp.ClientSession() as session:
-        async with session.head(url) as r:
-            return str(r.headers.get("Content-Type")).startswith("image/")
 
 
 class Memes(commands.Cog, name="Memes", description="Newer fun stufff"):
@@ -31,28 +28,32 @@ class Memes(commands.Cog, name="Memes", description="Newer fun stufff"):
             username=bot.config["reddit"]['username']
         )
 
-    async def get_post_embed(self, subreddit, embed_name, timeout=10):
+    async def get_post_embed(self, subreddit, color=None, timeout=10):
         """
         Get a random image from a subreddit
 
         :param subreddit:  str, the subreddit name
-        :param embed_name:  str, the title of the embed
+        :param color:  int, the embed color
+            Default: None
         :param timeout:  int, the amount of loops it should do before stopping;
             Default:  10
         """
         subreddit = await self.reddit.subreddit(subreddit)
         submission = await subreddit.random()
         i = 0
-        while not await is_pic(submission.url):
+
+        while not submission.post_hint == "image":
             if i >= timeout:
                 raise TimeoutError("Couldn't find an image")
             # if 10 posts didn't have an image, then that's worrying
             i += 1
             submission = await subreddit.random()
 
+        self.logger.log("info", "get_post_embed", f"Found {submission.permalink} from {submission.subreddit}")
         embed = discord.Embed(
-            title=embed_name,
-            color=discord.Color.random()
+            title=submission.title,
+            url=submission.url,
+            color=color
         )
         embed.set_image(url=submission.url)
         embed.set_footer(text=f"Posted by u/{submission.author} in r/{submission.subreddit}")
@@ -60,28 +61,44 @@ class Memes(commands.Cog, name="Memes", description="Newer fun stufff"):
 
     @commands.command(name="memes", brief="Gets you some of the freshest memes")
     async def memes(self, ctx):
-        embed = await self.get_post_embed("memes+dankmemes", "Memes")
+        embed = await self.get_post_embed("memes+dankmemes", 0x29024a)
         await ctx.send(embed=embed)
 
-    @commands.command(name="tifu", brief="See people fucking up badly")
+    @commands.command(name="tifu", brief="See people fuck up badly")
     async def tifu(self, ctx):
-        subreddit = await self.reddit.subreddit("tifu")
-        submission = await subreddit.random()
-        while not submission.link_flair_text == "S":
+        async with ctx.typing():
+            subreddit = await self.reddit.subreddit("tifu")
             submission = await subreddit.random()
-        embed = discord.Embed(
-            title=submission.title,
-            url=submission.url,
-            description=submission.selftext
-        )
-        embed.set_footer(text=f"Posted by u/{submission.author} in r/{submission.subreddit}")
+            while not submission.link_flair_text == "S":
+                submission = await subreddit.random()
+            embed = discord.Embed(
+                title=submission.title,
+                url=submission.url,
+                description=submission.selftext,
+                color=0x316ebb
+            )
+            embed.set_footer(text=f"Posted by u/{submission.author} in r/{submission.subreddit}")
+            await ctx.send(embed=embed)
+
+    @commands.command(name="wholesome", brief="The wholesome side of the internet")
+    async def wholesome(self, ctx):
+        embed = await self.get_post_embed("wholesomememes+comfypasta", 0xf4a261)
         await ctx.send(embed=embed)
 
+    @commands.command(name="shitpost", aliases=["shitposts", "shitposting"], brief="Poopy stinky posts")
+    async def shitpost(self, ctx):
+        embed = await self.get_post_embed("shitposting+skamtebord+196+surrealmemes", 0x885144)
+        await ctx.send(embed=embed)
 
+    @commands.command(name="meirl", aliases=["me_irl"], brief="Selfies of the soul")
+    async def meirl(self, ctx):
+        embed = await self.get_post_embed("me_irl+discord_irl+me_irlgbt", 0x510000)
+        await ctx.send(embed=embed)
 
-
-
-
+    @commands.command(name="tumblr", brief="Internet’s favourite hellsite")
+    async def tumblr(self, ctx):
+        embed = await self.get_post_embed("tumblr", 0x6b788c)
+        await ctx.send(embed=embed)
 
 
 
