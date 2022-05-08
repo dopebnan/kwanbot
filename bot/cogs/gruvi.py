@@ -127,7 +127,7 @@ class Music(commands.Cog, name="Music", description="Music commands"):
         """
         p = "./usercontent/audio/cum.mp3"
         length = misc.terminal(f"ffprobe {p} -show_entries format=duration -v quiet -of csv=\"p=0\"")
-        result ={
+        result = {
             "hls": p,
             "url": p,
             "title": "Cum Trilogy",
