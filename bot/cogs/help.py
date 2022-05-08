@@ -12,28 +12,36 @@ import discord
 from discord.ext import commands
 
 descriptions = {
-    "play": ("`kc!play [flag] [*song]`\n\nSearches for your requested song and play the best result\n"
+    "play": ("`r!play [flag] [*song]`\n\nSearches for your requested song and play the best result\n"
              "\nSearch flags:"
              f"\n` -yt, --youtube{' ' * 7}search on youtube`"
              f"\n` -sc, --soundcloud{' ' * 4}search on soundcloud`"),
-    "playfile": "`kc!playfile`\n\nPlays the file attached to your message",
-    "remove": "`kc!remove [index]`\n\nRemoves the `index`th item from the queue",
-    "settings": ("`kc!settings [key] [value]`\n"
-                 "`kc!settings [mode]`\n"
-                 "`kc!settings`\n"
+    "playfile": "`r!playfile`\n\nPlays the file attached to your message",
+    "remove": "`r!remove [index]`\n\nRemoves the `index`th item from the queue",
+    "settings": ("`r!settings [key] [value]`\n"
+                 "`r!settings [mode]`\n"
+                 "`r!settings`\n"
                  "\nChange the value of each `key` to `value`"
-                 "\neg. `kc!settings pic_cooldown 10`\n"
+                 "\neg. `r!settings pic_cooldown 10`\n"
                  "\nModes:\n"
-                 "`kc!settings reset    resets every settings to the default value`\n"
-                 "`kc!settings          displays the settings`"),
-    "update": ("`kc!update [flag]`\n"
+                 "`r!settings reset    resets every settings to the default value`\n"
+                 "`r!settings          displays the settings`"),
+    "update": ("`r!update [flag]`\n"
                "\nUse the `--help` flag for help"),
-    "log": ("`kc!log [flag]`\n"
+    "log": ("`r!log [flag]`\n"
+            "`r!log`\n"
             "\nIf no flags are present, DMs you the log\n"
             "\nFlags:\n"
             "` -n, --create-new    creates a new log.txt, and saves the old one`"),
-    "random_image": ("`kc!random_image [subreddit]`\n"
-                     "\nGets a random image from r/`subreddit`")
+    "random_image": ("`r!random_image [subreddit]`\n"
+                     "\nGets a random image from r/`subreddit`"),
+    "help": ("`r!help [command]\n"
+             "`r!help`\n"
+             "\nDisplays help about a command. If no command is specified then it lists all the commands."),
+    "autopic": ("`r!autopic [i]`\n"
+                "\nLoops `r!pic` `i`x times."),
+    "urban": ("`r!urban [term]`\n"
+              "\nSearches for `term`'s definition on Urban Dictionary.")
 }
 
 

@@ -58,7 +58,7 @@ class DevTools(commands.Cog, name="Developer Tools", description="Commands for t
         h = False
         if flag in ('-h', "--help"):
             msg = ("```bat\n"
-                   "kc!update [mode]\n"
+                   "r!update [mode]\n"
                    "Update the bot, or reset it to a commit.\n"
                    "\nModes:\n"
                    f" -r, --reset{' ' * 5}delete changes and revert back to the original commit\n"
