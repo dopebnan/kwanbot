@@ -108,6 +108,8 @@ class Memes(commands.Cog, name="Memes", description="Newer fun stufff"):
                       brief="Get a definition from the holy Urban Dictionary")
     async def urban(self, ctx, *term):
         term = ' '.join(term)
+        if not term:
+            raise discord.ext.commands.BadArgument("You can't just search for nothing!!")
         defs = urbdic.define(term)
         try:
             embed = discord.Embed(

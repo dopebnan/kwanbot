@@ -86,7 +86,7 @@ class General(commands.Cog, name="General", description="Legacy fun stuff"):
     @commands.command(name="pain", brief="Epic programur bnan moments")
     @commands.cooldown(1, settings["pain_cooldown"], BucketType.user)
     async def pain(self, ctx):
-        p = "usercontent/images/pain"
+        p = "usercontent/images/pain/"
         img = p + random.choice(os.listdir(p))
         msg = random.choice(["*pain.*", "*cri*", "not proud of that one", "very bigbrein moment", "so dumb smh", "mf"])
         await ctx.send(msg, file=discord.File(img))

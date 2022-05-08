@@ -204,8 +204,11 @@ class Music(commands.Cog, name="Music", description="Music commands"):
     @commands.command(name="play", aliases=['p'], brief="Plays your requested song")
     async def play(self, ctx, *args):
         args = list(args)
-        if args[0].startswith("-"):
-            flag = args.pop(0)
+        try:
+            if args[0].startswith("-"):
+                flag = args.pop(0)
+        except IndexError:
+            raise self.bot.errors.BadArgument("Is an argument that is required but missing", "*args")
         else:
             flag = "--youtube"
         if flag in ('-yt', "--youtube"):
@@ -224,6 +227,8 @@ class Music(commands.Cog, name="Music", description="Music commands"):
             raise self.bot.errors.AuthorNotInVoice(":x: You're not in vc, dumbass")
         if not voice_client:
             raise self.bot.errors.NoVoiceClient(":x: I'm not in vc")
+        if vc.channel != voice_client.channel:
+            raise self.bot.errors.AuthorNotInVoice(":x: You're not even in the right vc, you dumbnut")
 
         async with ctx.typing():
             songs = self.search(args, search_type)
@@ -246,6 +251,8 @@ class Music(commands.Cog, name="Music", description="Music commands"):
             raise self.bot.errors.AuthorNotInVoice(":x: You're not in vc, dumbass")
         if not voice_client:
             raise self.bot.errors.NoVoiceClient(":x: I'm not in vc")
+        if vc.channel != voice_client.channel:
+            raise self.bot.errors.AuthorNotInVoice(":x: You're not even in the right vc, you dumbnut")
 
         async with ctx.typing():
             self.cum_queue(ctx)
@@ -271,6 +278,8 @@ class Music(commands.Cog, name="Music", description="Music commands"):
             raise self.bot.errors.AuthorNotInVoice(":x: You're not in vc, dumbass")
         if not voice_client:
             raise self.bot.errors.NoVoiceClient(":x: I'm not in vc")
+        if author_voice.channel != voice_client.channel:
+            raise self.bot.errors.AuthorNotInVoice(":x: You're not even in the right vc, you dumbnut")
         if not ctx.message.attachments:
             raise self.bot.errors.NoAttachment(":x: Give files, dummy")
 
@@ -286,10 +295,12 @@ class Music(commands.Cog, name="Music", description="Music commands"):
     @commands.command(name="pause", brief="Pauses/resumes the current song")
     async def pausing(self, ctx):
         voice_client = ctx.guild.voice_client
+        author_voice_client = ctx.author.voice
 
         if not voice_client:
             raise self.bot.errors.NoVoiceClient(":x: I'm not in vc")
-
+        if author_voice_client.channel != voice_client.channel:
+            raise self.bot.errors.AuthorNotInVoice(":x: You're not even in the right vc, you dumbnut")
         if voice_client.is_playing():
             voice_client.pause()
             await ctx.send(f":pause_button: **I've paused it for you!** {self.emojis['catThumbsUp']}")
@@ -304,10 +315,12 @@ class Music(commands.Cog, name="Music", description="Music commands"):
         voice_client = ctx.guild.voice_client
         author_voice_client = ctx.author.voice
 
-        if not voice_client:
-            raise self.bot.errors.AuthorNotInVoice(":x: You're not in vc, dumbass")
         if not author_voice_client:
+            raise self.bot.errors.AuthorNotInVoice(":x: You're not in vc, dumbass")
+        if not voice_client:
             raise self.bot.errors.NoVoiceClient(":x: I'm not in vc")
+        if author_voice_client.channel != voice_client.channel:
+            raise self.bot.errors.AuthorNotInVoice(":x: You're not even in the right vc, you dumbnut")
         if not self.music_queue or len(self.music_queue) < self.queue_index:
             raise self.bot.errors.EmptyQueue("You've reached the end of the queue!")
 
@@ -317,9 +330,12 @@ class Music(commands.Cog, name="Music", description="Music commands"):
     @commands.command(name="stop", aliases=['s'], brief="Stops the music and clears the queue")
     async def stopping(self, ctx):
         voice_client = ctx.guild.voice_client
+        author_voice_client = ctx.author.voice
 
         if not voice_client:
             raise self.bot.errors.NoVoiceClient(":x: I'm not in vc")
+        if author_voice_client.channel != voice_client.channel:
+            raise self.bot.errors.AuthorNotInVoice(":x: You're not even in the right vc, you dumbnut")
 
         if not voice_client.is_playing():
             await ctx.send(":x: There's nothing playing")
@@ -358,6 +374,7 @@ class Music(commands.Cog, name="Music", description="Music commands"):
 
     @commands.command(name="lyrics", aliases=['l'], brief="Searches for the currently playing lyrics")
     async def lyrics(self, ctx):
+        assert ctx.guild.voice_client, ":x: I'm not in vc"
         if not ctx.guild.voice_client.is_playing:
             raise self.bot.errors.VoiceClientError(":x: There's nothing playing")
 

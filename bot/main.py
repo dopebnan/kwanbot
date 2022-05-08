@@ -176,8 +176,8 @@ async def on_command_completion(ctx):
     if cmd == "update":
         reload()
     elif cmd == "settings":
-        bot.reload_extension("cogs.uio")
-        logger.log("info", "on_command_completion/reload", "reloaded uio.py")
+        bot.reload_extension("cogs.general")
+        logger.log("info", "on_command_completion/reload", "reloaded general.py")
 
 
 @bot.event

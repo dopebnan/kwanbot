@@ -36,8 +36,8 @@ class BotInfo(commands.Cog, name="Bot Info", description="Info about bot pogpog"
             color=0x5de7b4
         )
         embed.add_field(
-            name="On [kwanCore](https://github.com/dopebnan/kwancore) v1.0",
-            value="by [dopebnan](https://github.com/dopebnan)",
+            name="Core:",
+            value="[kwanCore](https://github.com/dopebnan/kwancore) by [dopebnan](https://github.com/dopebnan)",
             inline=False
         )
         embed.add_field(
