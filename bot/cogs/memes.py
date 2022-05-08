@@ -9,7 +9,7 @@ You should have received a copy of the GNU General Public License
 along with kwanBot. If not, see <https://www.gnu.org/licenses/>.
 """
 
-import aiohttp
+import urbandictionary as urbdic
 import asyncpraw
 
 import discord
@@ -27,6 +27,8 @@ class Memes(commands.Cog, name="Memes", description="Newer fun stufff"):
             user_agent=bot.config["reddit"]['user_agent'],
             username=bot.config["reddit"]['username']
         )
+        self.upvote = bot.config["emojis"]["upvote"]
+        self.downvote = bot.config["emojis"]["downvote"]
 
     async def get_post_embed(self, subreddit, color=None, timeout=10):
         """
@@ -100,6 +102,28 @@ class Memes(commands.Cog, name="Memes", description="Newer fun stufff"):
         embed = await self.get_post_embed("tumblr", 0x6b788c)
         await ctx.send(embed=embed)
 
+    @commands.command(name="urban", aliases=["urbdic", "urban_dictionary"],
+                      brief="Get a definition from the holy Urban Dictionary")
+    async def urban(self, ctx, *term):
+        term = ' '.join(term)
+        defs = urbdic.define(term)
+        try:
+            embed = discord.Embed(
+                title=defs[0].word.title(),
+                description=defs[0].definition.replace('[', '__**').replace(']', '**__'),
+                color=0x00ff64
+            )
+            embed.add_field(name='\u200b', value=f"*{defs[0].example.replace('[', '__**').replace(']', '**__')}*")
+            embed.add_field(name=f"{self.upvote} **{defs[0].upvotes - defs[0].downvotes}** {self.downvote}",
+                            value='\u200b', inline=False)
+            self.logger.log("info", "urban", f"Found {defs[0].word}")
+        except IndexError:
+            embed = discord.Embed(
+                title=r"¯\_(ツ)_/¯",
+                description=f"**Sorry, we couldn't find: *{term}***",
+                color=0xff0032
+            )
+        await ctx.send(embed=embed)
 
 
 def setup(bot):
