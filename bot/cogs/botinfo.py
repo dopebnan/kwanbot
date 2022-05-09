@@ -74,14 +74,14 @@ class BotInfo(commands.Cog, name="Bot Info", description="Info about bot pogpog"
         header = f"{self.bot.user.name}@[kwanCore]"
         latest_ver = terminal("git tag -l").split('\n')[-2]
         try:
-            temp = terminal("vcgencmd measure_temp").split('=')[1]
+            temp = terminal("vcgencmd measure_temp").split('=')[1].replace("'", '’')
         except IndexError:
             self.logger.log("warn", "stats", "Couldn't measure CPU temp, are you sure this is a raspberrypi?")
             temp = 0
         result = (f"```yaml\n"
                   f"{header}\n{'-' * len(header)}\n"
                   f"OS: {platform().split('-', 1)[0]}\n"
-                  f"CPU: {temp}\n"
+                  f"CPU: {temp}"
                   f"Uptime: {terminal(b'uptime -p').replace('up ', '')}"
                   f"Python: {python_version()}\n"
                   f"Discord.py: {discord.__version__}\n"
