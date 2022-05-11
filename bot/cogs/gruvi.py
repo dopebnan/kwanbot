@@ -207,10 +207,10 @@ class Music(commands.Cog, name="Music", description="Music commands"):
         try:
             if args[0].startswith("-"):
                 flag = args.pop(0)
+            else:
+                flag = "--youtube"
         except IndexError:
             raise self.bot.errors.BadArgument("Is an argument that is required but missing", "*args")
-        else:
-            flag = "--youtube"
         if flag in ('-yt', "--youtube"):
             search_type = "ytsearch:"
         elif flag in ('-sc', "--soundcloud"):
