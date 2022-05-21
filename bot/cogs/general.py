@@ -32,7 +32,7 @@ class General(commands.Cog, name="General", description="Legacy fun stuff"):
     async def pic(self, ctx):
         p = "usercontent/images/pic/"
         img = p + random.choice(os.listdir(p))
-        msg = random.choice(["remember this:", "bruh", "pic pog", ":kwanbruh:"])
+        msg = random.choice(["remember this:", "bruh", "pic pog", self.bot.config["emojis"]["kwanbruh"]])
         await ctx.send(msg, file=discord.File(img))
         self.logger.log("info", "pic", f"Sent {img} to #{ctx.channel}")
 
@@ -51,7 +51,8 @@ class General(commands.Cog, name="General", description="Legacy fun stuff"):
             for j in range(i):
                 p = "usercontent/images/pic/"
                 img = p + random.choice(os.listdir(p))
-                msg = random.choice(["remember this:", "bruh", "pic pog", ":kwanbruh:"]) + f" ({j + 1}/{i})"
+                msg = random.choice(["remember this:", "bruh", "pic pog",
+                                     self.bot.config["emojis"]["kwanbruh"]]) + f" ({j + 1}/{i})"
                 await ctx.send(msg, file=discord.File(img))
                 self.logger.log("info", "autopic", f"Sent {img} to #{ctx.channel} ({j + 1}/{i})")
                 await asyncio.sleep(settings["autopic_sleep"])
@@ -67,7 +68,7 @@ class General(commands.Cog, name="General", description="Legacy fun stuff"):
     @commands.command(name="uwu", aliases=["heresy", "cappybs"], brief="Only the Finest Cappy Bullshit™ 24/7")
     @commands.cooldown(1, settings["uwu_cooldown"], BucketType.user)
     async def uwu(self, ctx):
-        if ctx.channel.id != self.bot.config["uwu_channel"] and not settings["uwu"]:
+        if ctx.channel.id != self.bot.config["uwu_channel"] and not settings["uwu_bool"]:
             raise self.bot.errors.UwUTurnedOff(self.bot.config["uwu_channel"])
 
         async def image():
