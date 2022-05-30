@@ -87,7 +87,7 @@ bot = Bot(command_prefix="r!")
 bot.config = config
 bot.logger = logger
 bot.errors = errors
-bot.version = "3.0.rev3"
+bot.version = "3.0.rev4"
 bot.temp_warning = 0
 replies = config["replies"]
 
@@ -190,7 +190,7 @@ async def on_message(message):
     if "kwancore" in msg:
         await message.channel.send("kwancore pog!")
         logger.log("info", "on_message", "kwancore in message")
-    if "jus" in msg:
+    if "jus" in msg and "just" not in msg:
         await message.channel.send(random.choice(replies["jus"]))
         logger.log("info", "on_message", "jus in message")
     if "glori" in msg:

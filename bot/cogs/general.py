@@ -32,7 +32,7 @@ class General(commands.Cog, name="General", description="Legacy fun stuff"):
     async def pic(self, ctx):
         p = "usercontent/images/pic/"
         img = p + random.choice(os.listdir(p))
-        msg = random.choice(["remember this:", "bruh", "pic pog", self.bot.config["emojis"]["kwanbruh"]])
+        msg = random.choice(["remember this:", "bruh", "pic pog"])
         await ctx.send(msg, file=discord.File(img))
         self.logger.log("info", "pic", f"Sent {img} to #{ctx.channel}")
 
@@ -51,8 +51,7 @@ class General(commands.Cog, name="General", description="Legacy fun stuff"):
             for j in range(i):
                 p = "usercontent/images/pic/"
                 img = p + random.choice(os.listdir(p))
-                msg = random.choice(["remember this:", "bruh", "pic pog",
-                                     self.bot.config["emojis"]["kwanbruh"]]) + f" ({j + 1}/{i})"
+                msg = random.choice(["remember this:", "bruh", "pic pog"]) + f" ({j + 1}/{i})"
                 await ctx.send(msg, file=discord.File(img))
                 self.logger.log("info", "autopic", f"Sent {img} to #{ctx.channel} ({j + 1}/{i})")
                 await asyncio.sleep(settings["autopic_sleep"])
