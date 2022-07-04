@@ -101,6 +101,12 @@ class General(commands.Cog, name="General", description="Legacy fun stuff"):
         await ctx.send(msg, file=discord.File(img))
         self.logger.log("info", "pain", f"Sent {img} to #{ctx.channel}")
 
+    @commands.command(name="compliment", brief="Jusi compliments")
+    @commands.cooldown(1, 30, BucketType.user)
+    async def compliment(self, ctx):
+        msg = random.choice(self.replies["compliment"])
+        await ctx.send()
+
 
 def setup(bot):
     bot.add_cog(General(bot))
