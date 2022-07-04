@@ -61,7 +61,7 @@ class BotInfo(commands.Cog, name="Bot Info", description="Info about bot pogpog"
     async def report(self, ctx):
         embed = discord.Embed(
             title="Report",
-            description="You should open an [issue](https://github.com/dopebnan/kwancore/issues)!",
+            description="You should open an [issue](https://github.com/dopebnan/kwanbot/issues) or ping <@696434931483803778>!",
             color=0x5de7b4
         )
         await ctx.send(embed=embed)
