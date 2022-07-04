@@ -68,7 +68,8 @@ class BotInfo(commands.Cog, name="Bot Info", description="Info about bot pogpog"
 
     @commands.command(name="sysinfo", aliases=["chkdsk", "filecheck", "fsck"], brief="Gives technical info about bot")
     async def sysinfo(self, ctx):
-        pic_num = len(os.listdir("usercontent/images/pic/"))
+        pic_num = 0
+        for ppl in os.listdir("usercontent/images/pic/"): pic_num += len(os.listdir("usercontent/images/pic/" + ppl))
         uwu_num = len(os.listdir("usercontent/images/uwu/"))
         pain_num = len(os.listdir("usercontent/images/pain/"))
         header = f"{self.bot.user.name}@[kwanCore]"

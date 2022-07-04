@@ -1,5 +1,24 @@
 # Changelog
 
+## v3.0.1 - bug fixes!
+<sub>Jul 5, 2022</sub>
+### UX
+#### Added 
+* **General**:
+  * **r!compliment**: You can now get jusi compliments from the bot! (thank you pigon!)
+
+#### Changed
+* **General**:
+  * **r!pic**: you can now request only one person's pics! (thank you kwan!)
+
+#### Fixed
+* **temp_task loop**: When CPU temp got too high, bot would loop the warning message
+* **`r!report` pointing toward kwanCore**
+* **Sysinfo format bug**
+* **scsearch bug**: Soundcloud would autocorrect to youtube sometimes
+* **`r!uwu` always off bug**
+* **jus-just bug**: Just would trigger the `jus`-responses
+
 
 ## v3.0 - kwanCore UPDATE!!!
 <sub>May 8, 2022</sub>
