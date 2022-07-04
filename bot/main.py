@@ -124,9 +124,11 @@ async def temp_task():
 
     if 80 > temp > 70:
         bot.temp_warning += 1
-    elif temp > 80:
-        logger.log("critical", "temp_task", f"the cpu reached {temp}'C")
-        logger.log("info", "temp_task", "reloading..")
+    elif temp < 70:
+        bot.temp_warning = 0
+    else:
+        logger.log("critical", "temp_task", f"The cpu reached {temp}'C")
+        logger.log("info", "temp_task", "Reloading..")
         reload()
 
     if 0 < bot.temp_warning < 5:
