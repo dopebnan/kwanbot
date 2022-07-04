@@ -29,9 +29,18 @@ class General(commands.Cog, name="General", description="Legacy fun stuff"):
 
     @commands.command(name="pic", brief="Out of context pictures innit")
     @commands.cooldown(1, settings["pic_cooldown"], BucketType.user)
-    async def pic(self, ctx):
-        p = "usercontent/images/pic/"
-        img = p + random.choice(os.listdir(p))
+    async def pic(self, ctx, sub="all"):
+        if sub not in os.listdir('usercontent/images/pic/') and sub != "all":
+            raise self.bot.errors.BadArgument("WhO'S tHaT??!", sub)
+        if sub == 'all':
+            imgs = []
+            for path, subdirs, files in os.walk("usercontent/images/pic"):
+                for name in files:
+                    imgs.append(os.path.join(path, name))
+            img = random.choice(imgs)
+        else:
+            p = "usercontent/images/pic/" + sub + '/'
+            img = p + random.choice(os.listdir(p))
         msg = random.choice(["remember this:", "bruh", "pic pog"])
         await ctx.send(msg, file=discord.File(img))
         self.logger.log("info", "pic", f"Sent {img} to #{ctx.channel}")

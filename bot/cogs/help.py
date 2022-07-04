@@ -7,6 +7,7 @@ kwanBot, images not included
 You should have received a copy of the GNU General Public License
 along with kwanBot. If not, see <https://www.gnu.org/licenses/>.
 """
+import os
 
 import discord
 from discord.ext import commands
@@ -41,7 +42,11 @@ descriptions = {
     "autopic": ("`r!autopic [i]`\n"
                 "\nLoops `r!pic` `i`x times."),
     "urban": ("`r!urban [term]`\n"
-              "\nSearches for `term`'s definition on Urban Dictionary.")
+              "\nSearches for `term`'s definition on Urban Dictionary."),
+    "pic": ("`r!pic [person]`\n"
+            "\nSends and out of context pic from `person`\n"
+            "\nList of people:\n"
+            f"`{os.listdir('usercontent/images/pic/')}`")
 }
 
 
