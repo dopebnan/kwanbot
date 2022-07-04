@@ -105,7 +105,7 @@ class General(commands.Cog, name="General", description="Legacy fun stuff"):
     @commands.cooldown(1, 30, BucketType.user)
     async def compliment(self, ctx):
         msg = random.choice(self.replies["compliment"])
-        await ctx.send()
+        await ctx.send(msg)
 
 
 def setup(bot):

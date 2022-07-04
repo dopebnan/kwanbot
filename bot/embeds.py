@@ -13,8 +13,9 @@ import random
 import discord
 
 
-cooldown = ["Slow down there buckaroo", "not so fast", "stop", "cooldown be poopin' them parties", "cooldown rule",
-            "no.", "anti-spam caught yo ass", "dam you got arrested for brushing your teeth too fast"]
+cooldown = ["Slow down there buckaroo", "You a professional dry-pain-watcher and you still caught the cooldown"
+            "no.", "You really lost a staring contest to a handicapped parking lot??",
+            "dam you got arrested for brushing your teeth too fast"]
 
 
 def command_on_cooldown(seconds):
