@@ -165,12 +165,10 @@ class KwanBot(commands.Bot):
             self.reload()
 
     async def on_command_completion(self, ctx):
-        cmd = ctx.command
+        cmd = ctx.command.name
         logger.log("command", f"{str(ctx.guild) + '/#' + ctx.channel.name}",
                    ctx.message.content, f"<{ctx.message.author}, {ctx.message.author.id}>")
-        if cmd == "update":
-            self.reload()
-        elif cmd == "settings":
+        if cmd == "settings":
             await self.reload_extension("cogs.general")
             logger.log("info", "on_command_completion/reload", "reloaded general.py")
 
