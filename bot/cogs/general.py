@@ -59,8 +59,12 @@ class General(commands.Cog, name="General", description="Legacy fun stuff"):
             raise TypeError("I can't go over 10 (pick a smaller number)")
         if i > 0:
             for j in range(i):
+                imgs = []
+                for path, subdirs, files in os.walk("usercontent/images/pic"):
+                    for name in files:
+                        imgs.append(os.path.join(path, name))
+                img = random.choice(imgs)
                 p = "usercontent/images/pic/"
-                img = p + random.choice(os.listdir(p))
                 msg = random.choice(["remember this:", "bruh", "pic pog"]) + f" ({j + 1}/{i})"
                 await ctx.send(msg, file=discord.File(img))
                 self.logger.log("info", "autopic", f"Sent {img} to #{ctx.channel} ({j + 1}/{i})")
@@ -108,7 +112,7 @@ class General(commands.Cog, name="General", description="Legacy fun stuff"):
         msg = random.choice(self.replies["compliment"])
         await ctx.send(msg)
 
-    @commands.command(name="add_to_cart", aliases=["buy", "add", "cart], brief="Buy something")
+    @commands.command(name="add_to_cart", aliases=["buy", "add", "cart"], brief="Buy something")
     @commands.cooldown(5, 86400, BucketType.user)
     async def add_to_cart(self, ctx, item=None):
         usr = ctx.message.author.id
