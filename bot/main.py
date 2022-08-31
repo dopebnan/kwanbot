@@ -78,8 +78,8 @@ if len(settings) != len(config["default_settings"]):
     settings = default_settings()
 
 status_msg = ["KWANCORE!!!", "r!", "I'm gonna shit yourself", "nope, it was just penis", "who fucked oil",
-                           "do NOT FUCK SHIT", "cancelling global warming", "just came from eating honey",
-                           "kwan appreciation time!", "FUCK YOU URBDIC", "bot be popping off doe"]
+              "do NOT FUCK SHIT", "cancelling global warming", "just came from eating honey",
+              "kwan appreciation time!", "FUCK YOU URBDIC", "bot be popping off doe"]
 
 
 class KwanBot(commands.Bot):
