@@ -17,7 +17,6 @@ import discord
 from discord.ext import commands
 from discord.ext.commands import BucketType
 
-import amazon_search_results_scraper as Amazon
 
 with open("usercontent/settings.json") as file:
     settings = json.load(file)
@@ -108,6 +107,40 @@ class General(commands.Cog, name="General", description="Legacy fun stuff"):
     async def compliment(self, ctx):
         msg = random.choice(self.replies["compliment"])
         await ctx.send(msg)
+
+    @commands.command(name="add_to_cart", aliases=["buy", "add"], brief="Buy something")
+    @commands.cooldown(5, 86400, BucketType.user)
+    async def add_to_cart(self, ctx, item=None):
+        usr = ctx.message.author.id
+
+        if not os.path.isfile("usercontent/carts.json"):
+            with open("usercontent/carts.json", 'w') as f:
+                f.write("{}")
+
+        with open("usercontent/carts.json", 'r') as carts:
+            cart = json.load(carts)
+
+        if str(usr) not in cart:
+            cart[str(usr)] = []
+
+        if item:
+            cart[str(usr)].append(item)
+            with open("usercontent/carts.json", 'w') as f:
+                json.dump(cart, f)
+                embed = discord.Embed(
+                title=f"Added ***{item}*** to your cart!",
+                description="Thank you for your purchase!",
+                color=discord.Color.random()
+            )
+        else:
+            embed = discord.Embed(
+                description=f"***<@{usr}>'s cart***",
+                color=discord.Color.random()
+            )
+            for i in cart[str(usr)]:
+                embed.add_field(name=i, value="\u200b")
+
+        await ctx.send(embed=embed)
 
 
 async def setup(bot):
