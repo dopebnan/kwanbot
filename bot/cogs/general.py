@@ -128,10 +128,10 @@ class General(commands.Cog, name="General", description="Legacy fun stuff"):
             with open("usercontent/carts.json", 'w') as f:
                 json.dump(cart, f)
                 embed = discord.Embed(
-                title=f"Added ***{item}*** to your cart!",
-                description="Thank you for your purchase!",
-                color=discord.Color.random()
-            )
+                    title=f"Added ***{item}*** to your cart!",
+                    description="Thank you for your purchase!",
+                    color=discord.Color.random()
+                )
         else:
             embed = discord.Embed(
                 description=f"***<@{usr}>'s cart***",
