@@ -17,6 +17,8 @@ import discord
 from discord.ext import commands
 from discord.ext.commands import BucketType
 
+import amazon_search_results_scraper as Amazon
+
 with open("usercontent/settings.json") as file:
     settings = json.load(file)
 
@@ -108,5 +110,5 @@ class General(commands.Cog, name="General", description="Legacy fun stuff"):
         await ctx.send(msg)
 
 
-def setup(bot):
-    bot.add_cog(General(bot))
+async def setup(bot):
+    await bot.add_cog(General(bot))

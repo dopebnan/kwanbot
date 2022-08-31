@@ -22,7 +22,7 @@ See the GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with kwanBot. If not, see <https://www.gnu.org/licenses/>.
 """
-
+import asyncio
 import os
 import random
 import unicodedata
@@ -31,7 +31,6 @@ import yaml
 
 import discord
 from discord.ext import commands, tasks
-from discord.ext.commands import Bot
 
 import shortcuts
 import embeds
@@ -79,161 +78,156 @@ if len(settings) != len(config["default_settings"]):
     settings = default_settings()
 
 status_msg = ["KWANCORE!!!", "r!", "I'm gonna shit yourself", "nope, it was just penis", "who fucked oil",
-              "do NOT FUCK SHIT", "cancelling global warming", "just came from eating honey",
-              "kwan appreciation time!", "FUCK YOU URBDIC", "bot be popping off doe"]
-
-bot = Bot(command_prefix="r!")
-
-bot.config = config
-bot.logger = logger
-bot.errors = errors
-bot.version = "3.0.1"
-bot.temp_warning = 0
-replies = config["replies"]
+                           "do NOT FUCK SHIT", "cancelling global warming", "just came from eating honey",
+                           "kwan appreciation time!", "FUCK YOU URBDIC", "bot be popping off doe"]
 
 
-@bot.event
-async def on_ready():
-    logger.log()
-    logger.log(message="kwanBot".center(30))
-    logger.log(message=f"discord.py version: {discord.__version__}".center(30))
-    logger.log(message=f"bot: {bot.user.name}".center(30))
-    logger.log()
-    status_task.start()
-    logger.log("info", "on_ready", "started status_task")
-    temp_task.start()
-    logger.log("info", "on_ready", "started temp_task")
+class KwanBot(commands.Bot):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.config = config
+        self.logger = logger
+        self.errors = errors
+        self.version = "3.1-alpha"
+        self.temp_warning = 0
+        self.replies = config["replies"]
 
+    async def setup_hook(self):
+        self.status_task.start()
+        self.temp_task.start()
 
-@tasks.loop(minutes=10)
-async def status_task():
-    chosen_status = random.choice(status_msg)
-    await bot.change_presence(activity=discord.Game(chosen_status))
-    logger.log("info", "status_task", f"changed status to '{chosen_status}'")
+        self.remove_command("help")
 
+        for cog in os.listdir("cogs"):
+            if cog.endswith(".py"):
+                await self.load_extension(f"cogs.{cog.split('.', 1)[0]}")
+                logger.log("INFO", "cog loader", f"Loaded '{cog}'")
 
-@tasks.loop(minutes=5)
-async def temp_task():
-    await bot.wait_until_ready()
-    try:
-        logger.log("info", "temp_task", "trying to get temperature")
-        temp = float(shortcuts.terminal("vcgencmd measure_temp").split('=', 1)[1].split("'", 1)[0])
-    except IndexError:
-        temp = 0
-        logger.log("warn", "temp_task", "couldn't get temperature, are you sure this is a raspberrypi?")
+    async def on_ready(self):
+        logger.log()
+        logger.log(message="kwancore".center(30))
+        logger.log(message=f"discord.py version: {discord.__version__}".center(30))
+        logger.log(message=f"bot: {self.user.name}".center(30))
+        logger.log()
 
-    if 80 > temp > 70:
-        bot.temp_warning += 1
-    elif temp < 70:
-        bot.temp_warning = 0
-    else:
-        logger.log("critical", "temp_task", f"The cpu reached {temp}'C")
-        logger.log("info", "temp_task", "Reloading..")
-        reload()
+    def reload(self):
+        for cogs in os.listdir("cogs"):
+            if cogs.endswith(".py"):
+                self.reload_extension(f"cogs.{cogs.split('.', 1)[0]}")
+                logger.log("INFO", "reload", f"Reloaded '{cogs}'")
 
-    if 0 < bot.temp_warning < 5:
-        embed = discord.Embed(title="WARNING", description=f"the pi's temp is `{temp}'C`", color=0xffc300)
-        embed.set_footer(text=f"{bot.temp_warning}. warning")
-        uptime = shortcuts.terminal('uptime').split(': ')[1][:-1]
-        logger.log("warn", "temp_task",
-                   f"the cpu reached {temp}'C ({bot.temp_warning}) [{uptime}]")
+    @tasks.loop(minutes=10)
+    async def status_task(self):
+        await self.wait_until_ready()
+        chosen_status = random.choice(status_msg)
+        await self.change_presence(status=discord.Status.online, activity=discord.Game(chosen_status))
+        logger.log("info", "status_task", f"changed status to '{chosen_status}'")
 
-        chan = bot.get_channel(config["warningChannel"])
-        await chan.send(embed=embed)
-
-    elif bot.temp_warning > 5:
-        bot.temp_warning = 0
-        embed = discord.Embed(title="STOPPING", description=f"the pi's temp is `{temp}'C`", color=0xcc3300)
-        embed.set_footer(text="last warning")
-        logger.log("CRITICAL", "temp_task", f"The cpu reached {temp}'C, reloading")
-
-        chan = bot.get_channel(config["warningChannel"])
-        await chan.send(embed=embed)
-
-        logger.log("info", "temp_task", "reloading..")
-        reload()
-
-bot.remove_command("help")
-if __name__ == "__main__":
-    pass
-
-for cog in os.listdir("cogs"):
-    if cog.endswith(".py"):
-        bot.load_extension(f"cogs.{cog.split('.', 1)[0]}")
-        logger.log("INFO", "cog loader", f"Loaded '{cog}'")
-
-
-def reload():
-    for cogs in os.listdir("cogs"):
-        if cogs.endswith(".py"):
-            bot.reload_extension(f"cogs.{cogs.split('.', 1)[0]}")
-            logger.log("INFO", "reload", f"Reloaded '{cogs}'")
-
-
-@bot.event
-async def on_command_completion(ctx):
-    cmd = ctx.command.qualified_name
-    logger.log("command", f"{str(ctx.guild) + '/#' + ctx.channel.name}",
-               ctx.message.content, f"<{ctx.message.author}, {ctx.message.author.id}>")
-    if cmd == "update":
-        reload()
-    elif cmd == "settings":
-        bot.reload_extension("cogs.general")
-        logger.log("info", "on_command_completion/reload", "reloaded general.py")
-
-
-@bot.event
-async def on_message(message):
-    if message.author == bot.user:
-        return
-
-    msg = unicodedata.normalize('NFKD', message.content.casefold())
-
-    if "kwancore" in msg:
-        await message.channel.send("kwancore pog!")
-        logger.log("info", "on_message", "kwancore in message")
-    if "jus" in msg and "just" not in msg:
-        await message.channel.send(random.choice(replies["jus"]))
-        logger.log("info", "on_message", "jus in message")
-    if "glori" in msg:
-        await message.channel.send(random.choice(replies["glori"]))
-        logger.log("info", "on_message", "glori in message")
-    if msg == "bad bot":
-        await message.channel.send(random.choice(replies["bad_bot"]))
-        logger.log("info", "on_message", "bad bot")
-    if msg in ("good bot", "gud bot"):
-        await message.channel.send(random.choice(replies["good_bot"]))
-        logger.log("info", "on_message", "good bot")
-
-    await bot.process_commands(message)
-
-
-@bot.event
-async def on_command_error(ctx, error):
-    # cmd = ctx.command.qualified_name if ctx.command else ctx.command
-    error_message = str(error).replace("Command raised an exception: ", '')
-
-    if isinstance(error, commands.CommandOnCooldown):
-        seconds = round(error.retry_after)
-        embed = embeds.command_on_cooldown(seconds)
-
-    elif isinstance(error, commands.CommandNotFound):
-        embed = embeds.command_not_found()
-
-    else:
-        err_id = shortcuts.save_traceback(error)
+    @tasks.loop(minutes=5)
+    async def temp_task(self):
+        await self.wait_until_ready()
         try:
-            error_embed_parts = error_message.split(':', 1)
-            embed = discord.Embed(title=error_embed_parts[0], description=error_embed_parts[1], color=0xE3170A)
+            logger.log("info", "temp_task", "trying to get temperature")
+            temp = float(shortcuts.terminal("vcgencmd measure_temp").split('=', 1)[1].split("'", 1)[0])
         except IndexError:
-            embed = discord.Embed(title="Error:", description=error_message, color=0xE3170A)
-        embed.set_footer(text=f"Error ID: {err_id}")
+            temp = 0
+            logger.log("warn", "temp_task", "couldn't get temperature, are you sure this is a raspberrypi?")
 
-    await ctx.send(embed=embed)
-    logger.log("error", ctx.message.content, error_message,
-               f"<{ctx.message.author}, {ctx.message.author.id}>")
+        if 80 > temp > 70:
+            self.temp_warning += 1
+        elif temp < 70:
+            self.temp_warning = 0
+        else:
+            logger.log("critical", "temp_task", f"The cpu reached {temp}'C")
+            logger.log("info", "temp_task", "Reloading..")
+            self.reload()
 
-    # raise error
+        if 0 < self.temp_warning < 5:
+            embed = discord.Embed(title="WARNING", description=f"the pi's temp is `{temp}'C`", color=0xffc300)
+            embed.set_footer(text=f"{self.temp_warning}. warning")
+            uptime = shortcuts.terminal('uptime').split(': ')[1][:-1]
+            logger.log("warn", "temp_task",
+                       f"the cpu reached {temp}'C ({self.temp_warning}) [{uptime}]")
+
+            chan = self.get_channel(config["warningChannel"])
+            await chan.send(embed=embed)
+
+        elif self.temp_warning > 5:
+            self.temp_warning = 0
+            embed = discord.Embed(title="STOPPING", description=f"the pi's temp is `{temp}'C`", color=0xcc3300)
+            embed.set_footer(text="last warning")
+            logger.log("CRITICAL", "temp_task", f"The cpu reached {temp}'C, reloading")
+
+            chan = self.get_channel(config["warningChannel"])
+            await chan.send(embed=embed)
+
+            logger.log("info", "temp_task", "reloading..")
+            self.reload()
+
+    async def on_command_completion(self, ctx):
+        cmd = ctx.command
+        logger.log("command", f"{str(ctx.guild) + '/#' + ctx.channel.name}",
+                   ctx.message.content, f"<{ctx.message.author}, {ctx.message.author.id}>")
+        if cmd == "update":
+            self.reload()
+        elif cmd == "settings":
+            await self.reload_extension("cogs.general")
+            logger.log("info", "on_command_completion/reload", "reloaded general.py")
+
+    async def on_message(self, message):
+        if message.author == self.user:
+            return
+
+        msg = unicodedata.normalize('NFKD', message.content.casefold())
+
+        if "kwancore" in msg:
+            await message.channel.send("kwancore pog!")
+            logger.log("info", "on_message", "kwancore in message")
+        if "jus" in msg and "just" not in msg:
+            await message.channel.send(random.choice(self.replies["jus"]))
+            logger.log("info", "on_message", "jus in message")
+        if "glori" in msg:
+            await message.channel.send(random.choice(self.replies["glori"]))
+            logger.log("info", "on_message", "glori in message")
+        if msg == "bad bot":
+            await message.channel.send(random.choice(self.replies["bad_bot"]))
+            logger.log("info", "on_message", "bad bot")
+        if msg in ("good bot", "gud bot"):
+            await message.channel.send(random.choice(self.replies["good_bot"]))
+            logger.log("info", "on_message", "good bot")
+
+        await self.process_commands(message)
+
+    async def on_command_error(self, ctx, error):
+        # cmd = ctx.command.qualified_name if ctx.command else ctx.command
+        error_message = str(error).replace("Command raised an exception: ", '')
+
+        if isinstance(error, commands.CommandOnCooldown):
+            seconds = round(error.retry_after)
+            embed = embeds.command_on_cooldown(seconds)
+
+        elif isinstance(error, commands.CommandNotFound):
+            embed = embeds.command_not_found()
+
+        else:
+            err_id = shortcuts.save_traceback(error)
+            try:
+                error_embed_parts = error_message.split(':', 1)
+                embed = discord.Embed(title=error_embed_parts[0], description=error_embed_parts[1], color=0xE3170A)
+            except IndexError:
+                embed = discord.Embed(title="Error:", description=error_message, color=0xE3170A)
+            embed.set_footer(text=f"Error ID: {err_id}")
+
+        await ctx.send(embed=embed)
+        logger.log("error", ctx.message.content, error_message,
+                   f"<{ctx.message.author}, {ctx.message.author.id}>")
+
+        # raise error
 
 
-bot.run(config["token"])
+async def main():
+    async with KwanBot(command_prefix="r!", intents=discord.Intents.all()) as bot:
+        await bot.start(bot.config["token"])
+
+
+asyncio.run(main())

@@ -9,7 +9,7 @@ You should have received a copy of the GNU General Public License
 along with kwanBot. If not, see <https://www.gnu.org/licenses/>.
 """
 
-import urbandictionary as urbdic
+import shortcuts.ud.urbandictionary as urbdic
 import asyncpraw
 
 import discord
@@ -130,5 +130,5 @@ class Memes(commands.Cog, name="Memes", description="Newer fun stufff"):
         await ctx.send(embed=embed)
 
 
-def setup(bot):
-    bot.add_cog(Memes(bot))
+async def setup(bot):
+    await bot.add_cog(Memes(bot))
