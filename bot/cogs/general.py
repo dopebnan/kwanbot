@@ -64,7 +64,6 @@ class General(commands.Cog, name="General", description="Legacy fun stuff"):
                     for name in files:
                         imgs.append(os.path.join(path, name))
                 img = random.choice(imgs)
-                p = "usercontent/images/pic/"
                 msg = random.choice(["remember this:", "bruh", "pic pog"]) + f" ({j + 1}/{i})"
                 await ctx.send(msg, file=discord.File(img))
                 self.logger.log("info", "autopic", f"Sent {img} to #{ctx.channel} ({j + 1}/{i})")
