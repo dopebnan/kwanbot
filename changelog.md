@@ -1,5 +1,24 @@
 # Changelog
 
+## v3.1 - dpy v2.0 Update !!
+<sub>Aug 31, 2022</sub>
+### UX
+#### Added
+* **General**:
+  * **r!add_to_cart**: You can add random stuff to your cart! (thanks kwan)
+
+#### Changed
+* **Devs**:
+  * **r!update**: Bot restarts after update to apply everything
+
+#### Fixed
+* **General**:
+  * **r!autopic**: Now it works
+
+### Code
+#### Changed
+* Rewrote main parts in dpy v2.0
+
 ## v3.0.1 - bug fixes!
 <sub>Jul 5, 2022</sub>
 ### UX
