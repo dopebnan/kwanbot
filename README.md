@@ -31,6 +31,7 @@ Here's the command list compared:
 | source_code  |                                            |                  sourcecode                  |                      sourcecode                      |
 |     echo     |                 succ, brit                 |                  succ, brit                  |                      succ, brit                      |
 |     pic      |             autopic, pic, uwu              |           autopic, pic,  uwu, pain           |               autopic, pic, uwu, pain                |
+|              |                                            |                                              |                     add_to_cart                      |
 |     help     |               d!help, r!help               |                     help                     |                         help                         |
 |     info     |                    info                    |                     info                     |                         info                         |
 |     ping     |                                            |                     ping                     |                         ping                         |
