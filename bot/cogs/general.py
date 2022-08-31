@@ -108,7 +108,7 @@ class General(commands.Cog, name="General", description="Legacy fun stuff"):
         msg = random.choice(self.replies["compliment"])
         await ctx.send(msg)
 
-    @commands.command(name="add_to_cart", aliases=["buy", "add"], brief="Buy something")
+    @commands.command(name="add_to_cart", aliases=["buy", "add", "cart], brief="Buy something")
     @commands.cooldown(5, 86400, BucketType.user)
     async def add_to_cart(self, ctx, item=None):
         usr = ctx.message.author.id
