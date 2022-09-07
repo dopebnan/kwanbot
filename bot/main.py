@@ -88,7 +88,7 @@ class KwanBot(commands.Bot):
         self.config = config
         self.logger = logger
         self.errors = errors
-        self.version = "3.1"
+        self.version = "3.1.1"
         self.temp_warning = 0
         self.replies = config["replies"]
 

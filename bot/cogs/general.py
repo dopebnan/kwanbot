@@ -113,7 +113,8 @@ class General(commands.Cog, name="General", description="Legacy fun stuff"):
 
     @commands.command(name="add_to_cart", aliases=["buy", "add", "cart"], brief="Buy something")
     @commands.cooldown(5, 86400, BucketType.user)
-    async def add_to_cart(self, ctx, item=None):
+    async def add_to_cart(self, ctx, *item):
+        item = " ".join(item)
         usr = ctx.message.author.id
 
         if not os.path.isfile("usercontent/carts.json"):
