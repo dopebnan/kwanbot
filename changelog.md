@@ -1,5 +1,16 @@
 # Changelog
 
+### v3.1.1 - bypassing age-res content!
+<sub>Sep 7, 2022</sub>
+### UX
+#### Changed
+* **Gruvi**:
+  * **r!play**: You can now play age restricted content! (thanks kwan)
+
+#### Fixed
+* **General**:
+  * **r!add_to_cart**: It now accepts items with spaces in their names
+
 ## v3.1 - dpy v2.0 Update !!
 <sub>Aug 31, 2022</sub>
 ### UX
